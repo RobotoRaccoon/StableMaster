@@ -1,0 +1,16 @@
+name: ${project.name}
+version: ${build.number}
+description: ${project.description}
+author: nicholosophy
+website: ${project.url}
+main: net.nperkins.stablemaster.StableMaster
+database: true
+
+
+commands:
+  addrider:
+    description: Add a rider to a hourse
+    usage: /<command> [player]
+  delrider:
+    description: Remove a rider from a hourse
+    usage: /<command> [player]
