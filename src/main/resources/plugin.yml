@@ -1,5 +1,5 @@
 name: ${project.name}
-version: ${build.number}
+version: ${project.version}
 description: ${project.description}
 author: nicholosophy
 website: ${project.url}
@@ -8,9 +8,9 @@ database: true
 
 
 commands:
-  addrider:
+  smaddrider:
     description: Add a rider to a hourse
     usage: /<command> [player]
-  delrider:
+  smdelrider:
     description: Remove a rider from a hourse
     usage: /<command> [player]

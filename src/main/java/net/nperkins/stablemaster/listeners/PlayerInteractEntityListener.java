@@ -32,7 +32,7 @@ public class PlayerInteractEntityListener implements Listener {
             if (entity.getType() == EntityType.HORSE) {
                 Horse horse = (Horse) entity;
                 if (horse.isTamed()) {
-                    if (player == horse.getOwner()) {
+                    if (player != horse.getOwner()) {
                         Stable s = plugin.getStable((Player)horse.getOwner());
                         if (s.hasHorse(horse)) {
                             StabledHorse sh = s.getHorse(horse);

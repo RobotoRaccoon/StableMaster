@@ -42,7 +42,6 @@ public class EntityDamageByEntityListener implements Listener {
                     if (!s.hasHorse(horse)) {
                         s.addHorse(horse);
                     }
-                    player.sendMessage("ADd rider code");
 
 
                     // Add riders
@@ -60,7 +59,7 @@ public class EntityDamageByEntityListener implements Listener {
                         event.setCancelled(true);
                         return;
                     }
-                    player.sendMessage("Del rider code");
+
                     // Remove riders
                     if (plugin.delRiderQueue.containsKey(player)) {
                         OfflinePlayer rider = plugin.delRiderQueue.get(player);
@@ -76,6 +75,8 @@ public class EntityDamageByEntityListener implements Listener {
                         return;
                     }
                     player.sendMessage("Stop punching your horse, dummy!");
+                } else {
+                    player.sendMessage("This is not your horse!");
                 }
 
             }

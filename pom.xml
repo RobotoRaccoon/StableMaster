@@ -7,6 +7,8 @@
     <groupId>net.nperkins</groupId>
     <artifactId>stablemaster</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <url>http://www.nperkins.net</url>
+    <description>A Horse Management plugin</description>
     <repositories>
         <repository>
             <id>spigot-repo</id>
