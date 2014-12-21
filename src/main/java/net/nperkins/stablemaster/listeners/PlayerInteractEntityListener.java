@@ -37,7 +37,7 @@ public class PlayerInteractEntityListener implements Listener {
                         if (s.hasHorse(horse)) {
                             StabledHorse sh = s.getHorse(horse);
                             if (!sh.isRider(player)) {
-                                player.sendMessage("You can't ride this, yo");
+                                plugin.sendMessage(player,"You can't ride this, yo");
                                 event.setCancelled(true);
                             }
                         }

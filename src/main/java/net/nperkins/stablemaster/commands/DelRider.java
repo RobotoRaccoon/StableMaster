@@ -29,19 +29,19 @@ public class DelRider implements CommandExecutor {
                             public void run() {
                                 OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);;
                                 plugin.delRiderQueue.put((Player) s, rider);
-                                s.sendMessage("Punch yo horse");
+                                plugin.sendMessage((Player) s,"Punch your horse");
                             }
                         }
                 );
 
 
             } else {
-                sender.sendMessage("No player provided");
+                plugin.sendMessage((Player) sender,"No player provided");
                 return false;
 
             }
         } else {
-            sender.sendMessage("This cannot be run by console.");
+            plugin.sendMessage((Player) sender,"This cannot be run by console.");
             return false;
 
         }

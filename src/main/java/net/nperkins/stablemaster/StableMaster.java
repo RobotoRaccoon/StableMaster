@@ -4,6 +4,7 @@ import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.commands.*;
 import net.nperkins.stablemaster.data.StabledHorse;
 import net.nperkins.stablemaster.listeners.*;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ public class StableMaster extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
 
         // Register commands
+        this.getCommand("stablemaster").setExecutor(new AddRider(this));
         this.getCommand("smaddrider").setExecutor(new AddRider(this));
         this.getCommand("smdelrider").setExecutor(new DelRider(this));
 
@@ -122,6 +124,12 @@ public class StableMaster extends JavaPlugin {
                 getLogger().info(e.getMessage());
             }
         }
+    }
+
+    public void sendMessage(Player p, String msg) {
+        // Hardcode for now
+        String prefix = "&3[&bSM&3] &f";
+        p.sendMessage(ChatColor.translateAlternateColorCodes('&',prefix + msg));
     }
 
 }

@@ -49,15 +49,15 @@ public class EntityDamageByEntityListener implements Listener {
                     StabledHorse sh = s.getHorse(horse);
 
                     if (player != horse.getOwner()) {
-                        player.sendMessage("This is not your horse");
+                        plugin.sendMessage(player,"This is not your horse!");
                         return;
                     }
 
                     if (sh.isRider(rider)) {
-                        player.sendMessage("Already a rider!");
+                        plugin.sendMessage(player,"Already a rider!");
                     } else {
                         sh.addRider(rider);
-                        player.sendMessage("Rider added!");
+                        plugin.sendMessage(player,"Rider added!");
                     }
                     plugin.addRiderQueue.remove(player);
                     return;
@@ -69,22 +69,22 @@ public class EntityDamageByEntityListener implements Listener {
                     StabledHorse sh = s.getHorse(horse);
 
                     if (player != horse.getOwner()) {
-                        player.sendMessage("This is not your horse");
+                        plugin.sendMessage(player,"This is not your horse");
                         return;
                     }
 
                     if (!sh.isRider(rider)) {
-                        player.sendMessage("Not currently a rider!");
+                        plugin.sendMessage(player,"Not currently a rider!");
                     } else {
                         sh.delRider(rider);
-                        player.sendMessage("Rider removed!");
+                        plugin.sendMessage(player,"Rider removed!");
                     }
                     plugin.delRiderQueue.remove(player);
                     return;
                 }
 
                 // If we get here, the horse isn't involved in a command
-                player.sendMessage("This horse is protected by the power of Mighty xrobau");
+                plugin.sendMessage(player,"BAM! Protected by the Mighty xrobau");
                 return;
             }
         }
