@@ -37,7 +37,7 @@ public class StableMaster extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
 
         // Register commands
-        this.getCommand("stablemaster").setExecutor(new AddRider(this));
+        this.getCommand("stablemaster").setExecutor(new StableMasterCommand(this));
         this.getCommand("smaddrider").setExecutor(new AddRider(this));
         this.getCommand("smdelrider").setExecutor(new DelRider(this));
 
