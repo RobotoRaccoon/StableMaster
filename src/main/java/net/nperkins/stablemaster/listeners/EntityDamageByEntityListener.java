@@ -32,7 +32,6 @@ public class EntityDamageByEntityListener implements Listener {
                 Horse horse = (Horse) entity;
                 // Horse has to be tamed to be owned
                 if (!horse.isTamed()) {
-                    player.sendMessage("Horse is not tamed!");
                     return;
                 }
                 // Regardless, we want to cancel this event now
