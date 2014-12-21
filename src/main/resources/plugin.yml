@@ -11,7 +11,7 @@ commands:
   stablemaster:
     description: Main stablemaster command
     usage: /<command>
-    alias: [sm]
+    aliases: [sm]
   smaddrider:
     description: Add a rider to a hourse
     usage: /<command> [player]

@@ -18,11 +18,15 @@ public class StableMasterCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        plugin.sendMessage((Player) sender,"---------------------- StableMaster ----------------------");
-        plugin.sendMessage((Player) sender,"Once you tame a horse, you own it. No claiming required!");
-        plugin.sendMessage((Player) sender,"/smaddrider <player> - Allow player to ride your horse");
-        plugin.sendMessage((Player) sender,"/smdelrider <player> - Stop player from riding your horse");
-        plugin.sendMessage((Player) sender,"----------------------------------------------------------");
+        plugin.sendMessage((Player) sender,"-------------- StableMaster --------------");
+        plugin.sendMessage((Player) sender,"Once you tame a horse, you own it.");
+        plugin.sendMessage((Player) sender,"No claiming required!");
+        plugin.sendMessage((Player) sender,"Trading/swapping horses coming soon!");
+        plugin.sendMessage((Player) sender,"/smaddrider <player> - Allow player");
+        plugin.sendMessage((Player) sender,"  to ride your horse");
+        plugin.sendMessage((Player) sender,"/smdelrider <player> - Stop player");
+        plugin.sendMessage((Player) sender,"  from riding your horse");
+        plugin.sendMessage((Player) sender,"-----------------------------------------");
         return true;
     }
 }
