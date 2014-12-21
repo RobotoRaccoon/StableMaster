@@ -49,8 +49,11 @@ public class StableMaster extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        for (OfflinePlayer p: stables.keySet()) {
-            this.unloadStable(p);
+        Iterator it = stables.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            this.saveStable((Stable)pairs.getValue());
+            it.remove();
         }
     }
 
