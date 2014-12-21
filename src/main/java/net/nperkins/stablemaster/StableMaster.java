@@ -97,6 +97,9 @@ public class StableMaster extends JavaPlugin {
 
 
     public Stable getStable(OfflinePlayer p) {
+        if (!stables.containsKey(p)) {
+            this.loadStable(p);
+        }
         return stables.get(p);
     }
 
