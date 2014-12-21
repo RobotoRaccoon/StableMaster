@@ -75,8 +75,12 @@ public class EntityDamageByEntityListener implements Listener {
                         return;
                     }
                     player.sendMessage("Stop punching your horse, dummy!");
+                    event.setCancelled(true);
+                    return;
                 } else {
                     player.sendMessage("This is not your horse!");
+                    event.setCancelled(true);
+                    return;
                 }
 
             }
