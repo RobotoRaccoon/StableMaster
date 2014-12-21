@@ -60,17 +60,17 @@ public class StableMaster extends JavaPlugin {
         File f = new File(dataFolder + File.separator + p.getUniqueId().toString() + ".yml");
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
         Stable s = new Stable(p);
-
-        Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
-        p.sendMessage(horses.toString());
-        HashMap<String, StabledHorse> horseMap = new HashMap<String, StabledHorse>();
-        for (String h : horses) {
-            StabledHorse horse = new StabledHorse();
-            horse.setUniqueID(h);
-            horse.setRiders(yamlFile.getStringList("horses." + h + ".riders"));
-            horseMap.put(h, horse);
+        if (yamlFile.contains("horses")) {
+            Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
+            HashMap<String, StabledHorse> horseMap = new HashMap<String, StabledHorse>();
+            for (String h : horses) {
+                StabledHorse horse = new StabledHorse();
+                horse.setUniqueID(h);
+                horse.setRiders(yamlFile.getStringList("horses." + h + ".riders"));
+                horseMap.put(h, horse);
+            }
+            s.setHorses(horseMap);
         }
-        s.setHorses(horseMap);
         stables.put(p, s);
     }
 
