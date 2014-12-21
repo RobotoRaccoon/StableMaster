@@ -19,9 +19,7 @@ public class PlayerJoinListener implements Listener{
     public void onPlayerJoin(PlayerJoinEvent event) {
 
         final Player p = event.getPlayer();
-
-        // todo: load this player's horse information into memory
-        this.plugin.getLogger().info("{StableMaster] Player joined: " + p.getUniqueId().toString());
+        // Load the player's stable
         plugin.loadStable(p);
     }
 }

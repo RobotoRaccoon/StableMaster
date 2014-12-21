@@ -1,8 +1,8 @@
     package net.nperkins.stablemaster.data;
 
 
+    import org.bukkit.OfflinePlayer;
     import org.bukkit.entity.Horse;
-    import org.bukkit.entity.Player;
 
     import java.util.HashMap;
 
@@ -19,7 +19,7 @@
             horses = new HashMap<String, StabledHorse>();
         }
 
-        public Stable(Player pr) {
+        public Stable(OfflinePlayer pr) {
             this.owner = pr.getUniqueId().toString();
             horses = new HashMap<String, StabledHorse>();
         }

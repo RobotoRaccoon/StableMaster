@@ -24,8 +24,7 @@ public class PlayerQuitListener implements Listener {
 
         final Player p = event.getPlayer();
 
-        // todo: load this player's horse information into memory
-        this.plugin.getLogger().info("{StableMaster] Player quit: " + p.getUniqueId().toString());
+        // Unload the players stable
         plugin.unloadStable(p);
     }
 }

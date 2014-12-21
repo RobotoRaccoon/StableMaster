@@ -15,22 +15,20 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StableMaster extends JavaPlugin {
 
     private File pluginFolder;
-    private File configFile;
+    //private File configFile;
     protected File dataFolder;
-    private HashMap<Player, Stable> stables = new HashMap<Player, Stable>();
+    private HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
     public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
 
     @Override
     public void onEnable() {
         pluginFolder = getDataFolder();
-        configFile = new File(pluginFolder, "config.yml");
+        //configFile = new File(pluginFolder, "config.yml");
         dataFolder = new File(pluginFolder + "/stables");
 
         createDataFolders();
 
-
-        // todo: load online players here (for restart)
         // Register listeners
         getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractEntityListener(this), this);
@@ -41,22 +39,22 @@ public class StableMaster extends JavaPlugin {
         this.getCommand("smaddrider").setExecutor(new AddRider(this));
         this.getCommand("smdelrider").setExecutor(new DelRider(this));
 
+        for(Player p : this.getServer().getOnlinePlayers()) {
+            this.loadStable(p);
+        }
+
+
     }
 
     @Override
     public void onDisable() {
-        // todo: unload all the player information
-        // todo: unregister listeners
-        // todo: unregister commands
-        Iterator it = stables.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry)it.next();
-            this.saveStable((Stable)pairs.getValue());
-            it.remove();
+
+        for (OfflinePlayer p: stables.keySet()) {
+            this.unloadStable(p);
         }
     }
 
-    public void loadStable(Player p) {
+    public void loadStable(OfflinePlayer p) {
         File f = new File(dataFolder + File.separator + p.getUniqueId().toString() + ".yml");
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
         Stable s = new Stable(p);
@@ -91,14 +89,14 @@ public class StableMaster extends JavaPlugin {
 
     }
 
-    public void unloadStable(Player p) {
+    public void unloadStable(OfflinePlayer p) {
         Stable s = this.stables.get(p);
         this.saveStable(s);
-        stables.remove(s);
+        stables.remove(p);
     }
 
 
-    public Stable getStable(Player p) {
+    public Stable getStable(OfflinePlayer p) {
         return stables.get(p);
     }
 
