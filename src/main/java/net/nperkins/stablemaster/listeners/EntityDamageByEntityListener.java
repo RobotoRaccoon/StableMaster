@@ -35,54 +35,58 @@ public class EntityDamageByEntityListener implements Listener {
                     player.sendMessage("Horse is not tamed!");
                     return;
                 }
+                // Regardless, we want to cancel this event now
+                event.setCancelled(true);
 
-                if (player == horse.getOwner()) {
-                    Stable s = plugin.getStable(player);
-                    // Check in case it's a pre-owned horse not known about
-                    if (!s.hasHorse(horse)) {
-                        s.addHorse(horse);
-                    }
+                Stable s = plugin.getStable(player);
+                // Check in case it's a pre-owned horse not known about
+                if (!s.hasHorse(horse)) {
+                    s.addHorse(horse);
+                }
 
+                // Add riders
+                if (plugin.addRiderQueue.containsKey(player)) {
+                    OfflinePlayer rider = plugin.addRiderQueue.get(player);
+                    StabledHorse sh = s.getHorse(horse);
 
-                    // Add riders
-                    if (plugin.addRiderQueue.containsKey(player)) {
-                        OfflinePlayer rider = plugin.addRiderQueue.get(player);
-                        StabledHorse sh = s.getHorse(horse);
-
-                        if (sh.isRider(rider)) {
-                            player.sendMessage("Already a rider!");
-                        } else {
-                            sh.addRider(rider);
-                            player.sendMessage("Rider added!");
-                        }
-                        plugin.addRiderQueue.remove(player);
-                        event.setCancelled(true);
+                    if (player != horse.getOwner()) {
+                        player.sendMessage("This is not your horse");
                         return;
                     }
 
-                    // Remove riders
-                    if (plugin.delRiderQueue.containsKey(player)) {
-                        OfflinePlayer rider = plugin.delRiderQueue.get(player);
-                        StabledHorse sh = s.getHorse(horse);
-                        if (!sh.isRider(rider)) {
-                            player.sendMessage("Not currently a rider!");
-                        } else {
-                            sh.delRider(rider);
-                            player.sendMessage("Rider removed!");
-                        }
-                        plugin.delRiderQueue.remove(player);
-                        event.setCancelled(true);
-                        return;
+                    if (sh.isRider(rider)) {
+                        player.sendMessage("Already a rider!");
+                    } else {
+                        sh.addRider(rider);
+                        player.sendMessage("Rider added!");
                     }
-                    player.sendMessage("Stop punching your horse, dummy!");
-                    event.setCancelled(true);
-                    return;
-                } else {
-                    player.sendMessage("This is not your horse!");
-                    event.setCancelled(true);
+                    plugin.addRiderQueue.remove(player);
                     return;
                 }
 
+                // Remove riders
+                if (plugin.delRiderQueue.containsKey(player)) {
+                    OfflinePlayer rider = plugin.delRiderQueue.get(player);
+                    StabledHorse sh = s.getHorse(horse);
+
+                    if (player != horse.getOwner()) {
+                        player.sendMessage("This is not your horse");
+                        return;
+                    }
+
+                    if (!sh.isRider(rider)) {
+                        player.sendMessage("Not currently a rider!");
+                    } else {
+                        sh.delRider(rider);
+                        player.sendMessage("Rider removed!");
+                    }
+                    plugin.delRiderQueue.remove(player);
+                    return;
+                }
+
+                // If we get here, the horse isn't involved in a command
+                player.sendMessage("This horse is protected by the power of Mighty xrobau");
+                return;
             }
         }
 
