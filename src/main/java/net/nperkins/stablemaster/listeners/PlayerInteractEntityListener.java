@@ -34,13 +34,16 @@ public class PlayerInteractEntityListener implements Listener {
                 if (horse.isTamed()) {
                     if (player != horse.getOwner()) {
                         Stable s = plugin.getStable((OfflinePlayer)horse.getOwner());
-                        if (s.hasHorse(horse)) {
-                            StabledHorse sh = s.getHorse(horse);
-                            if (!sh.isRider(player)) {
-                                plugin.sendMessage(player,"You can't ride this, yo");
-                                event.setCancelled(true);
-                            }
+                        if (!s.hasHorse(horse)) {
+                            s.addHorse(horse);
                         }
+
+                        StabledHorse sh = s.getHorse(horse);
+                        if (!sh.isRider(player)) {
+                            plugin.sendMessage(player,"You can't ride this, yo");
+                            event.setCancelled(true);
+                        }
+
 
                     }
                 }
