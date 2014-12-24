@@ -9,12 +9,6 @@ main: net.nperkins.stablemaster.StableMaster
 
 commands:
   stablemaster:
-    description: Main stablemaster command
+    description: Stablemaster command
     usage: /<command>
     aliases: [sm]
-  smaddrider:
-    description: Add a rider to a hourse
-    usage: /<command> [player]
-  smdelrider:
-    description: Remove a rider from a hourse
-    usage: /<command> [player]

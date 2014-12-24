@@ -1,7 +1,7 @@
 package net.nperkins.stablemaster.listeners;
 
-import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.StableMaster;
+import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
@@ -12,15 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-/**
- * Created by Nick on 20/12/2014.
- */
 public class PlayerInteractEntityListener implements Listener {
 
     final StableMaster plugin;
 
-    public PlayerInteractEntityListener (StableMaster p) {
-        this.plugin = p;
+    public PlayerInteractEntityListener(StableMaster plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -33,14 +30,14 @@ public class PlayerInteractEntityListener implements Listener {
                 Horse horse = (Horse) entity;
                 if (horse.isTamed()) {
                     if (player != horse.getOwner()) {
-                        Stable s = plugin.getStable((OfflinePlayer)horse.getOwner());
-                        if (!s.hasHorse(horse)) {
-                            s.addHorse(horse);
+                        Stable stable = plugin.getStable((OfflinePlayer) horse.getOwner());
+                        if (!stable.hasHorse(horse)) {
+                            stable.addHorse(horse);
                         }
 
-                        StabledHorse sh = s.getHorse(horse);
-                        if (!sh.isRider(player)) {
-                            plugin.sendMessage(player,"You can't ride this, yo");
+                        StabledHorse stabledHorse = stable.getHorse(horse);
+                        if (!stabledHorse.isRider(player)) {
+                            player.sendMessage(StableMaster.playerMessage("You can't ride this, yo"));
                             event.setCancelled(true);
                         }
 

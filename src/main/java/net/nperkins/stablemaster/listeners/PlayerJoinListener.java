@@ -7,19 +7,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PlayerJoinListener implements Listener{
+public class PlayerJoinListener implements Listener {
 
     final StableMaster plugin;
 
-    public PlayerJoinListener (StableMaster p) {
-        this.plugin = p;
+    public PlayerJoinListener(StableMaster plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
 
-        final Player p = event.getPlayer();
+        final Player player = event.getPlayer();
         // Load the player's stable
-        plugin.loadStable(p);
+        plugin.loadStable(player);
     }
 }

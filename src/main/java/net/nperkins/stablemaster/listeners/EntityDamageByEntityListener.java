@@ -1,7 +1,7 @@
 package net.nperkins.stablemaster.listeners;
 
-import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.StableMaster;
+import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
@@ -17,15 +17,15 @@ public class EntityDamageByEntityListener implements Listener {
 
     final StableMaster plugin;
 
-    public EntityDamageByEntityListener(StableMaster p) {
-        this.plugin = p;
+    public EntityDamageByEntityListener(StableMaster plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // Check if a player fired this
         if (event.getDamager().getType() == EntityType.PLAYER) {
-            Player player = (Player)event.getDamager();
+            Player player = (Player) event.getDamager();
             Entity entity = event.getEntity();
             // Is they punch a horse?
             if (event.getEntityType() == EntityType.HORSE) {
@@ -37,27 +37,27 @@ public class EntityDamageByEntityListener implements Listener {
                 // Regardless, we want to cancel this event now
                 event.setCancelled(true);
 
-                Stable s = plugin.getStable(player);
+                Stable stable = plugin.getStable(player);
                 // Check in case it's a pre-owned horse not known about
-                if (!s.hasHorse(horse)) {
-                    s.addHorse(horse);
+                if (!stable.hasHorse(horse)) {
+                    stable.addHorse(horse);
                 }
 
                 // Add riders
                 if (plugin.addRiderQueue.containsKey(player)) {
                     OfflinePlayer rider = plugin.addRiderQueue.get(player);
-                    StabledHorse sh = s.getHorse(horse);
+                    StabledHorse sh = stable.getHorse(horse);
 
                     if (player != horse.getOwner()) {
-                        plugin.sendMessage(player,"This is not your horse!");
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse!"));
                         return;
                     }
 
                     if (sh.isRider(rider)) {
-                        plugin.sendMessage(player,"Already a rider!");
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + "is already a rider!"));
                     } else {
                         sh.addRider(rider);
-                        plugin.sendMessage(player,"Rider added!");
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " can now ride this horse"));
                     }
                     plugin.addRiderQueue.remove(player);
                     return;
@@ -66,25 +66,25 @@ public class EntityDamageByEntityListener implements Listener {
                 // Remove riders
                 if (plugin.delRiderQueue.containsKey(player)) {
                     OfflinePlayer rider = plugin.delRiderQueue.get(player);
-                    StabledHorse sh = s.getHorse(horse);
+                    StabledHorse stabledHorse = stable.getHorse(horse);
 
                     if (player != horse.getOwner()) {
-                        plugin.sendMessage(player,"This is not your horse");
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
 
-                    if (!sh.isRider(rider)) {
-                        plugin.sendMessage(player,"Not currently a rider!");
+                    if (!stabledHorse.isRider(rider)) {
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " is not currently a rider!"));
                     } else {
-                        sh.delRider(rider);
-                        plugin.sendMessage(player,"Rider removed!");
+                        stabledHorse.delRider(rider);
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " can no longer ride this horse!"));
                     }
                     plugin.delRiderQueue.remove(player);
                     return;
                 }
 
                 // If we get here, the horse isn't involved in a command
-                plugin.sendMessage(player,"BAM! Protected by the Mighty xrobau");
+                player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));
                 return;
             }
         }
