@@ -12,3 +12,14 @@ commands:
     description: Stablemaster command
     usage: /<command>
     aliases: [sm]
+
+permissions:
+  stablemaster.addrider:
+    description: Allows user to add a rider to a horse
+    default: true
+  stablemaster.delrider:
+    description: Allows user to remove a rider from a horse
+    default: true
+  stablemaster.rename:
+    description: Allows user to rename a horse
+    default: op

@@ -6,6 +6,7 @@ import net.nperkins.stablemaster.commandlibs.SubCommand;
 import net.nperkins.stablemaster.commands.subcommands.AddRider;
 import net.nperkins.stablemaster.commands.subcommands.DelRider;
 import net.nperkins.stablemaster.commands.subcommands.Help;
+import net.nperkins.stablemaster.commands.subcommands.Rename;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,9 +24,10 @@ public class CoreCommand implements CommandExecutor {
     public CoreCommand(StableMaster plugin) {
         this.plugin = plugin;
 
-        subCommands.put("addrider", new SubCommand(new AddRider(this.plugin), 1, false));
-        subCommands.put("delrider", new SubCommand(new DelRider(this.plugin), 1, false));
-        subCommands.put("help", new SubCommand(new Help(this.plugin), 0));
+        subCommands.put("addrider", new SubCommand(new AddRider(this.plugin), 1));
+        subCommands.put("delrider", new SubCommand(new DelRider(this.plugin), 1));
+        subCommands.put("rename", new SubCommand(new Rename(this.plugin), 1));
+        subCommands.put("help", new SubCommand(new Help(this.plugin), 0, true));
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

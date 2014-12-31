@@ -83,6 +83,23 @@ public class EntityDamageByEntityListener implements Listener {
                     return;
                 }
 
+                // Rename horse
+                if (plugin.renameQueue.containsKey(player)) {
+                    String name = plugin.renameQueue.get(player);
+                    StabledHorse stabledHorse = stable.getHorse(horse);
+
+                    if (player != horse.getOwner()) {
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        return;
+                    }
+
+                    horse.setCustomName(name);
+                    horse.setCustomNameVisible(true);
+                    player.sendMessage(StableMaster.playerMessage("Horse renamed to " + name));
+                    plugin.renameQueue.remove(player);
+                    return;
+                }
+
                 // If we get here, the horse isn't involved in a command
                 player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));
                 return;

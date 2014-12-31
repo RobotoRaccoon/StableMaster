@@ -21,19 +21,23 @@ public class AddRider implements SubHandler {
     public void handle(CommandInfo commandInfo) {
         final CommandSender sender = commandInfo.getSender();
         final String riderName = commandInfo.getArg(0);
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                    @Override
-                    public void run() {
-                        OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);
-                        if (rider != null) {
-                            plugin.addRiderQueue.put((Player) sender, rider);
-                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
-                        } else {
-                            sender.sendMessage(StableMaster.playerMessage("We couldn't find that player."));
+        if (sender.hasPermission("stablemaster.addrider")) {
+            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                        @Override
+                        public void run() {
+                            OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);
+                            if (rider != null) {
+                                plugin.addRiderQueue.put((Player) sender, rider);
+                                sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                            } else {
+                                sender.sendMessage(StableMaster.playerMessage("We couldn't find that player."));
+                            }
                         }
                     }
-                }
-        );
+            );
+        } else {
+            sender.sendMessage(StableMaster.playerMessage("You don't have permission to do this."));
+        }
     }
 
     public List<String> handleComplete(CommandInfo commandInfo) {
