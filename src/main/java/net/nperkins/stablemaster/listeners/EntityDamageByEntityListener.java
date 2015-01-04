@@ -132,13 +132,11 @@ public class EntityDamageByEntityListener implements Listener {
                     }
                     plugin.infoQueue.remove(player);
                 }
+                // If we get here, the horse isn't involved in a command
+                player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));
                 return;
             }
 
-
-            // If we get here, the horse isn't involved in a command
-            player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));
-            return;
         }
     }
 }
