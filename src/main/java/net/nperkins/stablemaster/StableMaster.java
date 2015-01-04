@@ -94,16 +94,25 @@ public class StableMaster extends JavaPlugin {
 
     public void saveStable(Stable stable) {
         File stableFile = new File(dataFolder + File.separator + stable.getOwner() + ".yml");
+        if (stable.getHorses().isEmpty()) {
+            if (stableFile.exists()) {
+                stableFile.delete();
+            }
+            return;
+        }
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(stableFile);
         yamlFile.set("owner", stable.getOwner());
+        // Clear out horses current stable dat
+        if (yamlFile.contains("horses")) {
+            Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
+            for (String s : horses) {
+                yamlFile.set("horses." + s + ".riders",null);
+            }
+        }
+        // Save new stable data
         for (String horse : stable.getHorses().keySet()) {
             StabledHorse sh = stable.getHorse(horse);
             yamlFile.set("horses." + horse + ".riders", sh.getRiders());
-        }
-        try {
-            yamlFile.save(stableFile);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
