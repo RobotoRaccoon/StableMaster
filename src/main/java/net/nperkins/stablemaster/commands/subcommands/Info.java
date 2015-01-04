@@ -4,34 +4,30 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commandlibs.CommandInfo;
 import net.nperkins.stablemaster.commandlibs.SubHandler;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 
-public class Rename implements SubHandler {
+public class Info implements SubHandler {
 
     private StableMaster plugin;
 
-    public Rename(StableMaster plugin) {
+    public Info(StableMaster plugin) {
         this.plugin = plugin;
     }
 
     public void handle(CommandInfo commandInfo) {
         final CommandSender sender = commandInfo.getSender();
-        final String name = commandInfo.getArg(0);
-        if (sender.hasPermission("stablemaster.rename")) {
+        if (sender.hasPermission("stablemaster.info")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            if (name != null) {
-                                plugin.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
-                                sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
-                            } else {
-                                sender.sendMessage(StableMaster.playerMessage("No name supplied."));
+                            if (!plugin.infoQueue.contains(sender)) {
+                                plugin.infoQueue.add((Player) sender);
                             }
+                            sender.sendMessage(StableMaster.playerMessage("Punch the horse."));
                         }
                     }
             );
@@ -44,7 +40,7 @@ public class Rename implements SubHandler {
     }
 
     public String handleHelp() {
-        return "rename <name>";
+        return "info";
     };
 
 }

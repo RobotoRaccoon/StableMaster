@@ -26,6 +26,9 @@ public class Help implements SubHandler {
         commandInfo.getSender().sendMessage(StableMaster.playerMessage("  to ride your horse"));
         commandInfo.getSender().sendMessage(StableMaster.playerMessage("/sm delrider <player> - Stop player"));
         commandInfo.getSender().sendMessage(StableMaster.playerMessage("  from riding your horse"));
+        commandInfo.getSender().sendMessage(StableMaster.playerMessage("/sm rename <name> - Rename horse"));
+        commandInfo.getSender().sendMessage(StableMaster.playerMessage("  colour codes allowed"));
+        commandInfo.getSender().sendMessage(StableMaster.playerMessage("/sm info - Get info on a horse"));
         commandInfo.getSender().sendMessage(StableMaster.playerMessage("-----------------------------------------"));
     }
 

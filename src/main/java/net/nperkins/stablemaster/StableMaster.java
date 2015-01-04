@@ -7,6 +7,7 @@ import net.nperkins.stablemaster.listeners.EntityDamageByEntityListener;
 import net.nperkins.stablemaster.listeners.PlayerInteractEntityListener;
 import net.nperkins.stablemaster.listeners.PlayerJoinListener;
 import net.nperkins.stablemaster.listeners.PlayerQuitListener;
+import net.nperkins.stablemaster.utils.NameFetcher;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,10 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StableMaster extends JavaPlugin {
@@ -26,10 +24,13 @@ public class StableMaster extends JavaPlugin {
     public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
+    public ArrayList<Player> infoQueue = new ArrayList<Player>();
+
     //private File configFile;
     protected File dataFolder;
     private File pluginFolder;
     private HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
+
 
     public static String playerMessage(String msg) {
         // todo: remove hardcoding
@@ -53,6 +54,8 @@ public class StableMaster extends JavaPlugin {
 
         // Register commands
         this.getCommand("stablemaster").setExecutor(new CoreCommand(this));
+
+
 
         for (Player p : this.getServer().getOnlinePlayers()) {
             this.loadStable(p);
