@@ -131,6 +131,7 @@ public class EntityDamageByEntityListener implements Listener {
                         player.sendMessage(StableMaster.playerMessage(String.format("Permitted Riders: %s", Joiner.on(", ").join(riderNames))));
                     }
                     plugin.infoQueue.remove(player);
+                    return;
                 }
                 // If we get here, the horse isn't involved in a command
                 player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));

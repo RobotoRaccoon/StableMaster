@@ -114,6 +114,11 @@ public class StableMaster extends JavaPlugin {
             StabledHorse sh = stable.getHorse(horse);
             yamlFile.set("horses." + horse + ".riders", sh.getRiders());
         }
+        try {
+            yamlFile.save(stableFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
