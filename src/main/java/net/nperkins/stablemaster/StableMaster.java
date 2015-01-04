@@ -7,7 +7,6 @@ import net.nperkins.stablemaster.listeners.EntityDamageByEntityListener;
 import net.nperkins.stablemaster.listeners.PlayerInteractEntityListener;
 import net.nperkins.stablemaster.listeners.PlayerJoinListener;
 import net.nperkins.stablemaster.listeners.PlayerQuitListener;
-import net.nperkins.stablemaster.utils.NameFetcher;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
