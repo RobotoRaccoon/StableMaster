@@ -26,3 +26,6 @@ permissions:
   stablemaster.rename:
     description: Allows user to rename a horse
     default: op
+  stablemaster.bypass
+    description: Allows user to interact with all horses
+    default: op

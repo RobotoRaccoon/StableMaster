@@ -60,7 +60,7 @@ public class EntityDamageByEntityListener implements Listener {
                 // Add riders
                 if (plugin.addRiderQueue.containsKey(player)) {
                     OfflinePlayer rider = plugin.addRiderQueue.get(player);
-                    if (player != horse.getOwner()) {
+                    if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
                         player.sendMessage(StableMaster.playerMessage("This is not your horse!"));
                         return;
                     }
@@ -79,7 +79,7 @@ public class EntityDamageByEntityListener implements Listener {
                 if (plugin.delRiderQueue.containsKey(player)) {
                     OfflinePlayer rider = plugin.delRiderQueue.get(player);
 
-                    if (player != horse.getOwner()) {
+                    if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
                         player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
@@ -97,7 +97,7 @@ public class EntityDamageByEntityListener implements Listener {
                 // Rename horse
                 if (plugin.renameQueue.containsKey(player)) {
                     String name = plugin.renameQueue.get(player);
-                    if (player != horse.getOwner()) {
+                    if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
                         player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
