@@ -42,7 +42,7 @@ public class StableMaster extends JavaPlugin {
     public void onEnable() {
         pluginFolder = getDataFolder();
         //configFile = new File(pluginFolder, "config.yml");
-        dataFolder = new File(pluginFolder + "/stables");
+        dataFolder = new File(pluginFolder + File.separator + "stables");
 
         createDataFolders();
 

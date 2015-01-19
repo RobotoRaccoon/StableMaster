@@ -19,12 +19,12 @@ public class Give implements SubHandler {
 
     public void handle(CommandInfo commandInfo) {
         final CommandSender sender = commandInfo.getSender();
-        final String riderName = commandInfo.getArg(0);
+        final String ownerName = commandInfo.getArg(0);
         if (sender.hasPermission("stablemaster.give")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);
+                            OfflinePlayer rider = plugin.getServer().getOfflinePlayer(ownerName);
                             if (rider != null) {
                                 plugin.giveQueue.put((Player) sender, rider);
                                 sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
