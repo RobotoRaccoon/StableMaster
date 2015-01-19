@@ -20,6 +20,9 @@ permissions:
   stablemaster.delrider:
     description: Allows user to remove a rider from a horse
     default: true
+  stablemaster.give:
+    description: Allows user to give horse to a new owner
+    default: true
   stablemaster.info:
     description: Get info on a horse
     default: true

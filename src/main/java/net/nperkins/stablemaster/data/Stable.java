@@ -43,6 +43,8 @@ public class Stable {
         this.horses.put(horse.getUniqueId().toString(), new StabledHorse(horse));
     }
 
+    public void removeHorse(Horse horse) { this.horses.remove(horse.getUniqueId().toString()); }
+
     public boolean hasHorse(Horse horse) {
         return this.horses.containsKey(horse.getUniqueId().toString());
     }

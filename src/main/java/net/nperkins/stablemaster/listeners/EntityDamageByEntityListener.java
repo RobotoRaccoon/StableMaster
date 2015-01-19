@@ -94,6 +94,27 @@ public class EntityDamageByEntityListener implements Listener {
                     return;
                 }
 
+                // Give horse
+                if (plugin.giveQueue.containsKey(player)) {
+                    OfflinePlayer newOwner = plugin.giveQueue.get(player);
+
+                    if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        return;
+                    }
+
+                    final Stable newStable = plugin.getStable(newOwner);
+
+                    stable.removeHorse(horse);
+                    newStable.addHorse(horse);
+                    horse.setOwner(newOwner);
+
+                    player.sendMessage(StableMaster.playerMessage("Horse given to " + newOwner.getName()));
+                    plugin.giveQueue.remove(player);
+                    return;
+
+                }
+
                 // Rename horse
                 if (plugin.renameQueue.containsKey(player)) {
                     String name = plugin.renameQueue.get(player);

@@ -22,6 +22,7 @@ public class StableMaster extends JavaPlugin {
 
     public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
+    public ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
     public ArrayList<Player> infoQueue = new ArrayList<Player>();
 
@@ -106,7 +107,11 @@ public class StableMaster extends JavaPlugin {
         if (yamlFile.contains("horses")) {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
             for (String s : horses) {
-                yamlFile.set("horses." + s + ".riders",null);
+                if (stable.getHorses().keySet().contains(s)) {
+                    yamlFile.set("horses." + s + ".riders",null);
+                } else {
+                    yamlFile.set("horses." + s, null);
+                }
             }
         }
         // Save new stable data
