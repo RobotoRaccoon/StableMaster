@@ -24,6 +24,7 @@ public class StableMaster extends JavaPlugin {
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
+    public ConcurrentHashMap<Player, Object> TeleportQueue = new ConcurrentHashMap<Player, Object>();
     public ArrayList<Player> infoQueue = new ArrayList<Player>();
 
     //private File configFile;

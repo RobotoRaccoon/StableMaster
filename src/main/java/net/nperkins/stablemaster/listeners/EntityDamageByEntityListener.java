@@ -130,6 +130,20 @@ public class EntityDamageByEntityListener implements Listener {
                     return;
                 }
 
+                // Teleport horse
+                if (plugin.TeleportQueue.containsKey(player)) {
+
+                    if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        return;
+                    }
+
+                    // Storing location
+                    player.sendMessage(StableMaster.playerMessage("Location stored. Run the command again at the destination"));
+                    plugin.TeleportQueue.put(player, horse);
+                    return;
+                }
+
                 // Horse info
                 if (plugin.infoQueue.contains(player)) {
                     ArrayList<String> riderNames = new ArrayList<String>();

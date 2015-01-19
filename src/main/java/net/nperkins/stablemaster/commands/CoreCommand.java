@@ -27,6 +27,7 @@ public class CoreCommand implements CommandExecutor {
         subCommands.put("rename",   new SubCommand(new Rename(this.plugin), 1));
         subCommands.put("info",     new SubCommand(new Info(this.plugin), 0));
         subCommands.put("help",     new SubCommand(new Help(this.plugin), 0, true));
+        subCommands.put("teleport", new SubCommand(new Teleport(this.plugin), 0));
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
