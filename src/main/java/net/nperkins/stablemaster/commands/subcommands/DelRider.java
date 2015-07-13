@@ -26,7 +26,7 @@ public class DelRider implements SubHandler {
                         @Override
                         public void run() {
                             OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);
-                            if (rider != null) {
+                            if (rider != null && rider.hasPlayedBefore()) {
                                 plugin.delRiderQueue.put((Player) sender, rider);
                                 sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
                             } else {

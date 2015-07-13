@@ -25,7 +25,7 @@ public class Give implements SubHandler {
                         @Override
                         public void run() {
                             OfflinePlayer rider = plugin.getServer().getOfflinePlayer(ownerName);
-                            if (rider != null) {
+                            if (rider != null && rider.hasPlayedBefore()) {
                                 plugin.giveQueue.put((Player) sender, rider);
                                 sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
                             } else {
