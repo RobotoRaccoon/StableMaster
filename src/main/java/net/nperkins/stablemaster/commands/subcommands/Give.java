@@ -22,7 +22,6 @@ public class Give implements SubHandler {
         final String ownerName = commandInfo.getArg(0);
         if (sender.hasPermission("stablemaster.give")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
                         public void run() {
                             OfflinePlayer rider = plugin.getServer().getOfflinePlayer(ownerName);
                             if (rider != null && rider.hasPlayedBefore()) {

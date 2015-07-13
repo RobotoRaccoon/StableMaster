@@ -23,7 +23,6 @@ public class AddRider implements SubHandler {
         final String riderName = commandInfo.getArg(0);
         if (sender.hasPermission("stablemaster.addrider")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
                         public void run() {
                             OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);
                             if (rider != null && rider.hasPlayedBefore()) {

@@ -22,7 +22,6 @@ public class Info implements SubHandler {
         final CommandSender sender = commandInfo.getSender();
         if (sender.hasPermission("stablemaster.info")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
                         public void run() {
                             if (!plugin.infoQueue.contains(sender)) {
                                 plugin.infoQueue.add((Player) sender);

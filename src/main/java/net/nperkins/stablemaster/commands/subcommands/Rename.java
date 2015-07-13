@@ -24,7 +24,6 @@ public class Rename implements SubHandler {
         final String name = commandInfo.getArg(0);
         if (sender.hasPermission("stablemaster.rename")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
                         public void run() {
                             if (name != null) {
                                 plugin.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));

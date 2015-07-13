@@ -26,7 +26,6 @@ public class Teleport implements SubHandler {
 
         if (sender.hasPermission("stablemaster.teleport")) {
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
                         public void run() {
                             if (plugin.TeleportQueue.containsKey((Player) sender) &&
                                     plugin.TeleportQueue.get((Player) sender) instanceof Horse) {
