@@ -10,6 +10,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
@@ -39,9 +41,7 @@ public class Teleport implements SubHandler {
                                     return;
                                 }
 
-                                // TODO: Somehow get an error message when it doesn't teleport, all other attempts have failed.
-                                horse.teleport(((Player) sender));
-                                sender.sendMessage(StableMaster.playerMessage("Teleporting... If the horse did not appear, get a friend to stand near it next time."));
+                                new TeleportEval(horse, sender).runTask(plugin);
                                 plugin.TeleportQueue.remove((Player) sender);
 
                             } else {
@@ -65,4 +65,34 @@ public class Teleport implements SubHandler {
         return "teleport";
     }
 
+}
+class TeleportEval extends BukkitRunnable {
+
+    Horse horse;
+    CommandSender sender;
+
+    public TeleportEval(Horse horse, CommandSender sender){
+        this.horse = horse;
+        this.sender = sender;
+    }
+
+    public void run() {
+        if (chunkIsLoaded()) {
+            horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            sender.sendMessage(StableMaster.playerMessage("Teleporting..."));
+        } else {
+            sender.sendMessage(StableMaster.playerMessage("Teleport failed, get a friend to stand near your horse next time."));
+        }
+    }
+
+    // Bukkit method chunk.isLoaded() appears to be currently broken, always returns true
+    private boolean chunkIsLoaded() {
+        Location l = horse.getLocation();
+        for (Chunk c : l.getWorld().getLoadedChunks()) {
+            if (c.equals(l.getChunk())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
