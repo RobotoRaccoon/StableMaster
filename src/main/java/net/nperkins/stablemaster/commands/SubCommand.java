@@ -1,6 +1,7 @@
-package net.nperkins.stablemaster.commandlibs;
+package net.nperkins.stablemaster.commands;
 
 import net.nperkins.stablemaster.StableMaster;
+import net.nperkins.stablemaster.commands.CommandInfo;
 
 public abstract class SubCommand {
 

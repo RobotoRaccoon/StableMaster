@@ -1,4 +1,4 @@
-package net.nperkins.stablemaster.commandlibs;
+package net.nperkins.stablemaster.commands;
 
 import org.bukkit.command.CommandSender;
 

@@ -1,8 +1,6 @@
 package net.nperkins.stablemaster.commands;
 
 import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commandlibs.CommandInfo;
-import net.nperkins.stablemaster.commandlibs.SubCommand;
 import net.nperkins.stablemaster.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,9 +22,9 @@ public class CoreCommand implements CommandExecutor {
         subCommands.put("addrider", new AddRider(this.plugin));
         subCommands.put("delrider", new DelRider(this.plugin));
         subCommands.put("give",     new Give(this.plugin));
-        subCommands.put("rename",   new Rename(this.plugin));
-        subCommands.put("info",     new Info(this.plugin));
         subCommands.put("help",     new Help(this.plugin));
+        subCommands.put("info",     new Info(this.plugin));
+        subCommands.put("rename",   new Rename(this.plugin));
         subCommands.put("teleport", new Teleport(this.plugin));
     }
 

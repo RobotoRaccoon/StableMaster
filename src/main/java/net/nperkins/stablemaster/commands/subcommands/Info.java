@@ -1,8 +1,8 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
 import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commandlibs.CommandInfo;
-import net.nperkins.stablemaster.commandlibs.SubCommand;
+import net.nperkins.stablemaster.commands.CommandInfo;
+import net.nperkins.stablemaster.commands.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
