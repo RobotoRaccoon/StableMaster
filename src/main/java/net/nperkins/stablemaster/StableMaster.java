@@ -3,11 +3,9 @@ package net.nperkins.stablemaster;
 import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
-import net.nperkins.stablemaster.listeners.EntityDamageByEntityListener;
-import net.nperkins.stablemaster.listeners.PlayerInteractEntityListener;
-import net.nperkins.stablemaster.listeners.PlayerJoinListener;
-import net.nperkins.stablemaster.listeners.PlayerQuitListener;
+import net.nperkins.stablemaster.listeners.*;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,6 +17,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StableMaster extends JavaPlugin {
+
+    public static List<Chunk> horseChunk = new ArrayList<>();
 
     public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
@@ -48,6 +48,7 @@ public class StableMaster extends JavaPlugin {
         createDataFolders();
 
         // Register listeners
+        getServer().getPluginManager().registerEvents(new ChunkListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerInteractEntityListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);

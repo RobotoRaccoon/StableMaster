@@ -140,6 +140,7 @@ public class EntityDamageByEntityListener implements Listener {
 
                     // Storing location
                     player.sendMessage(StableMaster.playerMessage("Location stored. Run the command again at the destination"));
+                    StableMaster.horseChunk.add(horse.getLocation().getChunk());
                     plugin.TeleportQueue.put(player, horse);
                     return;
                 }
