@@ -19,6 +19,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StableMaster extends JavaPlugin {
+    
+    public static List<Chunk> horseChunk = new ArrayList<>();
 
     public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
