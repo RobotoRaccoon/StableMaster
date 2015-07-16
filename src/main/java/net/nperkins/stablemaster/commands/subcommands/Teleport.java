@@ -35,7 +35,7 @@ public class Teleport extends SubCommand {
                                     return;
                                 }
 
-                                new TeleportEval(horse, sender).runTask(plugin);
+                                new TeleportEval(plugin, horse, sender).runTask(plugin);
                                 plugin.TeleportQueue.remove((Player) sender);
 
                             } else {
@@ -62,7 +62,8 @@ class TeleportEval extends BukkitRunnable {
     Horse horse;
     CommandSender sender;
 
-    public TeleportEval(Horse horse, CommandSender sender){
+    public TeleportEval(StableMaster plugin, Horse horse, CommandSender sender){
+        this.plugin = plugin;
         this.horse = horse;
         this.sender = sender;
     }
