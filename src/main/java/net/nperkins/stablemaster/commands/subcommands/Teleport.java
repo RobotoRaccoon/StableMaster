@@ -78,10 +78,10 @@ class TeleportEval extends BukkitRunnable {
 
     public void run() {
         if (chunkIsLoaded()) {
-            horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            StableMaster.horseChunk.remove(horse.getLocation().getChunk());
             sender.sendMessage(StableMaster.playerMessage("Teleporting..."));
-        } else {
-            sender.sendMessage(StableMaster.playerMessage("Teleport failed, get a friend to stand near your horse next time."));
+            horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            plugin.TeleportQueue.remove(sender);
         }
     }
 
