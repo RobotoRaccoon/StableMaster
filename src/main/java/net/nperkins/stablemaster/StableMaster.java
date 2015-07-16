@@ -19,6 +19,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StableMaster extends JavaPlugin {
+    
+    public static List<Chunk> horseChunk = new ArrayList<>();
 
     public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
@@ -52,6 +54,7 @@ public class StableMaster extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerInteractEntityListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChunkUnloadListener(this), this);
 
         // Register commands
         this.getCommand("stablemaster").setExecutor(new CoreCommand(this));
