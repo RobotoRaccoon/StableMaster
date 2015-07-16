@@ -15,40 +15,37 @@ public class Teleport extends SubCommand {
 
     public Teleport(StableMaster plugin) {
         this.plugin = plugin;
+        setPermission("stablemaster.teleport");
     }
 
     public void handle(CommandInfo commandInfo) {
         final CommandSender sender = commandInfo.getSender();
 
-        if (sender.hasPermission("stablemaster.teleport")) {
-            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        public void run() {
-                            if (plugin.TeleportQueue.containsKey((Player) sender) &&
-                                    plugin.TeleportQueue.get((Player) sender) instanceof Horse) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+                    public void run() {
+                        if (plugin.TeleportQueue.containsKey((Player) sender) &&
+                                plugin.TeleportQueue.get((Player) sender) instanceof Horse) {
 
-                                Horse horse = (Horse) plugin.TeleportQueue.get((Player) sender);
+                            Horse horse = (Horse) plugin.TeleportQueue.get((Player) sender);
 
-                                // Horses duplicate with cross world teleports...
-                                if (horse.getLocation().getWorld() != ((Player) sender).getLocation().getWorld()) {
-                                    sender.sendMessage(StableMaster.playerMessage("You cannot teleport horses across worlds."));
-                                    plugin.TeleportQueue.remove((Player) sender);
-                                    return;
-                                }
-
-                                new TeleportEval(plugin, horse, sender).runTask(plugin);
+                            // Horses duplicate with cross world teleports...
+                            if (horse.getLocation().getWorld() != ((Player) sender).getLocation().getWorld()) {
+                                sender.sendMessage(StableMaster.playerMessage("You cannot teleport horses across worlds."));
                                 plugin.TeleportQueue.remove((Player) sender);
-
-                            } else {
-
-                                plugin.TeleportQueue.put((Player) sender, true);
-                                sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                                return;
                             }
+
+                            new TeleportEval(plugin, horse, sender).runTask(plugin);
+                            plugin.TeleportQueue.remove((Player) sender);
+
+                        } else {
+
+                            plugin.TeleportQueue.put((Player) sender, true);
+                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
                         }
                     }
-            );
-        } else {
-            sender.sendMessage(StableMaster.playerMessage("You don't have permission to do this."));
-        }
+                }
+        );
     }
 
     public String getUsage() {

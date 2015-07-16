@@ -58,6 +58,11 @@ public class CoreCommand implements CommandExecutor {
             return true;
         }
 
+        if (!sender.hasPermission(subCommand.getPermission())) {
+            sender.sendMessage(StableMaster.playerMessage("You don't have permission to do this."));
+            return true;
+        }
+
         if (args.length < subCommand.getMinArgs()) {
             sender.sendMessage(StableMaster.playerMessage("Incorrect number of arguments supplied"));
             sender.sendMessage(StableMaster.playerMessage("/" + label + " " + subCommand.getUsage()));
