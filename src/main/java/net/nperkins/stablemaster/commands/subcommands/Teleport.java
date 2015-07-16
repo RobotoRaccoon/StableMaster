@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -68,6 +69,7 @@ public class Teleport implements SubHandler {
 }
 class TeleportEval extends BukkitRunnable {
 
+    StableMaster plugin;
     Horse horse;
     CommandSender sender;
 
@@ -78,8 +80,10 @@ class TeleportEval extends BukkitRunnable {
 
     public void run() {
         if (chunkIsLoaded()) {
-            horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            StableMaster.horseChunk.remove(horse.getLocation().getChunk());
             sender.sendMessage(StableMaster.playerMessage("Teleporting..."));
+            horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            plugin.TeleportQueue.remove(sender);
         } else {
             sender.sendMessage(StableMaster.playerMessage("Teleport failed, get a friend to stand near your horse next time."));
         }
