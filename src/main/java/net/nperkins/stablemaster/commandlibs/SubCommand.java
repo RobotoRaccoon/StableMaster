@@ -1,24 +1,18 @@
 package net.nperkins.stablemaster.commandlibs;
 
-public class SubCommand {
+import net.nperkins.stablemaster.StableMaster;
 
-    private boolean consoleAllowed = false;
-    private SubHandler handler = null;
-    private int minArgs = 0;
+public abstract class SubCommand {
 
-    public SubCommand(SubHandler handler) {
-        this.handler = handler;
-    }
+    protected StableMaster plugin;
+    protected boolean consoleAllowed = false;
+    protected int minArgs = 0;
 
-    public SubCommand(SubHandler handler, int minArgs) {
-        this.handler = handler;
-        this.minArgs = minArgs;
-    }
+    public abstract void handle(CommandInfo commandInfo);
+    public abstract String getUsage();
 
-    public SubCommand(SubHandler handler, int minArgs, boolean consoleAllowed) {
-        this.handler = handler;
-        this.minArgs = minArgs;
-        this.consoleAllowed = consoleAllowed;
+    public StableMaster getPlugin() {
+        return plugin;
     }
 
     public boolean isConsoleAllowed() {
@@ -27,14 +21,6 @@ public class SubCommand {
 
     public void setConsoleAllowed(boolean consoleAllowed) {
         this.consoleAllowed = consoleAllowed;
-    }
-
-    public SubHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(SubHandler handler) {
-        this.handler = handler;
     }
 
     public int getMinArgs() {

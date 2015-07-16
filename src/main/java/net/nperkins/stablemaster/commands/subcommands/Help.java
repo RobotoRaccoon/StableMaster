@@ -2,17 +2,13 @@ package net.nperkins.stablemaster.commands.subcommands;
 
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commandlibs.CommandInfo;
-import net.nperkins.stablemaster.commandlibs.SubHandler;
+import net.nperkins.stablemaster.commandlibs.SubCommand;
 
-import java.util.List;
+public class Help  extends SubCommand {
 
-
-public class Help implements SubHandler {
-
-    private StableMaster plugin;
-
-    public Help(StableMaster p) {
-        this.plugin = p;
+    public Help(StableMaster plugin) {
+        this.plugin = plugin;
+        setConsoleAllowed(true);
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -30,11 +26,7 @@ public class Help implements SubHandler {
         commandInfo.getSender().sendMessage(StableMaster.playerMessage("-----------------------------------------"));
     }
 
-    public List<String> handleComplete(CommandInfo commandInfo) {
-        return null;
-    }
-
-    public String handleHelp() {
+    public String getUsage() {
         return "help";
     }
 }

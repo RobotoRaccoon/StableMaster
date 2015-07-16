@@ -2,20 +2,16 @@ package net.nperkins.stablemaster.commands.subcommands;
 
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commandlibs.CommandInfo;
-import net.nperkins.stablemaster.commandlibs.SubHandler;
+import net.nperkins.stablemaster.commandlibs.SubCommand;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
-
-public class AddRider implements SubHandler {
-
-    private StableMaster plugin;
+public class AddRider extends SubCommand {
 
     public AddRider(StableMaster plugin) {
         this.plugin = plugin;
+        setMinArgs(1);
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -39,11 +35,7 @@ public class AddRider implements SubHandler {
         }
     }
 
-    public List<String> handleComplete(CommandInfo commandInfo) {
-        return null;
-    }
-
-    public String handleHelp() {
+    public String getUsage() {
         return "addrider <player>";
     };
 

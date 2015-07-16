@@ -21,13 +21,13 @@ public class CoreCommand implements CommandExecutor {
     public CoreCommand(StableMaster plugin) {
         this.plugin = plugin;
 
-        subCommands.put("addrider", new SubCommand(new AddRider(this.plugin), 1));
-        subCommands.put("delrider", new SubCommand(new DelRider(this.plugin), 1));
-        subCommands.put("give",     new SubCommand(new Give(this.plugin), 1));
-        subCommands.put("rename",   new SubCommand(new Rename(this.plugin), 1));
-        subCommands.put("info",     new SubCommand(new Info(this.plugin), 0));
-        subCommands.put("help",     new SubCommand(new Help(this.plugin), 0, true));
-        subCommands.put("teleport", new SubCommand(new Teleport(this.plugin), 0));
+        subCommands.put("addrider", new AddRider(this.plugin));
+        subCommands.put("delrider", new DelRider(this.plugin));
+        subCommands.put("give",     new Give(this.plugin));
+        subCommands.put("rename",   new Rename(this.plugin));
+        subCommands.put("info",     new Info(this.plugin));
+        subCommands.put("help",     new Help(this.plugin));
+        subCommands.put("teleport", new Teleport(this.plugin));
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,7 +36,6 @@ public class CoreCommand implements CommandExecutor {
         if (sender instanceof Player) {
             player = (Player) sender;
         }
-
 
         String subCommandName = null;
         if (args.length > 0) {
@@ -63,12 +62,12 @@ public class CoreCommand implements CommandExecutor {
 
         if (args.length < subCommand.getMinArgs()) {
             sender.sendMessage(StableMaster.playerMessage("Incorrect number of arguments supplied"));
-            sender.sendMessage(StableMaster.playerMessage("/" + label + " " + subCommand.getHandler().handleHelp()));
+            sender.sendMessage(StableMaster.playerMessage("/" + label + " " + subCommand.getUsage()));
             return true;
         }
 
         final CommandInfo commandinfo = new CommandInfo(sender, args);
-        subCommand.getHandler().handle(commandinfo);
+        subCommand.handle(commandinfo);
         return true;
     }
 }

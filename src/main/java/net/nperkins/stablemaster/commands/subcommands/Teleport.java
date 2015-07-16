@@ -2,23 +2,16 @@ package net.nperkins.stablemaster.commands.subcommands;
 
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commandlibs.CommandInfo;
-import net.nperkins.stablemaster.commandlibs.SubHandler;
-import org.bukkit.Bukkit;
+import net.nperkins.stablemaster.commandlibs.SubCommand;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.List;
-
-public class Teleport implements SubHandler {
-
-    private StableMaster plugin;
+public class Teleport extends SubCommand {
 
     public Teleport(StableMaster plugin) {
         this.plugin = plugin;
@@ -58,11 +51,7 @@ public class Teleport implements SubHandler {
         }
     }
 
-    public List<String> handleComplete(CommandInfo commandInfo) {
-        return null;
-    }
-
-    public String handleHelp() {
+    public String getUsage() {
         return "teleport";
     }
 

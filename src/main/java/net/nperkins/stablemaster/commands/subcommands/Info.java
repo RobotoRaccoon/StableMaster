@@ -2,17 +2,11 @@ package net.nperkins.stablemaster.commands.subcommands;
 
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commandlibs.CommandInfo;
-import net.nperkins.stablemaster.commandlibs.SubHandler;
-import org.bukkit.ChatColor;
+import net.nperkins.stablemaster.commandlibs.SubCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
-
-public class Info implements SubHandler {
-
-    private StableMaster plugin;
+public class Info extends SubCommand {
 
     public Info(StableMaster plugin) {
         this.plugin = plugin;
@@ -34,11 +28,8 @@ public class Info implements SubHandler {
             sender.sendMessage(StableMaster.playerMessage("You don't have permission to do this."));
         }
     }
-    public List<String> handleComplete(CommandInfo commandInfo) {
-        return null;
-    }
 
-    public String handleHelp() {
+    public String getUsage() {
         return "info";
     };
 
