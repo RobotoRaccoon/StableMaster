@@ -12,6 +12,11 @@
     <url>http://www.nperkins.net</url>
     <description>A Horse Management plugin</description>
 
+    <properties>
+        <author>nicholosophy</author>
+        <authors>RobotoRaccoon</authors>
+    </properties>
+
     <build>
         <finalName>${project.name}</finalName>
         <resources>
@@ -47,7 +52,5 @@
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
-
-
 
 </project>

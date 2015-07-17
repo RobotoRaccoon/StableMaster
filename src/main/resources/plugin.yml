@@ -1,11 +1,10 @@
 name: ${project.name}
 version: ${project.version}
 description: ${project.description}
-author: nicholosophy
+author: ${author}
+authors: [${authors}]
 website: ${project.url}
 main: net.nperkins.stablemaster.StableMaster
-
-
 
 commands:
   stablemaster:
@@ -22,6 +21,9 @@ permissions:
     default: true
   stablemaster.give:
     description: Allows user to give horse to a new owner
+    default: true
+  stablemaster.help:
+    description: Allows user to run the help command
     default: true
   stablemaster.info:
     description: Get info on a horse

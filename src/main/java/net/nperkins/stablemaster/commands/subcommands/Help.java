@@ -9,6 +9,7 @@ public class Help  extends SubCommand {
     public Help(StableMaster plugin) {
         this.plugin = plugin;
         setConsoleAllowed(true);
+        setPermission("stablemaster.help");
     }
 
     public void handle(CommandInfo commandInfo) {

@@ -8,7 +8,7 @@ public abstract class SubCommand {
     protected StableMaster plugin;
     protected boolean consoleAllowed = false;
     protected int minArgs = 0;
-    protected String permission;
+    protected String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
     public abstract String getUsage();
