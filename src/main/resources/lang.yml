@@ -1,0 +1,6 @@
+prefix: '&3[&bSM&3] &f'
+error:
+  arguments: 'Incorrect number of arguments supplied'
+  no-command: 'Command not found'
+  no-console: 'This command cannot be run from console'
+  no-permission: 'You do not have permission to do this'

@@ -49,23 +49,23 @@ public class CoreCommand implements CommandExecutor {
         SubCommand subCommand = subCommands.get(subCommandName);
 
         if (subCommand == null) {
-            sender.sendMessage(StableMaster.playerMessage("Command not found"));
+            sender.sendMessage(StableMaster.langMessage(plugin, "error.no-command"));
             return true;
         }
 
         if (player == null && !subCommand.isConsoleAllowed()) {
-            sender.sendMessage(StableMaster.playerMessage("This command cannot be run from console"));
+            sender.sendMessage(StableMaster.langMessage(plugin, "error.no-console"));
             return true;
         }
 
         if (!sender.hasPermission(subCommand.getPermission())) {
-            sender.sendMessage(StableMaster.playerMessage("You don't have permission to do this."));
+            sender.sendMessage(StableMaster.langMessage(plugin, "error.no-permission"));
             return true;
         }
 
         if (args.length < subCommand.getMinArgs()) {
-            sender.sendMessage(StableMaster.playerMessage("Incorrect number of arguments supplied"));
-            sender.sendMessage(StableMaster.playerMessage("/" + label + " " + subCommand.getUsage()));
+            sender.sendMessage(StableMaster.langMessage(plugin, "error.arguments"));
+            sender.sendMessage(StableMaster.playerMessage(plugin, "/" + label + " " + subCommand.getUsage()));
             return true;
         }
 

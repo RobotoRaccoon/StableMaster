@@ -22,9 +22,9 @@ public class Rename extends SubCommand {
                     public void run() {
                         if (name != null) {
                             plugin.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
-                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                            sender.sendMessage(StableMaster.playerMessage(plugin, "Punch your horse."));
                         } else {
-                            sender.sendMessage(StableMaster.playerMessage("No name supplied."));
+                            sender.sendMessage(StableMaster.playerMessage(plugin, "No name supplied."));
                         }
                     }
                 }

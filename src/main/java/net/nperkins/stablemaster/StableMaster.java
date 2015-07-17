@@ -27,22 +27,30 @@ public class StableMaster extends JavaPlugin {
     public ConcurrentHashMap<Player, Object> TeleportQueue = new ConcurrentHashMap<Player, Object>();
     public ArrayList<Player> infoQueue = new ArrayList<Player>();
 
-    //private File configFile;
-    protected File dataFolder;
+    public Configuration configuration;
+    private File dataFolder;
     private File pluginFolder;
     private HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
 
 
-    public static String playerMessage(String msg) {
-        // todo: remove hardcoding
-        String prefix = "&3[&bSM&3] &f";
+    public static String playerMessage(StableMaster plugin, String msg) {
+        String prefix = plugin.configuration.getLang().getString("prefix");
         return (ChatColor.translateAlternateColorCodes('&', prefix + msg));
+    }
+
+    public static String langMessage(StableMaster plugin, String key) {
+        String prefix = plugin.configuration.getLang().getString("prefix");
+        return (ChatColor.translateAlternateColorCodes('&', prefix + plugin.configuration.getLang().getString(key)));
     }
 
     @Override
     public void onEnable() {
+
+        // Create configuration instance
+        configuration = new Configuration(this);
+        configuration.createAllFiles();
+
         pluginFolder = getDataFolder();
-        //configFile = new File(pluginFolder, "config.yml");
         dataFolder = new File(pluginFolder + File.separator + "stables");
 
         createDataFolders();
@@ -57,12 +65,9 @@ public class StableMaster extends JavaPlugin {
         // Register commands
         this.getCommand("stablemaster").setExecutor(new CoreCommand(this));
 
-
-
         for (Player p : this.getServer().getOnlinePlayers()) {
             this.loadStable(p);
         }
-
 
     }
 

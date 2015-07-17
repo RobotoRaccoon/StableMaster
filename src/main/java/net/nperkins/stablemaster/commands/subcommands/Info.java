@@ -21,7 +21,7 @@ public class Info extends SubCommand {
                         if (!plugin.infoQueue.contains(sender)) {
                             plugin.infoQueue.add((Player) sender);
                         }
-                        sender.sendMessage(StableMaster.playerMessage("Punch the horse."));
+                        sender.sendMessage(StableMaster.playerMessage(plugin, "Punch the horse."));
                     }
                 }
         );

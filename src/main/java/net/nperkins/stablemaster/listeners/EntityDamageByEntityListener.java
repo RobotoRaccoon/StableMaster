@@ -35,8 +35,8 @@ public class EntityDamageByEntityListener implements Listener {
                 // Horse has to be tamed to be owned
                 if (!horse.isTamed()) {
                     if (plugin.infoQueue.contains(player)) {
-                        player.sendMessage(StableMaster.playerMessage("---- Horse Info ----"));
-                        player.sendMessage(StableMaster.playerMessage("This horse is not tamed!"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "---- Horse Info ----"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "This horse is not tamed!"));
                         plugin.infoQueue.remove(player);
                         event.setCancelled(true);
                     }
@@ -61,15 +61,15 @@ public class EntityDamageByEntityListener implements Listener {
                 if (plugin.addRiderQueue.containsKey(player)) {
                     OfflinePlayer rider = plugin.addRiderQueue.get(player);
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage("This is not your horse!"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse!"));
                         return;
                     }
 
                     if (stabledHorse.isRider(rider)) {
-                        player.sendMessage(StableMaster.playerMessage(rider.getName() + "is already a rider!"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + "is already a rider!"));
                     } else {
                         stabledHorse.addRider(rider);
-                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " can now ride this horse"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + " can now ride this horse"));
                     }
                     plugin.addRiderQueue.remove(player);
                     return;
@@ -80,15 +80,15 @@ public class EntityDamageByEntityListener implements Listener {
                     OfflinePlayer rider = plugin.delRiderQueue.get(player);
 
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
                         return;
                     }
 
                     if (!stabledHorse.isRider(rider)) {
-                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " is not currently a rider!"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + " is not currently a rider!"));
                     } else {
                         stabledHorse.delRider(rider);
-                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " can no longer ride this horse!"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + " can no longer ride this horse!"));
                     }
                     plugin.delRiderQueue.remove(player);
                     return;
@@ -99,7 +99,7 @@ public class EntityDamageByEntityListener implements Listener {
                     OfflinePlayer newOwner = plugin.giveQueue.get(player);
 
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
                         return;
                     }
 
@@ -109,7 +109,7 @@ public class EntityDamageByEntityListener implements Listener {
                     newStable.addHorse(horse);
                     horse.setOwner(newOwner);
 
-                    player.sendMessage(StableMaster.playerMessage("Horse given to " + newOwner.getName()));
+                    player.sendMessage(StableMaster.playerMessage(plugin, "Horse given to " + newOwner.getName()));
                     plugin.giveQueue.remove(player);
                     return;
 
@@ -119,13 +119,13 @@ public class EntityDamageByEntityListener implements Listener {
                 if (plugin.renameQueue.containsKey(player)) {
                     String name = plugin.renameQueue.get(player);
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
                         return;
                     }
 
                     horse.setCustomName(name);
                     horse.setCustomNameVisible(true);
-                    player.sendMessage(StableMaster.playerMessage("Horse renamed to " + name));
+                    player.sendMessage(StableMaster.playerMessage(plugin, "Horse renamed to " + name));
                     plugin.renameQueue.remove(player);
                     return;
                 }
@@ -134,12 +134,12 @@ public class EntityDamageByEntityListener implements Listener {
                 if (plugin.TeleportQueue.containsKey(player)) {
 
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
                         return;
                     }
 
                     // Storing location
-                    player.sendMessage(StableMaster.playerMessage("Location stored. Run the command again at the destination"));
+                    player.sendMessage(StableMaster.playerMessage(plugin, "Location stored. Run the command again at the destination"));
                     StableMaster.horseChunk.add(horse.getLocation().getChunk());
                     plugin.TeleportQueue.put(player, horse);
                     return;
@@ -158,19 +158,19 @@ public class EntityDamageByEntityListener implements Listener {
                             riderNames.add(rider.getName());
                         }
                     }
-                    player.sendMessage(StableMaster.playerMessage("---- Horse Info ----"));
-                    player.sendMessage(StableMaster.playerMessage(String.format("Owner: %s", owner.getName())));
+                    player.sendMessage(StableMaster.playerMessage(plugin, "---- Horse Info ----"));
+                    player.sendMessage(StableMaster.playerMessage(plugin, String.format("Owner: %s", owner.getName())));
                     //player.sendMessage(StableMaster.playerMessage(String.format("Jump Strength: %f", horse.getJumpStrength())));
                     if (stabledHorse.getRiders().isEmpty()) {
-                        player.sendMessage(StableMaster.playerMessage("Permitted Riders: None"));
+                        player.sendMessage(StableMaster.playerMessage(plugin, "Permitted Riders: None"));
                     } else {
-                        player.sendMessage(StableMaster.playerMessage(String.format("Permitted Riders: %s", Joiner.on(", ").join(riderNames))));
+                        player.sendMessage(StableMaster.playerMessage(plugin, String.format("Permitted Riders: %s", Joiner.on(", ").join(riderNames))));
                     }
                     plugin.infoQueue.remove(player);
                     return;
                 }
                 // If we get here, the horse isn't involved in a command
-                player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));
+                player.sendMessage(StableMaster.playerMessage(plugin, "BAM! Protected by the Mighty xrobau"));
                 return;
             }
 
