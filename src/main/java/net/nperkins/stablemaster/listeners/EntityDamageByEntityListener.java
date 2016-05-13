@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.UUID;
 
-
 public class EntityDamageByEntityListener implements Listener {
 
     final StableMaster plugin;
@@ -42,6 +41,10 @@ public class EntityDamageByEntityListener implements Listener {
                     }
                     return;
                 }
+
+                // Added when horses could be ridden by skeletons. Horse is tamed, owner is null.
+                if (horse.getOwner() == null)
+                    return;
 
                 // Regardless, we want to cancel this event now
                 event.setCancelled(true);
