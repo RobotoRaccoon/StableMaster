@@ -16,12 +16,6 @@ import java.util.UUID;
 
 public class EntityDamageByEntityListener implements Listener {
 
-    final StableMaster plugin;
-
-    public EntityDamageByEntityListener(StableMaster plugin) {
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // Check if a player fired this
@@ -33,10 +27,10 @@ public class EntityDamageByEntityListener implements Listener {
                 final Horse horse = (Horse) entity;
                 // Horse has to be tamed to be owned
                 if (!horse.isTamed()) {
-                    if (plugin.infoQueue.contains(player)) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "---- Horse Info ----"));
-                        player.sendMessage(StableMaster.playerMessage(plugin, "This horse is not tamed!"));
-                        plugin.infoQueue.remove(player);
+                    if (StableMaster.infoQueue.contains(player)) {
+                        player.sendMessage(StableMaster.playerMessage("---- Horse Info ----"));
+                        player.sendMessage(StableMaster.playerMessage("This horse is not tamed!"));
+                        StableMaster.infoQueue.remove(player);
                         event.setCancelled(true);
                     }
                     return;
@@ -51,7 +45,7 @@ public class EntityDamageByEntityListener implements Listener {
 
                 // Get horse details
                 final OfflinePlayer owner = (OfflinePlayer) horse.getOwner();
-                final Stable stable = plugin.getStable(owner);
+                final Stable stable = StableMaster.getStable(owner);
 
                 // Check in case it's a pre-owned horse not known about
                 if (!stable.hasHorse(horse)) {
@@ -61,99 +55,99 @@ public class EntityDamageByEntityListener implements Listener {
                 final StabledHorse stabledHorse = stable.getHorse(horse);
 
                 // Add riders
-                if (plugin.addRiderQueue.containsKey(player)) {
-                    OfflinePlayer rider = plugin.addRiderQueue.get(player);
+                if (StableMaster.addRiderQueue.containsKey(player)) {
+                    OfflinePlayer rider = StableMaster.addRiderQueue.get(player);
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse!"));
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse!"));
                         return;
                     }
 
                     if (stabledHorse.isRider(rider)) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + "is already a rider!"));
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + "is already a rider!"));
                     } else {
                         stabledHorse.addRider(rider);
-                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + " can now ride this horse"));
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " can now ride this horse"));
                     }
-                    plugin.addRiderQueue.remove(player);
+                    StableMaster.addRiderQueue.remove(player);
                     return;
                 }
 
                 // Remove riders
-                if (plugin.delRiderQueue.containsKey(player)) {
-                    OfflinePlayer rider = plugin.delRiderQueue.get(player);
+                if (StableMaster.delRiderQueue.containsKey(player)) {
+                    OfflinePlayer rider = StableMaster.delRiderQueue.get(player);
 
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
 
                     if (!stabledHorse.isRider(rider)) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + " is not currently a rider!"));
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " is not currently a rider!"));
                     } else {
                         stabledHorse.delRider(rider);
-                        player.sendMessage(StableMaster.playerMessage(plugin, rider.getName() + " can no longer ride this horse!"));
+                        player.sendMessage(StableMaster.playerMessage(rider.getName() + " can no longer ride this horse!"));
                     }
-                    plugin.delRiderQueue.remove(player);
+                    StableMaster.delRiderQueue.remove(player);
                     return;
                 }
 
                 // Give horse
-                if (plugin.giveQueue.containsKey(player)) {
-                    OfflinePlayer newOwner = plugin.giveQueue.get(player);
+                if (StableMaster.giveQueue.containsKey(player)) {
+                    OfflinePlayer newOwner = StableMaster.giveQueue.get(player);
 
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
 
-                    final Stable newStable = plugin.getStable(newOwner);
+                    final Stable newStable = StableMaster.getStable(newOwner);
 
                     stable.removeHorse(horse);
                     newStable.addHorse(horse);
                     horse.setOwner(newOwner);
 
-                    player.sendMessage(StableMaster.playerMessage(plugin, "Horse given to " + newOwner.getName()));
-                    plugin.giveQueue.remove(player);
+                    player.sendMessage(StableMaster.playerMessage("Horse given to " + newOwner.getName()));
+                    StableMaster.giveQueue.remove(player);
                     return;
 
                 }
 
                 // Rename horse
-                if (plugin.renameQueue.containsKey(player)) {
-                    String name = plugin.renameQueue.get(player);
+                if (StableMaster.renameQueue.containsKey(player)) {
+                    String name = StableMaster.renameQueue.get(player);
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
 
                     horse.setCustomName(name);
                     horse.setCustomNameVisible(true);
-                    player.sendMessage(StableMaster.playerMessage(plugin, "Horse renamed to " + name));
-                    plugin.renameQueue.remove(player);
+                    player.sendMessage(StableMaster.playerMessage("Horse renamed to " + name));
+                    StableMaster.renameQueue.remove(player);
                     return;
                 }
 
                 // Teleport horse
-                if (plugin.TeleportQueue.containsKey(player)) {
+                if (StableMaster.TeleportQueue.containsKey(player)) {
 
                     if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "This is not your horse"));
+                        player.sendMessage(StableMaster.playerMessage("This is not your horse"));
                         return;
                     }
 
                     // Storing location
-                    player.sendMessage(StableMaster.playerMessage(plugin, "Location stored. Run the command again at the destination"));
+                    player.sendMessage(StableMaster.playerMessage("Location stored. Run the command again at the destination"));
                     StableMaster.horseChunk.add(horse.getLocation().getChunk());
-                    plugin.TeleportQueue.put(player, horse);
+                    StableMaster.TeleportQueue.put(player, horse);
                     return;
                 }
 
                 // Horse info
-                if (plugin.infoQueue.contains(player)) {
+                if (StableMaster.infoQueue.contains(player)) {
                     ArrayList<String> riderNames = new ArrayList<String>();
                     Iterator it = stabledHorse.getRiders().iterator();
                     while (it.hasNext()) {
-                        OfflinePlayer rider = plugin.getServer().getOfflinePlayer(UUID.fromString((String) it.next()));
+                        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString((String) it.next()));
                         if (rider.getName() == null) {
                             //todo: some sort of lookup
                             riderNames.add("Unknown player");
@@ -161,19 +155,19 @@ public class EntityDamageByEntityListener implements Listener {
                             riderNames.add(rider.getName());
                         }
                     }
-                    player.sendMessage(StableMaster.playerMessage(plugin, "---- Horse Info ----"));
-                    player.sendMessage(StableMaster.playerMessage(plugin, String.format("Owner: %s", owner.getName())));
+                    player.sendMessage(StableMaster.playerMessage("---- Horse Info ----"));
+                    player.sendMessage(StableMaster.playerMessage(String.format("Owner: %s", owner.getName())));
                     //player.sendMessage(StableMaster.playerMessage(String.format("Jump Strength: %f", horse.getJumpStrength())));
                     if (stabledHorse.getRiders().isEmpty()) {
-                        player.sendMessage(StableMaster.playerMessage(plugin, "Permitted Riders: None"));
+                        player.sendMessage(StableMaster.playerMessage("Permitted Riders: None"));
                     } else {
-                        player.sendMessage(StableMaster.playerMessage(plugin, String.format("Permitted Riders: %s", Joiner.on(", ").join(riderNames))));
+                        player.sendMessage(StableMaster.playerMessage(String.format("Permitted Riders: %s", Joiner.on(", ").join(riderNames))));
                     }
-                    plugin.infoQueue.remove(player);
+                    StableMaster.infoQueue.remove(player);
                     return;
                 }
                 // If we get here, the horse isn't involved in a command
-                player.sendMessage(StableMaster.playerMessage(plugin, "BAM! Protected by the Mighty xrobau"));
+                player.sendMessage(StableMaster.playerMessage("BAM! Protected by the Mighty xrobau"));
                 return;
             }
 

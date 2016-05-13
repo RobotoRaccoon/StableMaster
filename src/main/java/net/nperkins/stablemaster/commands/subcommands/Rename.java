@@ -8,8 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 public class Rename extends SubCommand {
 
-    public Rename(StableMaster plugin) {
-        this.plugin = plugin;
+    public Rename() {
         setMinArgs(1);
         setPermission("stablemaster.rename");
     }
@@ -18,13 +17,13 @@ public class Rename extends SubCommand {
         final CommandSender sender = commandInfo.getSender();
         final String name = commandInfo.getArg(0);
 
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
                     public void run() {
                         if (name != null) {
-                            plugin.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
-                            sender.sendMessage(StableMaster.playerMessage(plugin, "Punch your horse."));
+                            StableMaster.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
+                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
                         } else {
-                            sender.sendMessage(StableMaster.playerMessage(plugin, "No name supplied."));
+                            sender.sendMessage(StableMaster.playerMessage("No name supplied."));
                         }
                     }
                 }

@@ -14,18 +14,15 @@ import java.util.Map;
 public class CoreCommand implements CommandExecutor {
 
     public final Map<String, SubCommand> subCommands = new LinkedHashMap<String, SubCommand>();
-    private StableMaster plugin;
 
-    public CoreCommand(StableMaster plugin) {
-        this.plugin = plugin;
-
-        subCommands.put("addrider", new AddRider(this.plugin));
-        subCommands.put("delrider", new DelRider(this.plugin));
-        subCommands.put("give",     new Give(this.plugin));
-        subCommands.put("help",     new Help(this.plugin));
-        subCommands.put("info",     new Info(this.plugin));
-        subCommands.put("rename",   new Rename(this.plugin));
-        subCommands.put("teleport", new Teleport(this.plugin));
+    public CoreCommand() {
+        subCommands.put("addrider", new AddRider());
+        subCommands.put("delrider", new DelRider());
+        subCommands.put("give",     new Give());
+        subCommands.put("help",     new Help());
+        subCommands.put("info",     new Info());
+        subCommands.put("rename",   new Rename());
+        subCommands.put("teleport", new Teleport());
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -49,23 +46,23 @@ public class CoreCommand implements CommandExecutor {
         SubCommand subCommand = subCommands.get(subCommandName);
 
         if (subCommand == null) {
-            sender.sendMessage(StableMaster.langMessage(plugin, "error.no-command"));
+            sender.sendMessage(StableMaster.langMessage("error.no-command"));
             return true;
         }
 
         if (player == null && !subCommand.isConsoleAllowed()) {
-            sender.sendMessage(StableMaster.langMessage(plugin, "error.no-console"));
+            sender.sendMessage(StableMaster.langMessage("error.no-console"));
             return true;
         }
 
         if (!sender.hasPermission(subCommand.getPermission())) {
-            sender.sendMessage(StableMaster.langMessage(plugin, "error.no-permission"));
+            sender.sendMessage(StableMaster.langMessage("error.no-permission"));
             return true;
         }
 
         if (args.length < subCommand.getMinArgs()) {
-            sender.sendMessage(StableMaster.langMessage(plugin, "error.arguments"));
-            sender.sendMessage(StableMaster.playerMessage(plugin, "/" + label + " " + subCommand.getUsage()));
+            sender.sendMessage(StableMaster.langMessage("error.arguments"));
+            sender.sendMessage(StableMaster.playerMessage("/" + label + " " + subCommand.getUsage()));
             return true;
         }
 

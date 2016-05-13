@@ -9,8 +9,7 @@ import org.bukkit.entity.Player;
 
 public class DelRider extends SubCommand {
 
-    public DelRider(StableMaster plugin) {
-        this.plugin = plugin;
+    public DelRider() {
         setMinArgs(1);
         setPermission("stablemaster.delrider");
     }
@@ -19,14 +18,14 @@ public class DelRider extends SubCommand {
         final CommandSender sender = commandInfo.getSender();
         final String riderName = commandInfo.getArg(0);
 
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
                     public void run() {
-                        OfflinePlayer rider = plugin.getServer().getOfflinePlayer(riderName);
+                        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
                         if (rider != null && rider.hasPlayedBefore()) {
-                            plugin.delRiderQueue.put((Player) sender, rider);
-                            sender.sendMessage(StableMaster.playerMessage(plugin, "Punch your horse."));
+                            StableMaster.delRiderQueue.put((Player) sender, rider);
+                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
                         } else {
-                            sender.sendMessage(StableMaster.playerMessage(plugin, "We couldn't find that player."));
+                            sender.sendMessage(StableMaster.playerMessage("We couldn't find that player."));
                         }
                     }
                 }

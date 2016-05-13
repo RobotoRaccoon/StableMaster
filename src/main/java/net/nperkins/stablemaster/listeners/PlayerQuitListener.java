@@ -8,19 +8,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
 
-
-    final StableMaster plugin;
-
-    public PlayerQuitListener(StableMaster plugin) {
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-
-        final Player player = event.getPlayer();
-
         // Unload the players stable
-        plugin.unloadStable(player);
+        StableMaster.unloadStable(event.getPlayer());
     }
 }

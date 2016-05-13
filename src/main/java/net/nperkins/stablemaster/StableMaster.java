@@ -4,50 +4,55 @@ import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import net.nperkins.stablemaster.listeners.*;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 
 public class StableMaster extends JavaPlugin {
 
     public static List<Chunk> horseChunk = new ArrayList<>();
 
-    public ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
-    public ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
-    public ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
-    public ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
-    public ConcurrentHashMap<Player, Object> TeleportQueue = new ConcurrentHashMap<Player, Object>();
-    public ArrayList<Player> infoQueue = new ArrayList<Player>();
+    public static ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
+    public static ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
+    public static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
+    public static ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
+    public static ConcurrentHashMap<Player, Object> TeleportQueue = new ConcurrentHashMap<Player, Object>();
+    public static ArrayList<Player> infoQueue = new ArrayList<Player>();
 
-    public Configuration configuration;
-    private File dataFolder;
-    private File pluginFolder;
-    private HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
+    private static Plugin plugin;
+    private static Configuration configuration;
+    private static File dataFolder;
+    private static File pluginFolder;
+    private static HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
 
 
-    public static String playerMessage(StableMaster plugin, String msg) {
-        String prefix = plugin.configuration.getLang().getString("prefix");
+    public static String playerMessage(String msg) {
+        String prefix = configuration.getLang().getString("prefix");
         return (ChatColor.translateAlternateColorCodes('&', prefix + msg));
     }
 
-    public static String langMessage(StableMaster plugin, String key) {
-        String prefix = plugin.configuration.getLang().getString("prefix");
-        return (ChatColor.translateAlternateColorCodes('&', prefix + plugin.configuration.getLang().getString(key)));
+    public static String langMessage(String key) {
+        String prefix = configuration.getLang().getString("prefix");
+        return (ChatColor.translateAlternateColorCodes('&', prefix + configuration.getLang().getString(key)));
     }
 
     @Override
     public void onEnable() {
+        plugin = this;
 
         // Create configuration instance
-        configuration = new Configuration(this);
+        configuration = new Configuration();
         configuration.createAllFiles();
 
         pluginFolder = getDataFolder();
@@ -56,14 +61,14 @@ public class StableMaster extends JavaPlugin {
         createDataFolders();
 
         // Register listeners
-        getServer().getPluginManager().registerEvents(new ChunkListener(this), this);
-        getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractEntityListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChunkListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractEntityListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
 
         // Register commands
-        this.getCommand("stablemaster").setExecutor(new CoreCommand(this));
+        this.getCommand("stablemaster").setExecutor(new CoreCommand());
 
         for (Player p : this.getServer().getOnlinePlayers()) {
             this.loadStable(p);
@@ -82,7 +87,7 @@ public class StableMaster extends JavaPlugin {
         }
     }
 
-    public void loadStable(OfflinePlayer player) {
+    public static void loadStable(OfflinePlayer player) {
         File stableFile = new File(dataFolder + File.separator + player.getUniqueId().toString() + ".yml");
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(stableFile);
         Stable stable = new Stable(player);
@@ -100,7 +105,7 @@ public class StableMaster extends JavaPlugin {
         stables.put(player, stable);
     }
 
-    public void saveStable(Stable stable) {
+    public static void saveStable(Stable stable) {
         File stableFile = new File(dataFolder + File.separator + stable.getOwner() + ".yml");
         if (stable.getHorses().isEmpty()) {
             if (stableFile.exists()) {
@@ -134,25 +139,25 @@ public class StableMaster extends JavaPlugin {
 
     }
 
-    public void unloadStable(OfflinePlayer player) {
-        Stable s = this.stables.get(player);
-        this.saveStable(s);
+    public static void unloadStable(OfflinePlayer player) {
+        Stable s = stables.get(player);
+        saveStable(s);
         stables.remove(player);
     }
 
-    public Stable getStable(OfflinePlayer player) {
+    public static Stable getStable(OfflinePlayer player) {
         if (!stables.containsKey(player)) {
-            this.loadStable(player);
+            loadStable(player);
         }
         return stables.get(player);
     }
 
-    private void createDataFolders() {
+    private static void createDataFolders() {
         if (!pluginFolder.exists()) {
             try {
                 pluginFolder.mkdir();
             } catch (Exception e) {
-                getLogger().info(e.getMessage());
+                Bukkit.getServer().getLogger().log(Level.WARNING, e.getMessage());
             }
         }
 
@@ -160,9 +165,13 @@ public class StableMaster extends JavaPlugin {
             try {
                 dataFolder.mkdir();
             } catch (Exception e) {
-                getLogger().info(e.getMessage());
+                Bukkit.getServer().getLogger().log(Level.WARNING, e.getMessage());
             }
         }
+    }
+
+    public static Plugin getPlugin() {
+        return plugin;
     }
 
 }

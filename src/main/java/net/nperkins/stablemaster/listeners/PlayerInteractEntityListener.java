@@ -14,12 +14,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class PlayerInteractEntityListener implements Listener {
 
-    final StableMaster plugin;
-
-    public PlayerInteractEntityListener(StableMaster plugin) {
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
@@ -30,14 +24,14 @@ public class PlayerInteractEntityListener implements Listener {
                 Horse horse = (Horse) entity;
                 if (horse.isTamed()) {
                     if (player != horse.getOwner() && horse.getOwner() != null && !player.hasPermission("stablemaster.bypass")) {
-                        Stable stable = plugin.getStable((OfflinePlayer) horse.getOwner());
+                        Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
                         if (!stable.hasHorse(horse)) {
                             stable.addHorse(horse);
                         }
 
                         StabledHorse stabledHorse = stable.getHorse(horse);
                         if (!stabledHorse.isRider(player)) {
-                            player.sendMessage(StableMaster.playerMessage(plugin, "You can't ride this, yo"));
+                            player.sendMessage(StableMaster.playerMessage("You can't ride this, yo"));
                             event.setCancelled(true);
                         }
 

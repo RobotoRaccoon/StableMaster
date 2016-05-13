@@ -7,21 +7,18 @@ import java.io.File;
 
 public class Configuration {
 
-    private StableMaster plugin;
-
     //private File configFile;
     //private FileConfiguration config;
 
     private File langFile;
     private FileConfiguration lang;
 
-    public Configuration(StableMaster plugin) {
-        this.plugin = plugin;
+    public Configuration() {
 
         //configFile = new File(plugin.getDataFolder(), "config.yml");
         //config = YamlConfiguration.loadConfiguration(configFile);
 
-        langFile = new File(plugin.getDataFolder(), "lang.yml");
+        langFile = new File(StableMaster.getPlugin().getDataFolder(), "lang.yml");
         lang = YamlConfiguration.loadConfiguration(langFile);
     }
 
@@ -30,7 +27,7 @@ public class Configuration {
         //    plugin.saveResource("config.yml", true);
 
         if (!langFile.exists())
-            plugin.saveResource("lang.yml", true);
+            StableMaster.getPlugin().saveResource("lang.yml", true);
 
         loadConfigs();
     }
@@ -38,8 +35,8 @@ public class Configuration {
     public boolean loadConfigs() {
         try {
             //config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
-            lang = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang.yml"));
-            plugin.reloadConfig();
+            lang = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "lang.yml"));
+            StableMaster.getPlugin().reloadConfig();
             return true;
 
         } catch (Exception e) {

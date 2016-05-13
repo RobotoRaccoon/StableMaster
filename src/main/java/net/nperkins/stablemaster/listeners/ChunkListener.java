@@ -7,17 +7,10 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class ChunkListener implements Listener{
 
-    final StableMaster plugin;
-
-    public ChunkListener(StableMaster plugin) {
-        this.plugin = plugin;
-    }
-
     @EventHandler
     public void chunkUnloadEvent(ChunkUnloadEvent event) {
-
-        if (StableMaster.horseChunk.contains(event.getChunk())) event.setCancelled(true);
-
+        if (StableMaster.horseChunk.contains(event.getChunk()))
+            event.setCancelled(true);
     }
 
 }
