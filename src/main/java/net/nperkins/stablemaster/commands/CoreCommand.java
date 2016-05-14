@@ -35,7 +35,7 @@ public class CoreCommand implements CommandExecutor {
         String subCommandName = null;
         if (args.length > 0) {
             subCommandName = args[0].toLowerCase();
-            args = Arrays.copyOfRange(args, 1, args.length);
+            args = Arrays.copyOfRange(args, 1, args.length); // Remove the first argument.
         } else {
             // No command given - use default
             // todo: remove hardcoding
@@ -45,27 +45,32 @@ public class CoreCommand implements CommandExecutor {
 
         SubCommand subCommand = subCommands.get(subCommandName);
 
+        // Improper command specified.
         if (subCommand == null) {
-            sender.sendMessage(StableMaster.langMessage("error.no-command"));
+            StableMaster.langMessage(sender, "error.no-command");
             return true;
         }
 
+        // Sender is console and command does not allow console access.
         if (player == null && !subCommand.isConsoleAllowed()) {
-            sender.sendMessage(StableMaster.langMessage("error.no-console"));
+            StableMaster.langMessage(sender, "error.no-console");
             return true;
         }
 
+        // Player does not have permission to use the command.
         if (!sender.hasPermission(subCommand.getPermission())) {
-            sender.sendMessage(StableMaster.langMessage("error.no-permission"));
+            StableMaster.langMessage(sender, "error.no-permission");
             return true;
         }
 
+        // Not enough arguments have been supplied.
         if (args.length < subCommand.getMinArgs()) {
-            sender.sendMessage(StableMaster.langMessage("error.arguments"));
-            sender.sendMessage(StableMaster.playerMessage("/" + label + " " + subCommand.getUsage()));
+            StableMaster.langMessage(sender, "error.arguments");
+            StableMaster.rawMessage(sender, "/" + label + " " + subCommand.getUsage());
             return true;
         }
 
+        // Run the command.
         final CommandInfo commandinfo = new CommandInfo(sender, args);
         subCommand.handle(commandinfo);
         return true;

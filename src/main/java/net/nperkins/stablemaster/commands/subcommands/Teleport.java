@@ -29,7 +29,7 @@ public class Teleport extends SubCommand {
 
                             // Horses duplicate with cross world teleports...
                             if (horse.getLocation().getWorld() != ((Player) sender).getLocation().getWorld()) {
-                                sender.sendMessage(StableMaster.playerMessage("You cannot teleport horses across worlds."));
+                                StableMaster.rawMessage(sender, "You cannot teleport horses across worlds.");
                                 StableMaster.TeleportQueue.remove((Player) sender);
                                 return;
                             }
@@ -40,7 +40,7 @@ public class Teleport extends SubCommand {
                         } else {
 
                             StableMaster.TeleportQueue.put((Player) sender, true);
-                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                            StableMaster.rawMessage(sender, "Punch your horse.");
                         }
                     }
                 }
@@ -65,11 +65,11 @@ class TeleportEval extends BukkitRunnable {
     public void run() {
         if (chunkIsLoaded()) {
             StableMaster.horseChunk.remove(horse.getLocation().getChunk());
-            sender.sendMessage(StableMaster.playerMessage("Teleporting..."));
+            StableMaster.rawMessage(sender, "Teleporting...");
             horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
             StableMaster.TeleportQueue.remove(sender);
         } else {
-            sender.sendMessage(StableMaster.playerMessage("Teleport failed, get a friend to stand near your horse next time."));
+            StableMaster.rawMessage(sender, "Teleport failed, get a friend to stand near your horse next time.");
         }
     }
 

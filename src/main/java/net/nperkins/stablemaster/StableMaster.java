@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -36,15 +37,14 @@ public class StableMaster extends JavaPlugin {
     private static File pluginFolder;
     private static HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
 
-
-    public static String playerMessage(String msg) {
+    public static void rawMessage(CommandSender sender, String msg) {
         String prefix = configuration.getLang().getString("prefix");
-        return (ChatColor.translateAlternateColorCodes('&', prefix + msg));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));
     }
 
-    public static String langMessage(String key) {
+    public static void langMessage(CommandSender sender, String key) {
         String prefix = configuration.getLang().getString("prefix");
-        return (ChatColor.translateAlternateColorCodes('&', prefix + configuration.getLang().getString(key)));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + configuration.getLang().getString(key)));
     }
 
     @Override
@@ -70,19 +70,19 @@ public class StableMaster extends JavaPlugin {
         // Register commands
         this.getCommand("stablemaster").setExecutor(new CoreCommand());
 
+        // Load all stables for players already online
         for (Player p : this.getServer().getOnlinePlayers()) {
-            this.loadStable(p);
+            loadStable(p);
         }
 
     }
 
     @Override
     public void onDisable() {
-
         Iterator it = stables.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pairs = (Map.Entry) it.next();
-            this.saveStable((Stable) pairs.getValue());
+            saveStable((Stable) pairs.getValue());
             it.remove();
         }
     }
@@ -91,6 +91,7 @@ public class StableMaster extends JavaPlugin {
         File stableFile = new File(dataFolder + File.separator + player.getUniqueId().toString() + ".yml");
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(stableFile);
         Stable stable = new Stable(player);
+
         if (yamlFile.contains("horses")) {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
             HashMap<String, StabledHorse> horseMap = new HashMap<String, StabledHorse>();

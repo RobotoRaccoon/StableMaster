@@ -23,9 +23,9 @@ public class DelRider extends SubCommand {
                         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
                         if (rider != null && rider.hasPlayedBefore()) {
                             StableMaster.delRiderQueue.put((Player) sender, rider);
-                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                            StableMaster.rawMessage(sender, "Punch your horse.");
                         } else {
-                            sender.sendMessage(StableMaster.playerMessage("We couldn't find that player."));
+                            StableMaster.rawMessage(sender, "We couldn't find that player.");
                         }
                     }
                 }

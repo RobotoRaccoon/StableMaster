@@ -23,9 +23,9 @@ public class Give extends SubCommand {
                         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
                         if (rider != null && rider.hasPlayedBefore()) {
                             StableMaster.giveQueue.put((Player) sender, rider);
-                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                            StableMaster.rawMessage(sender, "Punch your horse.");
                         } else {
-                            sender.sendMessage(StableMaster.playerMessage("We couldn't find that player."));
+                            StableMaster.rawMessage(sender, "We couldn't find that player.");
                         }
                     }
                 }

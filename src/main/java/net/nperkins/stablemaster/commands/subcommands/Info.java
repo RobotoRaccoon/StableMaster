@@ -20,7 +20,7 @@ public class Info extends SubCommand {
                         if (!StableMaster.infoQueue.contains(sender)) {
                             StableMaster.infoQueue.add((Player) sender);
                         }
-                        sender.sendMessage(StableMaster.playerMessage("Punch the horse."));
+                        StableMaster.rawMessage(sender, "Punch the horse.");
                     }
                 }
         );

@@ -31,7 +31,7 @@ public class PlayerInteractEntityListener implements Listener {
 
                         StabledHorse stabledHorse = stable.getHorse(horse);
                         if (!stabledHorse.isRider(player)) {
-                            player.sendMessage(StableMaster.playerMessage("You can't ride this, yo"));
+                            StableMaster.rawMessage(player, "You can't ride this, yo");
                             event.setCancelled(true);
                         }
 

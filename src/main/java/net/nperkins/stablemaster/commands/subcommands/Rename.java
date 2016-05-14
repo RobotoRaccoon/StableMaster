@@ -21,9 +21,9 @@ public class Rename extends SubCommand {
                     public void run() {
                         if (name != null) {
                             StableMaster.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
-                            sender.sendMessage(StableMaster.playerMessage("Punch your horse."));
+                            StableMaster.rawMessage(sender, "Punch your horse.");
                         } else {
-                            sender.sendMessage(StableMaster.playerMessage("No name supplied."));
+                            StableMaster.rawMessage(sender, "No name supplied.");
                         }
                     }
                 }
