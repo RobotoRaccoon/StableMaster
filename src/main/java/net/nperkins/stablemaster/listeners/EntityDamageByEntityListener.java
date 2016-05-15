@@ -163,12 +163,16 @@ public class EntityDamageByEntityListener implements Listener {
             }
 
             String permitted = stabledHorse.getRiders().isEmpty() ? "None" : Joiner.on(", ").join(riderNames);
+            String variant = (horse.getVariant() == Horse.Variant.HORSE) ?
+                    horse.getColor() + ", " + horse.getStyle() :
+                    horse.getVariant().toString();
 
             // Print the info
             StableMaster.rawMessage(player, "---- Horse Info ----");
             StableMaster.rawMessage(player, String.format("Owner: %s", owner.getName()));
-            //player.sendMessage(StableMaster.rawMessage(String.format("Jump Strength: %f", horse.getJumpStrength())));
             StableMaster.rawMessage(player, String.format("Permitted Riders: %s", permitted));
+            StableMaster.rawMessage(player, String.format("Jump Strength: %.2f", horse.getJumpStrength()));
+            StableMaster.rawMessage(player, String.format("Variant: %s", variant));
 
             StableMaster.infoQueue.remove(player);
             return;
