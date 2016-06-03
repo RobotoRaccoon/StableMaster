@@ -28,7 +28,7 @@ public class StableMaster extends JavaPlugin {
     public static ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
     public static ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
-    public static ConcurrentHashMap<Player, Object> TeleportQueue = new ConcurrentHashMap<Player, Object>();
+    public static ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<Player, Object>();
     public static ArrayList<Player> infoQueue = new ArrayList<Player>();
 
     private static Plugin plugin;
@@ -36,16 +36,6 @@ public class StableMaster extends JavaPlugin {
     private static File dataFolder;
     private static File pluginFolder;
     private static HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
-
-    public static void rawMessage(CommandSender sender, String msg) {
-        String prefix = configuration.getLang().getString("prefix");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + msg));
-    }
-
-    public static void langMessage(CommandSender sender, String key) {
-        String prefix = configuration.getLang().getString("prefix");
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + configuration.getLang().getString(key)));
-    }
 
     @Override
     public void onEnable() {
@@ -85,6 +75,20 @@ public class StableMaster extends JavaPlugin {
             saveStable((Stable) pairs.getValue());
             it.remove();
         }
+    }
+
+    public static void rawMessage(CommandSender sender, String msg) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getLang("prefix") + msg));
+    }
+
+    public static void langMessage(CommandSender sender, String key) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getLang("prefix") + getLang(key)));
+    }
+
+    public static String getLang(String key) {
+        if (!configuration.getLang().contains(key))
+            getPlugin().getLogger().log(Level.WARNING, String.format("lang.yml path `%s` does not exist!", key));
+        return configuration.getLang().getString(key);
     }
 
     public static void loadStable(OfflinePlayer player) {

@@ -10,6 +10,7 @@ public abstract class SubCommand {
     protected String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
+    public abstract String getDescription();
     public abstract String getUsage();
 
     public boolean isConsoleAllowed() {

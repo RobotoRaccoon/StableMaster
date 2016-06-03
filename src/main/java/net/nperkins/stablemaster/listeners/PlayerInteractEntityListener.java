@@ -16,28 +16,30 @@ public class PlayerInteractEntityListener implements Listener {
 
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-        Entity entity = event.getRightClicked();
-        Player player = event.getPlayer();
 
-        if (entity != null) {
-            if (entity.getType() == EntityType.HORSE) {
-                Horse horse = (Horse) entity;
-                if (horse.isTamed()) {
-                    if (player != horse.getOwner() && horse.getOwner() != null && !player.hasPermission("stablemaster.bypass")) {
-                        Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
-                        if (!stable.hasHorse(horse)) {
-                            stable.addHorse(horse);
-                        }
+        final Entity entity = event.getRightClicked();
+        if (entity == null)
+            return; // Entity must exist.
 
-                        StabledHorse stabledHorse = stable.getHorse(horse);
-                        if (!stabledHorse.isRider(player)) {
-                            StableMaster.rawMessage(player, "You can't ride this, yo");
-                            event.setCancelled(true);
-                        }
+        if (entity.getType() != EntityType.HORSE)
+            return; // Entity must be a horse.
 
+        final Player player = event.getPlayer();
+        final Horse horse = (Horse) entity;
+        if (horse.isTamed()) {
+            if (player != horse.getOwner() && horse.getOwner() != null && !player.hasPermission("stablemaster.bypass")) {
 
-                    }
+                Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
+                if (!stable.hasHorse(horse)) {
+                    stable.addHorse(horse);
                 }
+
+                StabledHorse stabledHorse = stable.getHorse(horse);
+                if (!stabledHorse.isRider(player)) {
+                    StableMaster.langMessage(player, "error.not-rider");
+                    event.setCancelled(true);
+                }
+
             }
         }
     }

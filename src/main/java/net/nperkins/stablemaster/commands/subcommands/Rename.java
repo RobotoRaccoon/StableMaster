@@ -19,19 +19,18 @@ public class Rename extends SubCommand {
 
         StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
                     public void run() {
-                        if (name != null) {
-                            StableMaster.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
-                            StableMaster.rawMessage(sender, "Punch your horse.");
-                        } else {
-                            StableMaster.rawMessage(sender, "No name supplied.");
-                        }
+                        StableMaster.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
+                        StableMaster.langMessage(sender, "punch-horse");
                     }
                 }
         );
     }
 
-    public String getUsage() {
-        return "rename <name>";
-    };
+    public String getDescription() {
+        return StableMaster.getLang("command.rename.description");
+    }
 
+    public String getUsage() {
+        return StableMaster.getLang("command.rename.usage");
+    }
 }

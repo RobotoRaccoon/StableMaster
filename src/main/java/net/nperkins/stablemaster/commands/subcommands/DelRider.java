@@ -23,16 +23,20 @@ public class DelRider extends SubCommand {
                         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
                         if (rider != null && rider.hasPlayedBefore()) {
                             StableMaster.delRiderQueue.put((Player) sender, rider);
-                            StableMaster.rawMessage(sender, "Punch your horse.");
+                            StableMaster.langMessage(sender, "punch-horse");
                         } else {
-                            StableMaster.rawMessage(sender, "We couldn't find that player.");
+                            StableMaster.langMessage(sender, "error.player-not-found");
                         }
                     }
                 }
         );
     }
 
+    public String getDescription() {
+        return StableMaster.getLang("command.del-rider.description");
+    }
+
     public String getUsage() {
-        return "delrider <player>";
+        return StableMaster.getLang("command.del-rider.usage");
     }
 }

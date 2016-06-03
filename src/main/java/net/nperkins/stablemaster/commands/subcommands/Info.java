@@ -20,14 +20,17 @@ public class Info extends SubCommand {
                         if (!StableMaster.infoQueue.contains(sender)) {
                             StableMaster.infoQueue.add((Player) sender);
                         }
-                        StableMaster.rawMessage(sender, "Punch the horse.");
+                        StableMaster.langMessage(sender, "punch-horse");
                     }
                 }
         );
     }
 
-    public String getUsage() {
-        return "info";
-    };
+    public String getDescription() {
+        return StableMaster.getLang("command.info.description");
+    }
 
+    public String getUsage() {
+        return StableMaster.getLang("command.info.usage");
+    }
 }

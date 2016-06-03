@@ -23,17 +23,20 @@ public class AddRider extends SubCommand {
                         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
                         if (rider != null && rider.hasPlayedBefore()) {
                             StableMaster.addRiderQueue.put((Player) sender, rider);
-                            StableMaster.rawMessage(sender, "Punch your horse.");
+                            StableMaster.langMessage(sender, "punch-horse");
                         } else {
-                            StableMaster.rawMessage(sender, "We couldn't find that player.");
+                            StableMaster.langMessage(sender, "error.player-not-found");
                         }
                     }
                 }
         );
     }
 
-    public String getUsage() {
-        return "addrider <player>";
-    };
+    public String getDescription() {
+        return StableMaster.getLang("command.add-rider.description");
+    }
 
+    public String getUsage() {
+        return StableMaster.getLang("command.add-rider.usage");
+    }
 }

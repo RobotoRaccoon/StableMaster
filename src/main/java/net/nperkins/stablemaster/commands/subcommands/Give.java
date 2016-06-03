@@ -23,17 +23,20 @@ public class Give extends SubCommand {
                         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
                         if (rider != null && rider.hasPlayedBefore()) {
                             StableMaster.giveQueue.put((Player) sender, rider);
-                            StableMaster.rawMessage(sender, "Punch your horse.");
+                            StableMaster.langMessage(sender, "punch-horse");
                         } else {
-                            StableMaster.rawMessage(sender, "We couldn't find that player.");
+                            StableMaster.langMessage(sender, "error.player-not-found");
                         }
                     }
                 }
         );
     }
 
-    public String getUsage() {
-        return "give <player>";
+    public String getDescription() {
+        return StableMaster.getLang("command.give.description");
     }
 
+    public String getUsage() {
+        return StableMaster.getLang("command.give.usage");
+    }
 }

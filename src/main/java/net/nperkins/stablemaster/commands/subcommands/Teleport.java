@@ -22,36 +22,40 @@ public class Teleport extends SubCommand {
 
         StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
                     public void run() {
-                        if (StableMaster.TeleportQueue.containsKey((Player) sender) &&
-                                StableMaster.TeleportQueue.get((Player) sender) instanceof Horse) {
+                        if (StableMaster.teleportQueue.containsKey((Player) sender) &&
+                                StableMaster.teleportQueue.get((Player) sender) instanceof Horse) {
 
-                            Horse horse = (Horse) StableMaster.TeleportQueue.get((Player) sender);
+                            Horse horse = (Horse) StableMaster.teleportQueue.get((Player) sender);
 
                             // Horses duplicate with cross world teleports...
                             if (horse.getLocation().getWorld() != ((Player) sender).getLocation().getWorld()) {
-                                StableMaster.rawMessage(sender, "You cannot teleport horses across worlds.");
-                                StableMaster.TeleportQueue.remove((Player) sender);
+                                StableMaster.langMessage(sender, "command.teleport.cross-world");
+                                StableMaster.teleportQueue.remove((Player) sender);
                                 return;
                             }
 
                             new TeleportEval(horse, sender).runTask(StableMaster.getPlugin());
-                            StableMaster.TeleportQueue.remove((Player) sender);
+                            StableMaster.teleportQueue.remove((Player) sender);
 
                         } else {
 
-                            StableMaster.TeleportQueue.put((Player) sender, true);
-                            StableMaster.rawMessage(sender, "Punch your horse.");
+                            StableMaster.teleportQueue.put((Player) sender, true);
+                            StableMaster.langMessage(sender, "punch-horse");
                         }
                     }
                 }
         );
     }
 
-    public String getUsage() {
-        return "teleport";
+    public String getDescription() {
+        return StableMaster.getLang("command.teleport.description");
     }
 
+    public String getUsage() {
+        return StableMaster.getLang("command.teleport.usage");
+    }
 }
+
 class TeleportEval extends BukkitRunnable {
 
     private Horse horse;
@@ -65,11 +69,11 @@ class TeleportEval extends BukkitRunnable {
     public void run() {
         if (chunkIsLoaded()) {
             StableMaster.horseChunk.remove(horse.getLocation().getChunk());
-            StableMaster.rawMessage(sender, "Teleporting...");
+            StableMaster.langMessage(sender, "command.teleport.teleporting");
             horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
-            StableMaster.TeleportQueue.remove(sender);
+            StableMaster.teleportQueue.remove(sender);
         } else {
-            StableMaster.rawMessage(sender, "Teleport failed, get a friend to stand near your horse next time.");
+            StableMaster.langMessage(sender, "command.teleport.failed");
         }
     }
 

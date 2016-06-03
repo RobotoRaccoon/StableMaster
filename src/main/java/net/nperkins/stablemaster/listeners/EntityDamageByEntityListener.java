@@ -34,8 +34,8 @@ public class EntityDamageByEntityListener implements Listener {
         // Horse has to be tamed to be owned
         if (!horse.isTamed()) {
             if (StableMaster.infoQueue.contains(player)) {
-                StableMaster.rawMessage(player, "---- Horse Info ----");
-                StableMaster.rawMessage(player, "This horse is not tamed!");
+                StableMaster.langMessage(player, "command.info.header");
+                StableMaster.langMessage(player, "not-tamed");
                 StableMaster.infoQueue.remove(player);
                 event.setCancelled(true);
             }
@@ -63,46 +63,50 @@ public class EntityDamageByEntityListener implements Listener {
         // Add riders
         if (StableMaster.addRiderQueue.containsKey(player)) {
             OfflinePlayer rider = StableMaster.addRiderQueue.get(player);
-            if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                StableMaster.rawMessage(player, "This is not your horse!");
-                return;
-            }
-
-            if (stabledHorse.isRider(rider)) {
-                StableMaster.rawMessage(player, rider.getName() + "is already a rider!");
-            } else {
-                stabledHorse.addRider(rider);
-                StableMaster.rawMessage(player, rider.getName() + " can now ride this horse");
-            }
             StableMaster.addRiderQueue.remove(player);
+
+            if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+                StableMaster.langMessage(player, "error.not-owner");
+            }
+            else if (stabledHorse.isRider(rider)) {
+                StableMaster.rawMessage(player, String.format(
+                        StableMaster.getLang("command.add-rider.is-rider"), rider.getName()));
+            }
+            else {
+                stabledHorse.addRider(rider);
+                StableMaster.rawMessage(player, String.format(
+                        StableMaster.getLang("command.add-rider.added"), rider.getName()));
+            }
             return;
         }
 
         // Remove riders
         if (StableMaster.delRiderQueue.containsKey(player)) {
             OfflinePlayer rider = StableMaster.delRiderQueue.get(player);
+            StableMaster.delRiderQueue.remove(player);
 
             if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                StableMaster.rawMessage(player, "This is not your horse");
-                return;
+                StableMaster.langMessage(player, "error.not-owner");
             }
-
-            if (!stabledHorse.isRider(rider)) {
-                StableMaster.rawMessage(player, rider.getName() + " is not currently a rider!");
-            } else {
+            else if (!stabledHorse.isRider(rider)) {
+                StableMaster.rawMessage(player, String.format(
+                        StableMaster.getLang("command.del-rider.not-rider"), rider.getName()));
+            }
+            else {
                 stabledHorse.delRider(rider);
-                StableMaster.rawMessage(player, rider.getName() + " can no longer ride this horse!");
+                StableMaster.rawMessage(player, String.format(
+                        StableMaster.getLang("command.del-rider.removed"), rider.getName()));
             }
-            StableMaster.delRiderQueue.remove(player);
             return;
         }
 
         // Give horse
         if (StableMaster.giveQueue.containsKey(player)) {
             OfflinePlayer newOwner = StableMaster.giveQueue.get(player);
+            StableMaster.giveQueue.remove(player);
 
             if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                StableMaster.rawMessage(player, "This is not your horse");
+                StableMaster.langMessage(player, "error.not-owner");
                 return;
             }
 
@@ -112,51 +116,55 @@ public class EntityDamageByEntityListener implements Listener {
             newStable.addHorse(horse);
             horse.setOwner(newOwner);
 
-            StableMaster.rawMessage(player, "Horse given to " + newOwner.getName());
-            StableMaster.giveQueue.remove(player);
+            StableMaster.rawMessage(player, String.format(
+                    StableMaster.getLang("command.give.given"), newOwner.getName()));
             return;
-
         }
 
         // Rename horse
         if (StableMaster.renameQueue.containsKey(player)) {
             String name = StableMaster.renameQueue.get(player);
+            StableMaster.renameQueue.remove(player);
+
             if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                StableMaster.rawMessage(player, "This is not your horse");
+                StableMaster.langMessage(player, "error.not-owner");
                 return;
             }
 
             horse.setCustomName(name);
             horse.setCustomNameVisible(true);
-            StableMaster.rawMessage(player, "Horse renamed to " + name);
-            StableMaster.renameQueue.remove(player);
+            StableMaster.rawMessage(player, String.format(
+                    StableMaster.getLang("command.rename.renamed"), name));
             return;
         }
 
         // Teleport horse
-        if (StableMaster.TeleportQueue.containsKey(player)) {
+        if (StableMaster.teleportQueue.containsKey(player)) {
 
             if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
-                StableMaster.rawMessage(player, "This is not your horse");
+                StableMaster.langMessage(player, "error.not-owner");
+                StableMaster.teleportQueue.remove(player);
                 return;
             }
 
             // Storing location
-            StableMaster.rawMessage(player, "Location stored. Run the command again at the destination");
+            StableMaster.langMessage(player, "command.teleport.location-saved");
             StableMaster.horseChunk.add(horse.getLocation().getChunk());
-            StableMaster.TeleportQueue.put(player, horse);
+            StableMaster.teleportQueue.put(player, horse);
             return;
         }
 
         // Horse info
         if (StableMaster.infoQueue.contains(player)) {
+            StableMaster.infoQueue.remove(player);
+
             ArrayList<String> riderNames = new ArrayList<String>();
             Iterator it = stabledHorse.getRiders().iterator();
             while (it.hasNext()) {
                 OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString((String) it.next()));
                 if (rider.getName() == null) {
                     //todo: some sort of lookup
-                    riderNames.add("Unknown player");
+                    riderNames.add(rider.getUniqueId().toString());
                 } else {
                     riderNames.add(rider.getName());
                 }
@@ -168,17 +176,15 @@ public class EntityDamageByEntityListener implements Listener {
                     horse.getVariant().toString();
 
             // Print the info
-            StableMaster.rawMessage(player, "---- Horse Info ----");
-            StableMaster.rawMessage(player, String.format("Owner: %s", owner.getName()));
-            StableMaster.rawMessage(player, String.format("Permitted Riders: %s", permitted));
-            StableMaster.rawMessage(player, String.format("Jump Strength: %.2f", horse.getJumpStrength()));
-            StableMaster.rawMessage(player, String.format("Variant: %s", variant));
-
-            StableMaster.infoQueue.remove(player);
+            StableMaster.langMessage(player, "command.info.header");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.owner"), owner.getName()));
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), horse.getJumpStrength()));
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
             return;
         }
 
         // If we get here, the horse isn't involved in a command
-        StableMaster.rawMessage(player, "BAM! Protected by the Mighty xrobau");
+        StableMaster.langMessage(player, "error.protected");
     }
 }

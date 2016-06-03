@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class CoreCommand implements CommandExecutor {
 
-    public final Map<String, SubCommand> subCommands = new LinkedHashMap<String, SubCommand>();
+    public static final Map<String, SubCommand> subCommands = new LinkedHashMap<String, SubCommand>();
 
     public CoreCommand() {
         subCommands.put("addrider", new AddRider());
