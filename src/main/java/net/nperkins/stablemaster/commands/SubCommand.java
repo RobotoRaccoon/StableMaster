@@ -2,6 +2,9 @@ package net.nperkins.stablemaster.commands;
 
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
+import net.nperkins.stablemaster.data.Stable;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 
 public abstract class SubCommand {
 
@@ -10,6 +13,7 @@ public abstract class SubCommand {
     protected String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
+    public abstract void handleInteract(Stable stable, Player player, Horse horse);
     public abstract String getDescription();
     public abstract String getUsage();
 

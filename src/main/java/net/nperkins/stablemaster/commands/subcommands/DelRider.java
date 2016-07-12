@@ -3,8 +3,11 @@ package net.nperkins.stablemaster.commands.subcommands;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
+import net.nperkins.stablemaster.data.Stable;
+import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
 public class DelRider extends SubCommand {
@@ -30,6 +33,24 @@ public class DelRider extends SubCommand {
                     }
                 }
         );
+    }
+
+    public void handleInteract(Stable stable, Player player, Horse horse) {
+        StabledHorse stabledHorse = stable.getHorse(horse);
+        OfflinePlayer rider = StableMaster.delRiderQueue.get(player);
+
+        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+            StableMaster.langMessage(player, "error.not-owner");
+        }
+        else if (!stabledHorse.isRider(rider)) {
+            StableMaster.rawMessage(player, String.format(
+                    StableMaster.getLang("command.del-rider.not-rider"), rider.getName()));
+        }
+        else {
+            stabledHorse.delRider(rider);
+            StableMaster.rawMessage(player, String.format(
+                    StableMaster.getLang("command.del-rider.removed"), rider.getName()));
+        }
     }
 
     public String getDescription() {

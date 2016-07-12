@@ -3,6 +3,7 @@ package net.nperkins.stablemaster.commands.subcommands;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
+import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -19,23 +20,24 @@ public class Teleport extends SubCommand {
 
     public void handle(CommandInfo commandInfo) {
         final CommandSender sender = commandInfo.getSender();
+        final Player player = (Player) sender;
 
         StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
                     public void run() {
-                        if (StableMaster.teleportQueue.containsKey((Player) sender) &&
-                                StableMaster.teleportQueue.get((Player) sender) instanceof Horse) {
+                        if (StableMaster.teleportQueue.containsKey(player) &&
+                                StableMaster.teleportQueue.get(player) instanceof Horse) {
 
-                            Horse horse = (Horse) StableMaster.teleportQueue.get((Player) sender);
+                            Horse horse = (Horse) StableMaster.teleportQueue.get(player);
 
                             // Horses duplicate with cross world teleports...
-                            if (horse.getLocation().getWorld() != ((Player) sender).getLocation().getWorld()) {
+                            if (horse.getLocation().getWorld() != (player).getLocation().getWorld()) {
                                 StableMaster.langMessage(sender, "command.teleport.cross-world");
-                                StableMaster.teleportQueue.remove((Player) sender);
+                                StableMaster.teleportQueue.remove(player);
                                 return;
                             }
 
                             new TeleportEval(horse, sender).runTask(StableMaster.getPlugin());
-                            StableMaster.teleportQueue.remove((Player) sender);
+                            StableMaster.teleportQueue.remove(player);
 
                         } else {
 
@@ -45,6 +47,19 @@ public class Teleport extends SubCommand {
                     }
                 }
         );
+    }
+
+    public void handleInteract(Stable stable, Player player, Horse horse) {
+        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+            StableMaster.langMessage(player, "error.not-owner");
+            StableMaster.teleportQueue.remove(player);
+            return;
+        }
+
+        // Storing location
+        StableMaster.langMessage(player, "command.teleport.location-saved");
+        StableMaster.horseChunk.add(horse.getLocation().getChunk());
+        StableMaster.teleportQueue.put(player, horse);
     }
 
     public String getDescription() {

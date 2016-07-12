@@ -4,7 +4,10 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.commands.SubCommand;
+import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 
 public class Help extends SubCommand {
 
@@ -26,6 +29,10 @@ public class Help extends SubCommand {
         }
 
         StableMaster.langMessage(sender, "command.help.footer");
+    }
+
+    public void handleInteract(Stable stable, Player player, Horse horse) {
+        // Nothing
     }
 
     public String getDescription() {
