@@ -34,10 +34,10 @@ public class EntityDamageByEntityListener implements Listener {
 
         // Horse has to be tamed to be owned
         if (!horse.isTamed()) {
-            if (StableMaster.infoQueue.contains(player)) {
+            if (StableMaster.commandQueue.get(player) == CoreCommand.subCommands.get("info")) {
                 StableMaster.langMessage(player, "command.info.header");
                 StableMaster.langMessage(player, "not-tamed");
-                StableMaster.infoQueue.remove(player);
+                StableMaster.commandQueue.remove(player);
                 event.setCancelled(true);
             }
             return;
@@ -58,48 +58,15 @@ public class EntityDamageByEntityListener implements Listener {
             stable.addHorse(horse);
         }
 
-        // Add riders
-        if (StableMaster.addRiderQueue.containsKey(player)) {
-            CoreCommand.subCommands.get("addrider").handleInteract(stable, player, horse);
-            StableMaster.addRiderQueue.remove(player);
-            return;
-        }
 
-        // Remove riders
-        if (StableMaster.delRiderQueue.containsKey(player)) {
-            CoreCommand.subCommands.get("delrider").handleInteract(stable, player, horse);
-            StableMaster.delRiderQueue.remove(player);
-            return;
+        if (StableMaster.commandQueue.containsKey(player)) {
+            // Handle appropriate command
+            StableMaster.commandQueue.get(player).handleInteract(stable, player, horse);
+            StableMaster.commandQueue.remove(player);
         }
-
-        // Give horse
-        if (StableMaster.giveQueue.containsKey(player)) {
-            CoreCommand.subCommands.get("give").handleInteract(stable, player, horse);
-            StableMaster.giveQueue.remove(player);
-            return;
+        else {
+            // If we get here, the horse isn't involved in a command
+            StableMaster.langMessage(player, "error.protected");
         }
-
-        // Rename horse
-        if (StableMaster.renameQueue.containsKey(player)) {
-            CoreCommand.subCommands.get("rename").handleInteract(stable, player, horse);
-            StableMaster.renameQueue.remove(player);
-            return;
-        }
-
-        // Teleport horse
-        if (StableMaster.teleportQueue.containsKey(player)) {
-            CoreCommand.subCommands.get("teleport").handleInteract(stable, player, horse);
-            return;
-        }
-
-        // Horse info
-        if (StableMaster.infoQueue.contains(player)) {
-            CoreCommand.subCommands.get("info").handleInteract(stable, player, horse);
-            StableMaster.infoQueue.remove(player);
-            return;
-        }
-
-        // If we get here, the horse isn't involved in a command
-        StableMaster.langMessage(player, "error.protected");
     }
 }

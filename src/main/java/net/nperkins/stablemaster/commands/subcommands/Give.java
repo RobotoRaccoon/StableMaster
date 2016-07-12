@@ -9,7 +9,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 public class Give extends SubCommand {
+
+    private static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();
 
     public Give() {
         setMinArgs(1);
@@ -22,7 +26,8 @@ public class Give extends SubCommand {
 
         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
         if (rider != null && rider.hasPlayedBefore()) {
-            StableMaster.giveQueue.put(player, rider);
+            StableMaster.commandQueue.put(player, this);
+            giveQueue.put(player, rider);
             StableMaster.langMessage(player, "punch-horse");
         } else {
             StableMaster.langMessage(player, "error.player-not-found");
@@ -30,7 +35,8 @@ public class Give extends SubCommand {
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {
-        OfflinePlayer newOwner = StableMaster.giveQueue.get(player);
+        OfflinePlayer newOwner = giveQueue.get(player);
+        giveQueue.remove(player);
 
         if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
             StableMaster.langMessage(player, "error.not-owner");

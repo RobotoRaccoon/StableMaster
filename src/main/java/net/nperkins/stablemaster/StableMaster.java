@@ -25,12 +25,7 @@ public class StableMaster extends JavaPlugin {
 
     public static List<Chunk> horseChunk = new ArrayList<>();
 
-    public static ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
-    public static ArrayList<Player> infoQueue = new ArrayList<>();
+    public static ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
 
     private static Plugin plugin;
     private static Configuration configuration;
