@@ -8,12 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CoreCommand implements CommandExecutor {
 
-    public static final Map<String, SubCommand> subCommands = new LinkedHashMap<String, SubCommand>();
+    public static final ConcurrentHashMap<String, SubCommand> subCommands = new ConcurrentHashMap<>();
 
     public CoreCommand() {
         subCommands.put("addrider", new AddRider());
@@ -32,7 +31,6 @@ public class CoreCommand implements CommandExecutor {
             args = Arrays.copyOfRange(args, 1, args.length); // Remove the first argument.
         } else {
             // No command given - use default
-            // todo: remove hardcoding
             subCommandName = "help";
         }
 

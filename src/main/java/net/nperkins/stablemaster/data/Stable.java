@@ -10,7 +10,6 @@ import java.util.HashMap;
 public class Stable {
 
     private String owner;
-
     private HashMap<String, StabledHorse> horses;
 
     public Stable() {
@@ -56,6 +55,5 @@ public class Stable {
     public StabledHorse getHorse(String horseID) {
         return this.horses.get(horseID);
     }
-
 
 }

@@ -23,14 +23,12 @@ public class EntityDamageByEntityListener implements Listener {
         if (event.getDamager().getType() != EntityType.PLAYER)
             return;
 
-        final Player player = (Player) event.getDamager();
-        final Entity entity = event.getEntity();
-
         // Return if the punched entity is not a horse.
         if (event.getEntityType() != EntityType.HORSE)
             return;
 
-        final Horse horse = (Horse) entity;
+        final Player player = (Player) event.getDamager();
+        final Horse horse = (Horse) event.getEntity();
 
         // Horse has to be tamed to be owned
         if (!horse.isTamed()) {
@@ -52,7 +50,6 @@ public class EntityDamageByEntityListener implements Listener {
 
         // Get horse details
         final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
-
         // Check in case it's a pre-owned horse not known about
         if (!stable.hasHorse(horse)) {
             stable.addHorse(horse);

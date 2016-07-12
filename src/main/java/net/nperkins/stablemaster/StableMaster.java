@@ -24,14 +24,13 @@ import java.util.logging.Level;
 public class StableMaster extends JavaPlugin {
 
     public static List<Chunk> horseChunk = new ArrayList<>();
-
     public static ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
 
     private static Plugin plugin;
     private static Configuration configuration;
     private static File dataFolder;
     private static File pluginFolder;
-    private static HashMap<OfflinePlayer, Stable> stables = new HashMap<OfflinePlayer, Stable>();
+    private static HashMap<OfflinePlayer, Stable> stables = new HashMap<>();
 
     @Override
     public void onEnable() {

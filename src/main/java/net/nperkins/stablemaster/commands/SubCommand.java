@@ -21,7 +21,7 @@ public abstract class SubCommand {
         return consoleAllowed;
     }
 
-    public void setConsoleAllowed(boolean consoleAllowed) {
+    protected void setConsoleAllowed(boolean consoleAllowed) {
         this.consoleAllowed = consoleAllowed;
     }
 
@@ -29,7 +29,7 @@ public abstract class SubCommand {
         return minArgs;
     }
 
-    public void setMinArgs(int minArgs) {
+    protected void setMinArgs(int minArgs) {
         this.minArgs = minArgs;
     }
 
@@ -37,7 +37,7 @@ public abstract class SubCommand {
         return permission;
     }
 
-    public void setPermission(String permission) {
+    protected void setPermission(String permission) {
         this.permission = permission;
     }
 }

@@ -4,6 +4,7 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
@@ -23,7 +24,7 @@ public class Rename extends SubCommand {
     public void handle(CommandInfo commandInfo) {
 
         final Player player = (Player) commandInfo.getSender();
-        final String name = commandInfo.getArg(0);
+        final String name = StringUtils.join(commandInfo.getArgs(), " ");
 
         StableMaster.commandQueue.put(player, this);
         renameQueue.put(player, ChatColor.translateAlternateColorCodes('&', name));
