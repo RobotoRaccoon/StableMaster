@@ -22,17 +22,12 @@ public class Info extends SubCommand {
     }
 
     public void handle(CommandInfo commandInfo) {
-        final CommandSender sender = commandInfo.getSender();
+        final Player player = (Player) commandInfo.getSender();
 
-        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
-                    public void run() {
-                        if (!StableMaster.infoQueue.contains(sender)) {
-                            StableMaster.infoQueue.add((Player) sender);
-                        }
-                        StableMaster.langMessage(sender, "punch-horse");
-                    }
-                }
-        );
+        if (!StableMaster.infoQueue.contains(player)) {
+            StableMaster.infoQueue.add(player);
+        }
+        StableMaster.langMessage(player, "punch-horse");
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {

@@ -17,8 +17,8 @@ public class Help extends SubCommand {
     }
 
     public void handle(CommandInfo commandInfo) {
-
         CommandSender sender = commandInfo.getSender();
+
         StableMaster.langMessage(sender, "command.help.header");
         StableMaster.langMessage(sender, "command.help.about");
 

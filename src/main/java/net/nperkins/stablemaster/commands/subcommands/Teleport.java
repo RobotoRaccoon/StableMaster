@@ -19,34 +19,28 @@ public class Teleport extends SubCommand {
     }
 
     public void handle(CommandInfo commandInfo) {
-        final CommandSender sender = commandInfo.getSender();
-        final Player player = (Player) sender;
+        final Player player = (Player) commandInfo.getSender();
 
-        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
-                    public void run() {
-                        if (StableMaster.teleportQueue.containsKey(player) &&
-                                StableMaster.teleportQueue.get(player) instanceof Horse) {
+        if (StableMaster.teleportQueue.containsKey(player) &&
+                StableMaster.teleportQueue.get(player) instanceof Horse) {
 
-                            Horse horse = (Horse) StableMaster.teleportQueue.get(player);
+            Horse horse = (Horse) StableMaster.teleportQueue.get(player);
 
-                            // Horses duplicate with cross world teleports...
-                            if (horse.getLocation().getWorld() != (player).getLocation().getWorld()) {
-                                StableMaster.langMessage(sender, "command.teleport.cross-world");
-                                StableMaster.teleportQueue.remove(player);
-                                return;
-                            }
+            // Horses duplicate with cross world teleports...
+            if (horse.getLocation().getWorld() != (player).getLocation().getWorld()) {
+                StableMaster.langMessage(player, "command.teleport.cross-world");
+                StableMaster.teleportQueue.remove(player);
+                return;
+            }
 
-                            new TeleportEval(horse, sender).runTask(StableMaster.getPlugin());
-                            StableMaster.teleportQueue.remove(player);
+            new TeleportEval(horse, player).runTask(StableMaster.getPlugin());
+            StableMaster.teleportQueue.remove(player);
 
-                        } else {
+        } else {
 
-                            StableMaster.teleportQueue.put((Player) sender, true);
-                            StableMaster.langMessage(sender, "punch-horse");
-                        }
-                    }
-                }
-        );
+            StableMaster.teleportQueue.put(player, true);
+            StableMaster.langMessage(player, "punch-horse");
+        }
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {
@@ -74,21 +68,21 @@ public class Teleport extends SubCommand {
 class TeleportEval extends BukkitRunnable {
 
     private Horse horse;
-    private CommandSender sender;
+    private Player player;
 
-    public TeleportEval(Horse horse, CommandSender sender){
+    public TeleportEval(Horse horse, Player player){
         this.horse = horse;
-        this.sender = sender;
+        this.player = player;
     }
 
     public void run() {
         if (chunkIsLoaded()) {
             StableMaster.horseChunk.remove(horse.getLocation().getChunk());
-            StableMaster.langMessage(sender, "command.teleport.teleporting");
-            horse.teleport(((Player) sender), PlayerTeleportEvent.TeleportCause.PLUGIN);
-            StableMaster.teleportQueue.remove(sender);
+            StableMaster.langMessage(player, "command.teleport.teleporting");
+            horse.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            StableMaster.teleportQueue.remove(player);
         } else {
-            StableMaster.langMessage(sender, "command.teleport.failed");
+            StableMaster.langMessage(player, "command.teleport.failed");
         }
     }
 

@@ -16,16 +16,12 @@ public class Rename extends SubCommand {
     }
 
     public void handle(CommandInfo commandInfo) {
-        final CommandSender sender = commandInfo.getSender();
+
+        final Player player = (Player) commandInfo.getSender();
         final String name = commandInfo.getArg(0);
 
-        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
-                    public void run() {
-                        StableMaster.renameQueue.put((Player) sender, ChatColor.translateAlternateColorCodes('&', name));
-                        StableMaster.langMessage(sender, "punch-horse");
-                    }
-                }
-        );
+        StableMaster.renameQueue.put(player, ChatColor.translateAlternateColorCodes('&', name));
+        StableMaster.langMessage(player, "punch-horse");
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {

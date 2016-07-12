@@ -17,21 +17,16 @@ public class Give extends SubCommand {
     }
 
     public void handle(CommandInfo commandInfo) {
-        final CommandSender sender = commandInfo.getSender();
+        final Player player = (Player) commandInfo.getSender();
         final String ownerName = commandInfo.getArg(0);
 
-        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
-                    public void run() {
-                        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
-                        if (rider != null && rider.hasPlayedBefore()) {
-                            StableMaster.giveQueue.put((Player) sender, rider);
-                            StableMaster.langMessage(sender, "punch-horse");
-                        } else {
-                            StableMaster.langMessage(sender, "error.player-not-found");
-                        }
-                    }
-                }
-        );
+        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
+        if (rider != null && rider.hasPlayedBefore()) {
+            StableMaster.giveQueue.put(player, rider);
+            StableMaster.langMessage(player, "punch-horse");
+        } else {
+            StableMaster.langMessage(player, "error.player-not-found");
+        }
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {

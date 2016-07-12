@@ -1,6 +1,7 @@
 package net.nperkins.stablemaster;
 
 import net.nperkins.stablemaster.commands.CoreCommand;
+import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import net.nperkins.stablemaster.listeners.*;
@@ -24,12 +25,12 @@ public class StableMaster extends JavaPlugin {
 
     public static List<Chunk> horseChunk = new ArrayList<>();
 
-    public static ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
-    public static ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
-    public static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<Player, OfflinePlayer>();
-    public static ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<Player, String>();
-    public static ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<Player, Object>();
-    public static ArrayList<Player> infoQueue = new ArrayList<Player>();
+    public static ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
+    public static ArrayList<Player> infoQueue = new ArrayList<>();
 
     private static Plugin plugin;
     private static Configuration configuration;

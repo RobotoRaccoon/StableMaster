@@ -25,14 +25,8 @@ public class CoreCommand implements CommandExecutor {
         subCommands.put("teleport", new Teleport());
     }
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Player player = null;
-
-        if (sender instanceof Player) {
-            player = (Player) sender;
-        }
-
-        String subCommandName = null;
+    public boolean onCommand(final CommandSender sender, Command cmd, String label, String[] args) {
+        String subCommandName;
         if (args.length > 0) {
             subCommandName = args[0].toLowerCase();
             args = Arrays.copyOfRange(args, 1, args.length); // Remove the first argument.
@@ -40,10 +34,9 @@ public class CoreCommand implements CommandExecutor {
             // No command given - use default
             // todo: remove hardcoding
             subCommandName = "help";
-
         }
 
-        SubCommand subCommand = subCommands.get(subCommandName);
+        final SubCommand subCommand = subCommands.get(subCommandName);
 
         // Improper command specified.
         if (subCommand == null) {
@@ -52,7 +45,7 @@ public class CoreCommand implements CommandExecutor {
         }
 
         // Sender is console and command does not allow console access.
-        if (player == null && !subCommand.isConsoleAllowed()) {
+        if (!(sender instanceof Player) && !subCommand.isConsoleAllowed()) {
             StableMaster.langMessage(sender, "error.no-console");
             return true;
         }
@@ -71,8 +64,14 @@ public class CoreCommand implements CommandExecutor {
         }
 
         // Run the command.
-        final CommandInfo commandinfo = new CommandInfo(sender, args);
-        subCommand.handle(commandinfo);
+        final String[] finalArgs = args;
+        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
+                    public void run() {
+                        final CommandInfo commandinfo = new CommandInfo(sender, finalArgs);
+                        subCommand.handle(commandinfo);
+                    }
+                }
+        );
         return true;
     }
 }
