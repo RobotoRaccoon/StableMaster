@@ -10,6 +10,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,14 +20,19 @@ public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        // Return if the entity punching is not a player.
-        if (event.getDamager().getType() != EntityType.PLAYER)
-            return;
-
-        // Return if the punched entity is not a horse.
+        // Return if the damaged entity is not a horse.
         if (event.getEntityType() != EntityType.HORSE)
             return;
 
+        // Handle if a player is punching the horse.
+        if (event.getDamager().getType() == EntityType.PLAYER)
+            playerDamageHorse(event);
+
+        if (event.getDamager().getType() == EntityType.ARROW)
+            arrowDamageHorse(event);
+    }
+
+    private void playerDamageHorse(EntityDamageByEntityEvent event) {
         final Player player = (Player) event.getDamager();
         final Horse horse = (Horse) event.getEntity();
 
@@ -55,7 +61,7 @@ public class EntityDamageByEntityListener implements Listener {
             stable.addHorse(horse);
         }
 
-
+        // Either run a command, or handle as if a player is trying to hurt the horse.
         if (StableMaster.commandQueue.containsKey(player)) {
             // Handle appropriate command
             StableMaster.commandQueue.get(player).handleInteract(stable, player, horse);
@@ -63,6 +69,24 @@ public class EntityDamageByEntityListener implements Listener {
         }
         else {
             // If we get here, the horse isn't involved in a command
+            StableMaster.langMessage(player, "error.protected");
+        }
+    }
+
+    private void arrowDamageHorse(EntityDamageByEntityEvent event) {
+        final ProjectileSource source = ((Arrow) event.getDamager()).getShooter();
+
+        if (!(source instanceof Player))
+            return;
+
+        final Player player = (Player) source;
+        final Horse horse = (Horse) event.getEntity();
+
+        if (!horse.isTamed() || horse.getOwner() == null)
+            return;
+
+        if (player != horse.getOwner()) {
+            event.setCancelled(true);
             StableMaster.langMessage(player, "error.protected");
         }
     }
