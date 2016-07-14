@@ -1,4 +1,8 @@
 protection:
+  ## If player has the stablemaster.bypass permission
+  ## - true: use owner permission
+  ## - false: use player permission
+  bypass-as-owner: true
   ## Protection if the owner hurts the horse
   owner-melee: true
   owner-ranged: false

@@ -4,6 +4,7 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -87,10 +88,12 @@ public class EntityDamageByEntityListener implements Listener {
     }
 
     private boolean canPlayerHurt(Horse horse, Player harmer, Boolean isMelee) {
-        String path = "protection.";
-        path += (harmer == horse.getOwner()) ? "owner-" : "player-";
+        ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
+        Boolean bypassAsOwner = (harmer.hasPermission("stablemaster.bypass") && config.getBoolean("bypass-as-owner"));
+
+        String path = (harmer == horse.getOwner() || bypassAsOwner) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
 
-        return !StableMaster.getPlugin().getConfig().getBoolean(path);
+        return !config.getBoolean(path);
     }
 }
