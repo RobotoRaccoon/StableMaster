@@ -8,11 +8,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class CoreCommand implements CommandExecutor {
 
-    public static final ConcurrentHashMap<String, SubCommand> subCommands = new ConcurrentHashMap<>();
+    public static final HashMap<String, SubCommand> subCommands = new LinkedHashMap<>();
 
     public CoreCommand() {
         subCommands.put("addrider", new AddRider());

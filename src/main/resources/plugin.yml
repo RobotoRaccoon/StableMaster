@@ -31,6 +31,9 @@ permissions:
   stablemaster.rename:
     description: Allows user to rename a horse
     default: op
+  stablemaster.rename.colors:
+    description: Allows colors in horses names
+    default: op
   stablemaster.teleport:
     description: Allows user to teleport their horse
     default: op

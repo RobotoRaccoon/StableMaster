@@ -24,10 +24,13 @@ public class Rename extends SubCommand {
     public void handle(CommandInfo commandInfo) {
 
         final Player player = (Player) commandInfo.getSender();
-        final String name = StringUtils.join(commandInfo.getArgs(), " ");
+        String name = StringUtils.join(commandInfo.getArgs(), " ");
 
+        if (player.hasPermission("stablemaster.rename.colors"))
+            name = ChatColor.translateAlternateColorCodes('&', name);
+
+        renameQueue.put(player, name);
         StableMaster.commandQueue.put(player, this);
-        renameQueue.put(player, ChatColor.translateAlternateColorCodes('&', name));
         StableMaster.langMessage(player, "punch-horse");
     }
 
