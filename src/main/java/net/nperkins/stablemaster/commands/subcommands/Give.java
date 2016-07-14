@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Give extends SubCommand {
 
-    private static ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();
 
     public Give() {
         setMinArgs(1);

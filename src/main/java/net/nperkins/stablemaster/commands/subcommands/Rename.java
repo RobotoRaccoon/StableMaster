@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Rename extends SubCommand {
 
-    private static ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<>();
 
     public Rename() {
         setMinArgs(1);

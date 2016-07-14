@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AddRider extends SubCommand {
 
-    private static ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<>();
 
     public AddRider() {
         setMinArgs(1);

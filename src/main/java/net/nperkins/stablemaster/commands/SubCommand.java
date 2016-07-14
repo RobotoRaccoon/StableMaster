@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 
 public abstract class SubCommand {
 
-    protected boolean consoleAllowed = false;
-    protected int minArgs = 0;
-    protected String permission = "";
+    private boolean consoleAllowed = false;
+    private int minArgs = 0;
+    private String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
     public abstract void handleInteract(Stable stable, Player player, Horse horse);

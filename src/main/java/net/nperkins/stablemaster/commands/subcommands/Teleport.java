@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Teleport extends SubCommand {
 
-    private static ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
 
     public Teleport() {
         setPermission("stablemaster.teleport");

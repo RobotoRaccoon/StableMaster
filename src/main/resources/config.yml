@@ -1,0 +1,7 @@
+protection:
+  ## Protection if the owner hurts the horse
+  owner-melee: true
+  owner-ranged: false
+  ## Protection if another player hurts the horse
+  player-melee: true
+  player-ranged: true

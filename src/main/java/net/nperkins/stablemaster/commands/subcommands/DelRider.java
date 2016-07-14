@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DelRider extends SubCommand {
 
-    private static ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();
 
     public DelRider() {
         setMinArgs(1);

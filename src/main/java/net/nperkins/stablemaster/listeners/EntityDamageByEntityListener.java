@@ -1,20 +1,14 @@
 package net.nperkins.stablemaster.listeners;
 
-import com.google.common.base.Joiner;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.data.Stable;
-import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.projectiles.ProjectileSource;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.UUID;
 
 public class EntityDamageByEntityListener implements Listener {
 
@@ -25,11 +19,11 @@ public class EntityDamageByEntityListener implements Listener {
             return;
 
         // Handle if a player is punching the horse.
-        if (event.getDamager().getType() == EntityType.PLAYER)
+        if (event.getDamager() instanceof Player)
             playerDamageHorse(event);
 
-        if (event.getDamager().getType() == EntityType.ARROW)
-            arrowDamageHorse(event);
+        if (event.getDamager() instanceof Projectile)
+            projectileDamageHorse(event);
     }
 
     private void playerDamageHorse(EntityDamageByEntityEvent event) {
@@ -51,9 +45,6 @@ public class EntityDamageByEntityListener implements Listener {
         if (horse.getOwner() == null)
             return;
 
-        // Regardless, we want to cancel this event now
-        event.setCancelled(true);
-
         // Get horse details
         final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
         // Check in case it's a pre-owned horse not known about
@@ -66,28 +57,40 @@ public class EntityDamageByEntityListener implements Listener {
             // Handle appropriate command
             StableMaster.commandQueue.get(player).handleInteract(stable, player, horse);
             StableMaster.commandQueue.remove(player);
+            event.setCancelled(true);
         }
-        else {
-            // If we get here, the horse isn't involved in a command
+        else if (!canPlayerHurt(horse, player, true)) {
+            // If we get here, the horse was protected and not involved in a command.
+            event.setCancelled(true);
             StableMaster.langMessage(player, "error.protected");
         }
     }
 
-    private void arrowDamageHorse(EntityDamageByEntityEvent event) {
-        final ProjectileSource source = ((Arrow) event.getDamager()).getShooter();
+    private void projectileDamageHorse(EntityDamageByEntityEvent event) {
+        final ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
 
-        if (!(source instanceof Player))
+        // Ignore cancelled events, and only player shooters
+        if (event.isCancelled() || !(source instanceof Player))
             return;
 
         final Player player = (Player) source;
         final Horse horse = (Horse) event.getEntity();
 
+        // If the horse has no owner, no need to protect it
         if (!horse.isTamed() || horse.getOwner() == null)
             return;
 
-        if (player != horse.getOwner()) {
+        if (!canPlayerHurt(horse, player, false)) {
             event.setCancelled(true);
             StableMaster.langMessage(player, "error.protected");
         }
+    }
+
+    private boolean canPlayerHurt(Horse horse, Player harmer, Boolean isMelee) {
+        String path = "protection.";
+        path += (harmer == horse.getOwner()) ? "owner-" : "player-";
+        path += (isMelee) ? "melee" : "ranged";
+
+        return !StableMaster.getPlugin().getConfig().getBoolean(path);
     }
 }

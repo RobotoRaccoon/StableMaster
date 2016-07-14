@@ -7,24 +7,24 @@ import java.io.File;
 
 public class Configuration {
 
-    //private File configFile;
-    //private FileConfiguration config;
+    private File configFile;
+    private FileConfiguration config;
 
     private File langFile;
     private FileConfiguration lang;
 
     public Configuration() {
 
-        //configFile = new File(plugin.getDataFolder(), "config.yml");
-        //config = YamlConfiguration.loadConfiguration(configFile);
+        configFile = new File(StableMaster.getPlugin().getDataFolder(), "config.yml");
+        config = YamlConfiguration.loadConfiguration(configFile);
 
         langFile = new File(StableMaster.getPlugin().getDataFolder(), "lang.yml");
         lang = YamlConfiguration.loadConfiguration(langFile);
     }
 
     public void createAllFiles() {
-        //if (!configFile.exists())
-        //    plugin.saveResource("config.yml", true);
+        if (!configFile.exists())
+            StableMaster.getPlugin().saveResource("config.yml", true);
 
         if (!langFile.exists())
             StableMaster.getPlugin().saveResource("lang.yml", true);
@@ -34,8 +34,8 @@ public class Configuration {
 
     public boolean loadConfigs() {
         try {
-            //config = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "config.yml"));
-            lang = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "lang.yml"));
+            config = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "config.yml"));
+            lang   = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "lang.yml"));
             StableMaster.getPlugin().reloadConfig();
             return true;
 
@@ -47,7 +47,7 @@ public class Configuration {
 
     public boolean saveConfigs() {
         try {
-            //config.save(configFile);
+            config.save(configFile);
             lang.save(langFile);
             return true;
 
@@ -57,9 +57,9 @@ public class Configuration {
         }
     }
 
-    //public FileConfiguration getConfig() {
-    //    return config;
-    //}
+    public FileConfiguration getConfig() {
+        return config;
+    }
 
     public FileConfiguration getLang() {
         return lang;
