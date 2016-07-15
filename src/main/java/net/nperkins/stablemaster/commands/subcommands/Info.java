@@ -8,6 +8,7 @@ import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
@@ -47,12 +48,32 @@ public class Info extends SubCommand {
                 horse.getColor() + ", " + horse.getStyle() :
                 horse.getVariant().toString();
 
+        // Get permission level of user to compare with those in the config.
+        ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
+        Integer permissionLevel;
+        if (player == horse.getOwner())
+            permissionLevel = 1;
+        else if (riderNames.contains(player.getName()))
+            permissionLevel = 2;
+        else
+            permissionLevel = 3;
+
+        // Get the min level for players with the bypass permission.
+        if (player.hasPermission("stablemaster.bypass") && config.getInt("bypass-as-level") < permissionLevel)
+            permissionLevel = config.getInt("bypass-as-level");
+
         // Print the info
         StableMaster.langMessage(player, "command.info.header");
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.owner"), horse.getOwner().getName()));
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), horse.getJumpStrength()));
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
+        if (config.getInt("owner") >= permissionLevel)
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.owner"), horse.getOwner().getName()));
+        if (config.getInt("permitted-riders") >= permissionLevel)
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
+        if (config.getInt("jump-strength") >= permissionLevel)
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), horse.getJumpStrength()));
+        if (config.getInt("max-health") >= permissionLevel)
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.max-health"), horse.getMaxHealth()));
+        if (config.getInt("variant") >= permissionLevel)
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
     }
 
     public String getDescription() {

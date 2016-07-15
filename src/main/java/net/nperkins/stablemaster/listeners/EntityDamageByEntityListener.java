@@ -33,11 +33,10 @@ public class EntityDamageByEntityListener implements Listener {
 
         // Horse has to be tamed to be owned
         if (!horse.isTamed()) {
-            if (StableMaster.commandQueue.get(player) == CoreCommand.subCommands.get("info")) {
-                StableMaster.langMessage(player, "command.info.header");
+            if (StableMaster.commandQueue.containsKey(player)) {
+                event.setCancelled(true);
                 StableMaster.langMessage(player, "not-tamed");
                 StableMaster.commandQueue.remove(player);
-                event.setCancelled(true);
             }
             return;
         }
@@ -56,9 +55,9 @@ public class EntityDamageByEntityListener implements Listener {
         // Either run a command, or handle as if a player is trying to hurt the horse.
         if (StableMaster.commandQueue.containsKey(player)) {
             // Handle appropriate command
+            event.setCancelled(true);
             StableMaster.commandQueue.get(player).handleInteract(stable, player, horse);
             StableMaster.commandQueue.remove(player);
-            event.setCancelled(true);
         }
         else if (!canPlayerHurt(horse, player, true)) {
             // If we get here, the horse was protected and not involved in a command.

@@ -1,3 +1,18 @@
+command:
+  info:
+    ## Allow certain information to only appear to certain people
+    ## - 0: No one can see
+    ## - 1: Only owner can see
+    ## - 2: Only riders/owner can see
+    ## - 3: Everyone can see
+    owner: 3
+    permitted-riders: 3
+    jump-strength: 2
+    max-health: 2
+    variant: 3
+    ## What is the lowest level people with the bypass permission should see. (Works inversely to the above)
+    ## 0 to see everthing, 1 to see what an owner would see, etc. (If player is already at 1, bypass as 2 would do nothing)
+    bypass-as-level: 0
 protection:
   ## If player has the stablemaster.bypass permission
   ## - true: use owner permission

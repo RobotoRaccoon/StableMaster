@@ -37,6 +37,7 @@ command:
     owner: '&6Owner&f: &e%s'
     permitted-riders: '&6Permitted Riders&f: &e%s'
     jump-strength: '&6Jump Strength&f: &e%.2f'
+    max-health: '&6Max Health&f: &e%.2f'
     variant: '&6Variant&f: &e%s'
   rename:
     description: 'Rename your horse. Colour codes allowed'
