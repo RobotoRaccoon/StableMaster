@@ -48,7 +48,7 @@ public class Teleport extends SubCommand {
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.teleport")) {
             StableMaster.langMessage(player, "error.not-owner");
             teleportQueue.remove(player);
             return;

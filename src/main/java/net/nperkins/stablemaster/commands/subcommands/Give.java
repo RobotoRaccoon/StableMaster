@@ -38,7 +38,7 @@ public class Give extends SubCommand {
         OfflinePlayer newOwner = giveQueue.get(player);
         giveQueue.remove(player);
 
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.give")) {
             StableMaster.langMessage(player, "error.not-owner");
             return;
         }

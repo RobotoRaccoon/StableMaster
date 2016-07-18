@@ -26,20 +26,23 @@ public class PlayerInteractEntityListener implements Listener {
 
         final Player player = event.getPlayer();
         final Horse horse = (Horse) entity;
-        if (horse.isTamed()) {
-            if (player != horse.getOwner() && horse.getOwner() != null && !player.hasPermission("stablemaster.bypass")) {
 
-                Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
-                if (!stable.hasHorse(horse)) {
-                    stable.addHorse(horse);
-                }
+        if (!horse.isTamed() || horse.getOwner() == null)
+            return; // Horse must be tamed and have an owner to deny riders.
 
-                StabledHorse stabledHorse = stable.getHorse(horse);
-                if (!stabledHorse.isRider(player)) {
-                    StableMaster.langMessage(player, "error.not-rider");
-                    event.setCancelled(true);
-                }
+        // Get horse details
+        final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
+        // Check in case it's a pre-owned horse not known about
+        if (!stable.hasHorse(horse)) {
+            stable.addHorse(horse);
+        }
 
+        // Cancel event if player is not allowed to ride the horse
+        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.ride")) {
+            StabledHorse stabledHorse = stable.getHorse(horse);
+            if (!stabledHorse.isRider(player)) {
+                StableMaster.langMessage(player, "error.not-rider");
+                event.setCancelled(true);
             }
         }
     }

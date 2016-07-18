@@ -40,3 +40,11 @@ permissions:
   stablemaster.bypass:
     description: Allows user to interact with all horses
     default: op
+    children:
+      stablemaster.bypass.ride: true #Ride any horse
+      stablemaster.bypass.addrider: true #Bypass for each command
+      stablemaster.bypass.delrider: true
+      stablemaster.bypass.give: true
+      stablemaster.bypass.info: true
+      stablemaster.bypass.rename: true
+      stablemaster.bypass.teleport: true

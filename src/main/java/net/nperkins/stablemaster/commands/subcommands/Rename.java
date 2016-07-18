@@ -38,15 +38,14 @@ public class Rename extends SubCommand {
         String name = renameQueue.get(player);
         renameQueue.remove(player);
 
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass")) {
+        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.rename")) {
             StableMaster.langMessage(player, "error.not-owner");
             return;
         }
 
         horse.setCustomName(name);
         horse.setCustomNameVisible(true);
-        StableMaster.rawMessage(player, String.format(
-                StableMaster.getLang("command.rename.renamed"), name));
+        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.rename.renamed"), name));
     }
 
     public String getDescription() {
