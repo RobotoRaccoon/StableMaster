@@ -6,7 +6,6 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
@@ -18,6 +17,7 @@ public class AddRider extends SubCommand {
 
     public AddRider() {
         setMinArgs(1);
+        setName("addrider");
         setPermission("stablemaster.addrider");
     }
 
@@ -45,20 +45,12 @@ public class AddRider extends SubCommand {
         }
         else if (stabledHorse.isRider(rider)) {
             StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.add-rider.is-rider"), rider.getName()));
+                    StableMaster.getLang("command.addrider.is-rider"), rider.getName()));
         }
         else {
             stabledHorse.addRider(rider);
             StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.add-rider.added"), rider.getName()));
+                    StableMaster.getLang("command.addrider.added"), rider.getName()));
         }
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.add-rider.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.add-rider.usage");
     }
 }

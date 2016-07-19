@@ -13,6 +13,7 @@ public class Help extends SubCommand {
 
     public Help() {
         setConsoleAllowed(true);
+        setName("help");
         setPermission("stablemaster.help");
     }
 
@@ -33,13 +34,5 @@ public class Help extends SubCommand {
 
     public void handleInteract(Stable stable, Player player, Horse horse) {
         // Nothing
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.help.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.help.usage");
     }
 }

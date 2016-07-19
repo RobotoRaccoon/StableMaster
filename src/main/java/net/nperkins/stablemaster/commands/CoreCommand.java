@@ -16,13 +16,17 @@ public class CoreCommand implements CommandExecutor {
     public static final HashMap<String, SubCommand> subCommands = new LinkedHashMap<>();
 
     public CoreCommand() {
-        subCommands.put("addrider", new AddRider());
-        subCommands.put("delrider", new DelRider());
-        subCommands.put("give",     new Give());
-        subCommands.put("help",     new Help());
-        subCommands.put("info",     new Info());
-        subCommands.put("rename",   new Rename());
-        subCommands.put("teleport", new Teleport());
+        addCommand(new AddRider());
+        addCommand(new DelRider());
+        addCommand(new Give());
+        addCommand(new Help());
+        addCommand(new Info());
+        addCommand(new Rename());
+        addCommand(new Teleport());
+    }
+
+    private void addCommand(SubCommand cmd) {
+        subCommands.put(cmd.getName(), cmd);
     }
 
     public boolean onCommand(final CommandSender sender, Command cmd, String label, String[] args) {

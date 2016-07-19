@@ -18,6 +18,7 @@ public class Rename extends SubCommand {
 
     public Rename() {
         setMinArgs(1);
+        setName("rename");
         setPermission("stablemaster.rename");
     }
 
@@ -46,13 +47,5 @@ public class Rename extends SubCommand {
         horse.setCustomName(name);
         horse.setCustomNameVisible(true);
         StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.rename.renamed"), name));
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.rename.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.rename.usage");
     }
 }

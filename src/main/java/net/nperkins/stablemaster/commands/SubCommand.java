@@ -1,7 +1,6 @@
 package net.nperkins.stablemaster.commands;
 
 import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -10,12 +9,19 @@ public abstract class SubCommand {
 
     private boolean consoleAllowed = false;
     private int minArgs = 0;
+    private String name = "";
     private String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
     public abstract void handleInteract(Stable stable, Player player, Horse horse);
-    public abstract String getDescription();
-    public abstract String getUsage();
+
+    public String getDescription() {
+        return StableMaster.getLang("command." + getName() + ".description");
+    }
+
+    public String getUsage() {
+        return StableMaster.getLang("command." + getName() + ".usage");
+    }
 
     public boolean isConsoleAllowed() {
         return consoleAllowed;
@@ -31,6 +37,14 @@ public abstract class SubCommand {
 
     protected void setMinArgs(int minArgs) {
         this.minArgs = minArgs;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    protected void setName(String name) {
+        this.name = name;
     }
 
     public String getPermission() {

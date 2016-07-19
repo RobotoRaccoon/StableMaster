@@ -9,12 +9,12 @@ error:
   protected: '&cSorry, this horse is protected!'
   player-not-found: '&cWe couldn''t find that player.'
 command:
-  add-rider:
+  addrider:
     description: 'Allow players to ride your horse'
     usage: 'addrider <player>'
     added: '&e%s &7can now ride this horse'
     is-rider: '&e%s &7is already a rider'
-  del-rider:
+  delrider:
     description: 'Stop players from riding your horse'
     usage: 'delrider <player>'
     not-rider: '&e%s &7is not a rider'

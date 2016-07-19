@@ -17,6 +17,7 @@ public class Give extends SubCommand {
 
     public Give() {
         setMinArgs(1);
+        setName("give");
         setPermission("stablemaster.give");
     }
 
@@ -24,10 +25,10 @@ public class Give extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
         final String ownerName = commandInfo.getArg(0);
 
-        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
-        if (rider != null && rider.hasPlayedBefore()) {
+        OfflinePlayer newOwner = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
+        if (newOwner != null && newOwner.hasPlayedBefore()) {
             StableMaster.commandQueue.put(player, this);
-            giveQueue.put(player, rider);
+            giveQueue.put(player, newOwner);
             StableMaster.langMessage(player, "punch-horse");
         } else {
             StableMaster.langMessage(player, "error.player-not-found");
@@ -51,13 +52,5 @@ public class Give extends SubCommand {
 
         StableMaster.rawMessage(player, String.format(
                 StableMaster.getLang("command.give.given"), newOwner.getName()));
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.give.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.give.usage");
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 public class Info extends SubCommand {
 
     public Info() {
+        setName("info");
         setPermission("stablemaster.info");
     }
 
@@ -75,13 +76,5 @@ public class Info extends SubCommand {
                     horse.getVariant().toString();
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
         }
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.info.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.info.usage");
     }
 }

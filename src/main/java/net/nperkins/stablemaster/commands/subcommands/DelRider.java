@@ -6,7 +6,6 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
@@ -18,6 +17,7 @@ public class DelRider extends SubCommand {
 
     public DelRider() {
         setMinArgs(1);
+        setName("delrider");
         setPermission("stablemaster.delrider");
     }
 
@@ -45,20 +45,12 @@ public class DelRider extends SubCommand {
         }
         else if (!stabledHorse.isRider(rider)) {
             StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.del-rider.not-rider"), rider.getName()));
+                    StableMaster.getLang("command.delrider.not-rider"), rider.getName()));
         }
         else {
             stabledHorse.delRider(rider);
             StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.del-rider.removed"), rider.getName()));
+                    StableMaster.getLang("command.delrider.removed"), rider.getName()));
         }
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.del-rider.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.del-rider.usage");
     }
 }

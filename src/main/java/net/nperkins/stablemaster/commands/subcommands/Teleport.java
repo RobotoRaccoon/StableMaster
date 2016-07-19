@@ -19,6 +19,7 @@ public class Teleport extends SubCommand {
     private ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
 
     public Teleport() {
+        setName("teleport");
         setPermission("stablemaster.teleport");
     }
 
@@ -59,14 +60,6 @@ public class Teleport extends SubCommand {
         StableMaster.horseChunk.add(horse.getLocation().getChunk());
         StableMaster.commandQueue.put(player, this);
         teleportQueue.put(player, horse);
-    }
-
-    public String getDescription() {
-        return StableMaster.getLang("command.teleport.description");
-    }
-
-    public String getUsage() {
-        return StableMaster.getLang("command.teleport.usage");
     }
 }
 
