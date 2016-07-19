@@ -6,15 +6,10 @@ import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.UUID;
+import java.util.List;
 
 public class Info extends SubCommand {
 
@@ -30,23 +25,8 @@ public class Info extends SubCommand {
     }
 
     public void handleInteract(Stable stable, Player player, Horse horse) {
-        StabledHorse stabledHorse = stable.getHorse(horse);
-        ArrayList<String> riderNames = new ArrayList<String>();
-        Iterator it = stabledHorse.getRiders().iterator();
-        while (it.hasNext()) {
-            OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString((String) it.next()));
-            if (rider.getName() == null) {
-                //todo: some sort of lookup
-                riderNames.add(rider.getUniqueId().toString());
-            } else {
-                riderNames.add(rider.getName());
-            }
-        }
-
-        String permitted = stabledHorse.getRiders().isEmpty() ? "None" : Joiner.on(", ").join(riderNames);
-        String variant = (horse.getVariant() == Horse.Variant.HORSE) ?
-                horse.getColor() + ", " + horse.getStyle() :
-                horse.getVariant().toString();
+        final StabledHorse stabledHorse = stable.getHorse(horse);
+        final List<String> riderNames = stabledHorse.getRiderNames();
 
         // Get permission level of user to compare with those in the config.
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
@@ -64,16 +44,37 @@ public class Info extends SubCommand {
 
         // Print the info
         StableMaster.langMessage(player, "command.info.header");
-        if (config.getInt("owner") >= permissionLevel)
+
+        // Owner of the horse
+        if (config.getInt("owner") >= permissionLevel) {
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.owner"), horse.getOwner().getName()));
-        if (config.getInt("permitted-riders") >= permissionLevel)
+        }
+
+        // Players allowed to ride the horse
+        if (config.getInt("permitted-riders") >= permissionLevel) {
+            String permitted = stabledHorse.getRiders().isEmpty() ? "None" : Joiner.on(", ").join(riderNames);
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
-        if (config.getInt("jump-strength") >= permissionLevel)
+        }
+
+        // Jump strength
+        if (config.getInt("jump-strength") >= permissionLevel) {
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), horse.getJumpStrength()));
-        if (config.getInt("max-health") >= permissionLevel)
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.max-health"), horse.getMaxHealth()));
-        if (config.getInt("variant") >= permissionLevel)
+        }
+
+        // Current and maximum health
+        if (config.getInt("health") >= permissionLevel) {
+            Double hearts = horse.getHealth() / 2;
+            Double maxHearts = horse.getMaxHealth() / 2;
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.health"), hearts, maxHearts));
+        }
+
+        // What type of horse it is
+        if (config.getInt("variant") >= permissionLevel) {
+            String variant = (horse.getVariant() == Horse.Variant.HORSE) ?
+                    horse.getColor() + ", " + horse.getStyle() :
+                    horse.getVariant().toString();
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
+        }
     }
 
     public String getDescription() {

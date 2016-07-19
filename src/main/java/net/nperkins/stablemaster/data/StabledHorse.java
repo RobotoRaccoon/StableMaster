@@ -1,9 +1,12 @@
 package net.nperkins.stablemaster.data;
 
+import net.nperkins.stablemaster.StableMaster;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Horse;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class StabledHorse {
 
@@ -30,6 +33,21 @@ public class StabledHorse {
 
     public List<String> getRiders() {
         return riders;
+    }
+
+    public List<String> getRiderNames() {
+        ArrayList<String> riderNames = new ArrayList<>();
+        Iterator it = getRiders().iterator();
+        while (it.hasNext()) {
+            OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString((String) it.next()));
+            if (rider.getName() == null) {
+                //todo: some sort of lookup
+                riderNames.add(rider.getUniqueId().toString());
+            } else {
+                riderNames.add(rider.getName());
+            }
+        }
+        return riderNames;
     }
 
     public void setRiders(List<String> riders) {
