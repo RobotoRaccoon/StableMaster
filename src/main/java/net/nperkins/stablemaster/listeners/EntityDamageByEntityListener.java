@@ -31,8 +31,8 @@ public class EntityDamageByEntityListener implements Listener {
         final Player player = (Player) event.getDamager();
         final Horse horse = (Horse) event.getEntity();
 
-        // Horse has to be tamed to be owned
-        if (!horse.isTamed()) {
+        // Horse has to be tamed to be owned. Owner is null when owned by non-players.
+        if (!horse.isTamed() || horse.getOwner() == null) {
             if (StableMaster.commandQueue.containsKey(player)) {
                 event.setCancelled(true);
                 StableMaster.langMessage(player, "not-tamed");
@@ -40,10 +40,6 @@ public class EntityDamageByEntityListener implements Listener {
             }
             return;
         }
-
-        // Added when horses could be ridden by skeletons. Horse is tamed, owner is null.
-        if (horse.getOwner() == null)
-            return;
 
         // Get horse details
         final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
