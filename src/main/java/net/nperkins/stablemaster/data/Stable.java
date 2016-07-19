@@ -1,11 +1,8 @@
 package net.nperkins.stablemaster.data;
 
-
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Horse;
-
 import java.util.HashMap;
-
 
 public class Stable {
 
@@ -14,12 +11,12 @@ public class Stable {
 
     public Stable() {
         this.owner = null;
-        horses = new HashMap<String, StabledHorse>();
+        horses = new HashMap<>();
     }
 
     public Stable(OfflinePlayer pr) {
         this.owner = pr.getUniqueId().toString();
-        horses = new HashMap<String, StabledHorse>();
+        horses = new HashMap<>();
     }
 
     public String getOwner() {
@@ -39,21 +36,23 @@ public class Stable {
     }
 
     public void addHorse(Horse horse) {
-        this.horses.put(horse.getUniqueId().toString(), new StabledHorse(horse));
+        horses.put(horse.getUniqueId().toString(), new StabledHorse(horse));
     }
 
-    public void removeHorse(Horse horse) { this.horses.remove(horse.getUniqueId().toString()); }
+    public void removeHorse(Horse horse) {
+        horses.remove(horse.getUniqueId().toString());
+    }
 
     public boolean hasHorse(Horse horse) {
-        return this.horses.containsKey(horse.getUniqueId().toString());
+        return horses.containsKey(horse.getUniqueId().toString());
     }
 
     public StabledHorse getHorse(Horse horse) {
-        return this.horses.get(horse.getUniqueId().toString());
+        return horses.get(horse.getUniqueId().toString());
     }
 
     public StabledHorse getHorse(String horseID) {
-        return this.horses.get(horseID);
+        return horses.get(horseID);
     }
 
 }

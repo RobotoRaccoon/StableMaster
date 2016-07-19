@@ -27,8 +27,12 @@ public class PlayerInteractEntityListener implements Listener {
         final Player player = event.getPlayer();
         final Horse horse = (Horse) entity;
 
-        if (!horse.isTamed() || horse.getOwner() == null)
-            return; // Horse must be tamed and have an owner to deny riders.
+        if (!horse.isTamed())
+            return; // Horse must be tamed to deny riders.
+
+        // Fix if the horse is tamed but has no owner.
+        if (horse.getOwner() == null)
+            horse.setOwner(player);
 
         // Get horse details
         final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());

@@ -2,7 +2,6 @@ package net.nperkins.stablemaster.data;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Horse;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +12,12 @@ public class StabledHorse {
 
     public StabledHorse() {
         uniqueID = null;
-        riders = new ArrayList<String>();
+        riders = new ArrayList<>();
     }
 
     public StabledHorse(Horse h) {
         uniqueID = h.getUniqueId().toString();
-        riders = new ArrayList<String>();
+        riders = new ArrayList<>();
     }
 
     public String getUniqueID() {
@@ -38,17 +37,13 @@ public class StabledHorse {
     }
 
     public void addRider(OfflinePlayer p) {
-
-        if (!riders.contains(p.getUniqueId().toString())) {
+        if (!riders.contains(p.getUniqueId().toString()))
             riders.add(p.getUniqueId().toString());
-        }
     }
 
     public void delRider(OfflinePlayer p) {
-
-        if (riders.contains(p.getUniqueId().toString())) {
+        if (riders.contains(p.getUniqueId().toString()))
             riders.remove(p.getUniqueId().toString());
-        }
     }
 
     public boolean isRider(OfflinePlayer p) {
