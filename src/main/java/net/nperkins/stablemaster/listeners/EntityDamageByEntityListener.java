@@ -84,9 +84,9 @@ public class EntityDamageByEntityListener implements Listener {
 
     private boolean canPlayerHurt(Horse horse, Player harmer, Boolean isMelee) {
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
-        Boolean bypassAsOwner = (harmer.hasPermission("stablemaster.bypass") && config.getBoolean("bypass-as-owner"));
+        Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
 
-        String path = (harmer == horse.getOwner() || bypassAsOwner) ? "owner-" : "player-";
+        String path = (harmer == horse.getOwner() || bypass) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
 
         return !config.getBoolean(path);

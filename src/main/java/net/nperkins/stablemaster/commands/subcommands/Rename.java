@@ -19,7 +19,6 @@ public class Rename extends SubCommand {
     public Rename() {
         setMinArgs(1);
         setName("rename");
-        setPermission("stablemaster.rename");
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -39,7 +38,7 @@ public class Rename extends SubCommand {
         String name = renameQueue.get(player);
         renameQueue.remove(player);
 
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.rename")) {
+        if (player != horse.getOwner() && !canBypass(player)) {
             StableMaster.langMessage(player, "error.not-owner");
             return;
         }

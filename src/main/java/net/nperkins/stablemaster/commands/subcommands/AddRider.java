@@ -18,7 +18,6 @@ public class AddRider extends SubCommand {
     public AddRider() {
         setMinArgs(1);
         setName("addrider");
-        setPermission("stablemaster.addrider");
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -40,7 +39,7 @@ public class AddRider extends SubCommand {
         OfflinePlayer rider = addRiderQueue.get(player);
         addRiderQueue.remove(player);
 
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.addrider")) {
+        if (player != horse.getOwner() && !canBypass(player)) {
             StableMaster.langMessage(player, "error.not-owner");
         }
         else if (stabledHorse.isRider(rider)) {

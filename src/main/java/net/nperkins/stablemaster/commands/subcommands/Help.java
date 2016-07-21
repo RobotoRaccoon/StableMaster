@@ -14,7 +14,6 @@ public class Help extends SubCommand {
     public Help() {
         setConsoleAllowed(true);
         setName("help");
-        setPermission("stablemaster.help");
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -24,7 +23,7 @@ public class Help extends SubCommand {
         StableMaster.langMessage(sender, "command.help.about");
 
         for (SubCommand cmd : CoreCommand.subCommands.values()) {
-            if (sender.hasPermission(cmd.getPermission()) || sender.hasPermission("stablemaster.bypass"))
+            if (sender.hasPermission(cmd.getPermission()) || cmd.canBypass(sender))
                 StableMaster.rawMessage(sender, String.format(StableMaster.getLang("command.help.format"),
                         cmd.getUsage(), cmd.getDescription()));
         }

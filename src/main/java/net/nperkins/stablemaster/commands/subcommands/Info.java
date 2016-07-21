@@ -15,7 +15,6 @@ public class Info extends SubCommand {
 
     public Info() {
         setName("info");
-        setPermission("stablemaster.info");
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -40,7 +39,7 @@ public class Info extends SubCommand {
             permissionLevel = 3;
 
         // Get the min level for players with the bypass permission.
-        if (player.hasPermission("stablemaster.bypass.info") && config.getInt("bypass-as-level") < permissionLevel)
+        if (canBypass(player) && config.getInt("bypass-as-level") < permissionLevel)
             permissionLevel = config.getInt("bypass-as-level");
 
         // Print the info

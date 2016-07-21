@@ -18,7 +18,6 @@ public class DelRider extends SubCommand {
     public DelRider() {
         setMinArgs(1);
         setName("delrider");
-        setPermission("stablemaster.delrider");
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -40,7 +39,7 @@ public class DelRider extends SubCommand {
         OfflinePlayer rider = delRiderQueue.get(player);
         delRiderQueue.remove(player);
 
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.delrider")) {
+        if (player != horse.getOwner() && !canBypass(player)) {
             StableMaster.langMessage(player, "error.not-owner");
         }
         else if (!stabledHorse.isRider(rider)) {

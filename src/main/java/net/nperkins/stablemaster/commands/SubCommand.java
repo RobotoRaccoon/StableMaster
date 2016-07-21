@@ -2,6 +2,7 @@ package net.nperkins.stablemaster.commands;
 
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
@@ -14,6 +15,10 @@ public abstract class SubCommand {
 
     public abstract void handle(CommandInfo commandInfo);
     public abstract void handleInteract(Stable stable, Player player, Horse horse);
+
+    public boolean canBypass(CommandSender player) {
+        return player.hasPermission("stablemaster.bypass.command." + getName());
+    }
 
     public String getDescription() {
         return StableMaster.getLang("command." + getName() + ".description");
@@ -45,6 +50,7 @@ public abstract class SubCommand {
 
     protected void setName(String name) {
         this.name = name;
+        setPermission("stablemaster." + name);
     }
 
     public String getPermission() {

@@ -18,7 +18,6 @@ public class Give extends SubCommand {
     public Give() {
         setMinArgs(1);
         setName("give");
-        setPermission("stablemaster.give");
     }
 
     public void handle(CommandInfo commandInfo) {
@@ -39,7 +38,7 @@ public class Give extends SubCommand {
         OfflinePlayer newOwner = giveQueue.get(player);
         giveQueue.remove(player);
 
-        if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.give")) {
+        if (player != horse.getOwner() && !canBypass(player)) {
             StableMaster.langMessage(player, "error.not-owner");
             return;
         }
