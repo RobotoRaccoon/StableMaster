@@ -6,6 +6,7 @@ import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -56,16 +57,25 @@ public class Info extends SubCommand {
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
         }
 
-        // Jump strength
-        if (config.getInt("jump-strength") >= permissionLevel) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), horse.getJumpStrength()));
-        }
-
         // Current and maximum health
         if (config.getInt("health") >= permissionLevel) {
             Double hearts = horse.getHealth() / 2;
             Double maxHearts = horse.getMaxHealth() / 2;
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.health"), hearts, maxHearts));
+        }
+
+        // Jump strength
+        if (config.getInt("jump-strength") >= permissionLevel) {
+            Double str = horse.getJumpStrength();
+            Double height = -0.1817584952 * str*str*str + 3.689713992 * str*str + 2.128599134 * str - 0.343930367;
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), str, height));
+        }
+
+        // Max Speed
+        if (config.getInt("max-speed") >= permissionLevel) {
+            Double speed = horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue();
+            Double blocksPerSecond = speed * 43.1;
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.max-speed"), speed, blocksPerSecond));
         }
 
         // What type of horse it is

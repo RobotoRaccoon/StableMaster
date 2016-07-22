@@ -36,8 +36,9 @@ command:
     header: '&7---- &6Horse Info &7----'
     owner: '&6Owner&f: &e%s'
     permitted-riders: '&6Permitted Riders&f: &e%s'
-    jump-strength: '&6Jump Strength&f: &e%.2f'
     health: '&6Health&f: &e%.1f/%.1f Hearts'
+    jump-strength: '&6Jump Strength&f: &e%.2f &7(%.2f blocks)'
+    max-speed: '&6Max Speed&f: &e%.2f &7(%.2f blocks/s)'
     variant: '&6Variant&f: &e%s'
   release:
     description: 'Revoke ownership of your horse'
