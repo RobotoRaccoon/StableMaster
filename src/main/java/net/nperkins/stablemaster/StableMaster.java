@@ -93,7 +93,7 @@ public class StableMaster extends JavaPlugin {
 
         if (yamlFile.contains("horses")) {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
-            HashMap<String, StabledHorse> horseMap = new HashMap<String, StabledHorse>();
+            HashMap<String, StabledHorse> horseMap = new HashMap<>();
             for (String s : horses) {
                 StabledHorse horse = new StabledHorse();
                 horse.setUniqueID(s);
@@ -106,7 +106,7 @@ public class StableMaster extends JavaPlugin {
     }
 
     public static void saveStable(Stable stable) {
-        File stableFile = new File(dataFolder + File.separator + stable.getOwner() + ".yml");
+        File stableFile = new File(dataFolder + File.separator + stable.getOwner().toString() + ".yml");
         if (stable.getHorses().isEmpty()) {
             if (stableFile.exists()) {
                 stableFile.delete();
@@ -114,7 +114,7 @@ public class StableMaster extends JavaPlugin {
             return;
         }
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(stableFile);
-        yamlFile.set("owner", stable.getOwner());
+        yamlFile.set("owner", stable.getOwner().toString());
         // Clear out horses current stable dat
         if (yamlFile.contains("horses")) {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);

@@ -3,27 +3,28 @@ package net.nperkins.stablemaster.data;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Horse;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Stable {
 
-    private String owner;
+    private UUID owner;
     private HashMap<String, StabledHorse> horses;
 
     public Stable() {
-        this.owner = null;
+        setOwner(null);
         horses = new HashMap<>();
     }
 
-    public Stable(OfflinePlayer pr) {
-        this.owner = pr.getUniqueId().toString();
+    public Stable(OfflinePlayer player) {
+        setOwner(player.getUniqueId());
         horses = new HashMap<>();
     }
 
-    public String getOwner() {
+    public UUID getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    protected void setOwner(UUID owner) {
         this.owner = owner;
     }
 
