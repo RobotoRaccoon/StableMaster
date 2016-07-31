@@ -53,7 +53,7 @@ public class Info extends SubCommand {
 
         // Players allowed to ride the horse
         if (config.getInt("permitted-riders") >= permissionLevel) {
-            String permitted = stabledHorse.getRiders().isEmpty() ? "None" : Joiner.on(", ").join(riderNames);
+            String permitted = riderNames.isEmpty() ? StableMaster.getLang("command.info.no-riders") : Joiner.on(", ").join(riderNames);
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
         }
 
