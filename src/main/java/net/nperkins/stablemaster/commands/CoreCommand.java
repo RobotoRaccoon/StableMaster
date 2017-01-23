@@ -28,6 +28,8 @@ public class CoreCommand implements CommandExecutor {
 
     private void addCommand(SubCommand cmd) {
         subCommands.put(cmd.getName(), cmd);
+        for(String alias : cmd.getAliases())
+            subCommands.put(alias, cmd);
     }
 
     public boolean onCommand(final CommandSender sender, Command cmd, String label, String[] args) {

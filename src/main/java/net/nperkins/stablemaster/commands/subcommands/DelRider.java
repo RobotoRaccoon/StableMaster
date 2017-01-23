@@ -18,6 +18,7 @@ public class DelRider extends SubCommand {
     public DelRider() {
         setMinArgs(1);
         setName("delrider");
+        getAliases().add("del");
     }
 
     public void handle(CommandInfo commandInfo) {

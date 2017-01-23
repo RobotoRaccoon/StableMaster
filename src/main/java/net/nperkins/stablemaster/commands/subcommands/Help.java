@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 public class Help extends SubCommand {
 
     public Help() {
@@ -22,8 +24,11 @@ public class Help extends SubCommand {
         StableMaster.langMessage(sender, "command.help.header");
         StableMaster.langMessage(sender, "command.help.about");
 
-        for (SubCommand cmd : CoreCommand.subCommands.values()) {
-            if (cmd == this)
+        for (Map.Entry<String, SubCommand> entry : CoreCommand.subCommands.entrySet()) {
+            String name = entry.getKey();
+            SubCommand cmd = entry.getValue();
+
+            if (cmd == this || !name.equalsIgnoreCase(cmd.getName()))
                 continue;
 
             if (sender.hasPermission(cmd.getPermission()))
