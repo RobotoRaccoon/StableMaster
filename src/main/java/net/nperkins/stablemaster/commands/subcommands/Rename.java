@@ -6,8 +6,7 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +33,7 @@ public class Rename extends SubCommand {
         StableMaster.langMessage(player, "punch-horse");
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         String name = renameQueue.get(player);
         renameQueue.remove(player);
 

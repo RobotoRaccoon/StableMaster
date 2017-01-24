@@ -5,8 +5,7 @@ import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,7 +33,7 @@ public class Give extends SubCommand {
         }
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         OfflinePlayer newOwner = giveQueue.get(player);
         giveQueue.remove(player);
 

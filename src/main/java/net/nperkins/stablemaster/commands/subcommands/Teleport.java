@@ -6,8 +6,7 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,9 +26,9 @@ public class Teleport extends SubCommand {
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
 
-        if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof Horse) {
+        if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof AbstractHorse) {
 
-            Horse horse = (Horse) teleportQueue.get(player);
+            AbstractHorse horse = (AbstractHorse) teleportQueue.get(player);
 
             // Horses duplicate with cross world teleports...
             if (horse.getLocation().getWorld() != (player).getLocation().getWorld()) {
@@ -49,7 +48,7 @@ public class Teleport extends SubCommand {
         }
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         if (player != horse.getOwner() && !canBypass(player)) {
             StableMaster.langMessage(player, "error.not-owner");
             teleportQueue.remove(player);
@@ -66,10 +65,10 @@ public class Teleport extends SubCommand {
 
 class TeleportEval extends BukkitRunnable {
 
-    private Horse horse;
+    private AbstractHorse horse;
     private Player player;
 
-    public TeleportEval(Horse horse, Player player){
+    public TeleportEval(AbstractHorse horse, Player player){
         this.horse = horse;
         this.player = player;
     }

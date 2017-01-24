@@ -2,7 +2,7 @@ package net.nperkins.stablemaster.data;
 
 import net.nperkins.stablemaster.StableMaster;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +18,7 @@ public class StabledHorse {
         riders = new ArrayList<>();
     }
 
-    public StabledHorse(Horse h) {
+    public StabledHorse(AbstractHorse h) {
         uniqueID = h.getUniqueId().toString();
         riders = new ArrayList<>();
     }

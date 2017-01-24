@@ -1,7 +1,7 @@
 package net.nperkins.stablemaster.data;
 
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -36,19 +36,19 @@ public class Stable {
         this.horses = horses;
     }
 
-    public void addHorse(Horse horse) {
+    public void addHorse(AbstractHorse horse) {
         horses.put(horse.getUniqueId().toString(), new StabledHorse(horse));
     }
 
-    public void removeHorse(Horse horse) {
+    public void removeHorse(AbstractHorse horse) {
         horses.remove(horse.getUniqueId().toString());
     }
 
-    public boolean hasHorse(Horse horse) {
+    public boolean hasHorse(AbstractHorse horse) {
         return horses.containsKey(horse.getUniqueId().toString());
     }
 
-    public StabledHorse getHorse(Horse horse) {
+    public StabledHorse getHorse(AbstractHorse horse) {
         return horses.get(horse.getUniqueId().toString());
     }
 

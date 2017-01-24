@@ -4,14 +4,10 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.HorseInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class Release extends SubCommand {
@@ -27,19 +23,21 @@ public class Release extends SubCommand {
         StableMaster.langMessage(player, "punch-horse");
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         if (player != horse.getOwner() && !canBypass(player)) {
             StableMaster.langMessage(player, "error.not-owner");
             return;
         }
 
         final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
-        final HorseInventory inv = horse.getInventory();
+        final Inventory inv = horse.getInventory();
 
         // Saddle must drop, else it cannot be tamed later
-        if (inv.getSaddle() != null) {
-            horse.getWorld().dropItemNaturally(horse.getLocation(), inv.getSaddle());
-            inv.setSaddle(null);
+        ItemStack[] contents = inv.getContents();
+        if (contents[0] != null) {
+            horse.getWorld().dropItemNaturally(horse.getLocation(), contents[0]);
+            contents[0] = null;
+            inv.setContents(contents);
         }
 
         if (config.getBoolean("clear-custom-name")) {

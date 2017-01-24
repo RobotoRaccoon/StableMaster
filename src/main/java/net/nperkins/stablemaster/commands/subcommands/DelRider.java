@@ -6,7 +6,7 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +35,7 @@ public class DelRider extends SubCommand {
         }
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         StabledHorse stabledHorse = stable.getHorse(horse);
         OfflinePlayer rider = delRiderQueue.get(player);
         delRiderQueue.remove(player);

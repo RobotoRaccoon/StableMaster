@@ -3,7 +3,7 @@ package net.nperkins.stablemaster.commands;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public abstract class SubCommand {
     private final List<String> aliases = new ArrayList<>();
 
     public abstract void handle(CommandInfo commandInfo);
-    public abstract void handleInteract(Stable stable, Player player, Horse horse);
+    public abstract void handleInteract(Stable stable, Player player, AbstractHorse horse);
 
     public boolean canBypass(CommandSender player) {
         return player.hasPermission("stablemaster.bypass.command." + getName());

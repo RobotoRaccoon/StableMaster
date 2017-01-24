@@ -16,7 +16,7 @@ public class EntityDamageByEntityListener implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // Return if the damaged entity is not a horse.
-        if (event.getEntityType() != EntityType.HORSE)
+        if (!(event.getEntity() instanceof AbstractHorse))
             return;
 
         // Handle if a player is punching the horse.
@@ -29,7 +29,7 @@ public class EntityDamageByEntityListener implements Listener {
 
     private void playerDamageHorse(EntityDamageByEntityEvent event) {
         final Player player = (Player) event.getDamager();
-        final Horse horse = (Horse) event.getEntity();
+        final AbstractHorse horse = (AbstractHorse) event.getEntity();
 
         // Horse has to be tamed to be owned. Owner is null when owned by non-players.
         if (!horse.isTamed() || horse.getOwner() == null) {
@@ -70,7 +70,7 @@ public class EntityDamageByEntityListener implements Listener {
             return;
 
         final Player player = (Player) source;
-        final Horse horse = (Horse) event.getEntity();
+        final AbstractHorse horse = (AbstractHorse) event.getEntity();
 
         // If the horse has no owner, no need to protect it
         if (!horse.isTamed() || horse.getOwner() == null)
@@ -82,7 +82,7 @@ public class EntityDamageByEntityListener implements Listener {
         }
     }
 
-    private boolean canPlayerHurt(Horse horse, Player harmer, Boolean isMelee) {
+    private boolean canPlayerHurt(AbstractHorse horse, Player harmer, Boolean isMelee) {
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
         Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
 

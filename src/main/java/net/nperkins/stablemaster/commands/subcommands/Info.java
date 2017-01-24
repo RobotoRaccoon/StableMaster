@@ -8,8 +8,8 @@ import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+
 import java.util.List;
 
 public class Info extends SubCommand {
@@ -25,7 +25,7 @@ public class Info extends SubCommand {
         StableMaster.langMessage(player, "punch-horse");
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         final StabledHorse stabledHorse = stable.getHorse(horse);
         final List<String> riderNames = stabledHorse.getRiderNames();
 
@@ -80,9 +80,13 @@ public class Info extends SubCommand {
 
         // What type of horse it is
         if (config.getInt("variant") >= permissionLevel) {
-            String variant = (horse.getVariant() == Horse.Variant.HORSE) ?
-                    horse.getColor() + ", " + horse.getStyle() :
-                    horse.getVariant().toString();
+            String variant;
+            if (horse.getType() == EntityType.HORSE) {
+                Horse h = (Horse) horse;
+                variant = h.getColor() + ", " + h.getStyle();
+            } else {
+                variant = horse.getType().toString();
+            }
             StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
         }
     }

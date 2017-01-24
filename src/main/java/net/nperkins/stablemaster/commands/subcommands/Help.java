@@ -6,7 +6,7 @@ import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Horse;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -39,7 +39,7 @@ public class Help extends SubCommand {
         StableMaster.langMessage(sender, "command.help.footer");
     }
 
-    public void handleInteract(Stable stable, Player player, Horse horse) {
+    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         // Nothing
     }
 }

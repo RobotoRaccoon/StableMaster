@@ -4,10 +4,7 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -21,11 +18,11 @@ public class PlayerInteractEntityListener implements Listener {
         if (entity == null)
             return; // Entity must exist.
 
-        if (entity.getType() != EntityType.HORSE)
+        if (!(entity instanceof AbstractHorse))
             return; // Entity must be a horse.
 
         final Player player = event.getPlayer();
-        final Horse horse = (Horse) entity;
+        final AbstractHorse horse = (AbstractHorse) entity;
 
         if (!horse.isTamed())
             return; // Horse must be tamed to deny riders.
