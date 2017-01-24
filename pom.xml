@@ -6,15 +6,14 @@
 
     <groupId>net.nperkins</groupId>
     <artifactId>stablemaster</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>StableMaster</name>
-    <url>http://www.nperkins.net</url>
     <description>A Horse Management plugin</description>
 
     <properties>
-        <author>nicholosophy</author>
-        <authors>RobotoRaccoon</authors>
+        <author>RobotoRaccoon</author>
+        <authors>nicholosophy</authors>
     </properties>
 
     <build>
