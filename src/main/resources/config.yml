@@ -16,6 +16,16 @@ command:
     bypass-as-level: 0
   release:
     clear-custom-name: false
+aliases:
+  addrider:
+  - 'add'
+  delrider:
+  - 'del'
+  info:
+  - '?'
+  teleport:
+  - 'tp'
+  - 'transport'
 protection:
   ## Protection if the owner hurts the horse
   owner-melee: true

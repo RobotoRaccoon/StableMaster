@@ -19,8 +19,6 @@ public class Teleport extends SubCommand {
 
     public Teleport() {
         setName("teleport");
-        getAliases().add("tp");
-        getAliases().add("transport");
     }
 
     public void handle(CommandInfo commandInfo) {

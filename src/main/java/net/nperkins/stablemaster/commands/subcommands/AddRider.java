@@ -18,7 +18,6 @@ public class AddRider extends SubCommand {
     public AddRider() {
         setMinArgs(1);
         setName("addrider");
-        getAliases().add("add");
     }
 
     public void handle(CommandInfo commandInfo) {

@@ -3,6 +3,7 @@ package net.nperkins.stablemaster.commands;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 
@@ -15,7 +16,6 @@ public abstract class SubCommand {
     private int minArgs = 0;
     private String name = "";
     private String permission = "";
-    private final List<String> aliases = new ArrayList<>();
 
     public abstract void handle(CommandInfo commandInfo);
     public abstract void handleInteract(Stable stable, Player player, AbstractHorse horse);
@@ -66,6 +66,10 @@ public abstract class SubCommand {
     }
 
     public List<String> getAliases() {
-        return aliases;
+        ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("aliases");
+        if (config.isList(getName()))
+            return config.getStringList(getName());
+        else
+            return new ArrayList<>();
     }
 }
