@@ -28,7 +28,7 @@ public class AddRider extends SubCommand {
         if (rider != null && rider.hasPlayedBefore()) {
             StableMaster.commandQueue.put(player, this);
             addRiderQueue.put(player, rider);
-            StableMaster.langMessage(player, "punch-horse");
+            StableMaster.langMessage(player, "punch-animal");
         } else {
             StableMaster.langMessage(player, "error.player-not-found");
         }
@@ -40,7 +40,7 @@ public class AddRider extends SubCommand {
         addRiderQueue.remove(player);
 
         if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.langMessage(player, "error.not-owner");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
         }
         else if (stabledHorse.isRider(rider)) {
             StableMaster.rawMessage(player, String.format(
@@ -48,8 +48,8 @@ public class AddRider extends SubCommand {
         }
         else {
             stabledHorse.addRider(rider);
-            StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.addrider.added"), rider.getName()));
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.addrider.added"),
+                    rider.getName(), horse.getType()));
         }
     }
 }

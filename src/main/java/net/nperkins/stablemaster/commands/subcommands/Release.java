@@ -20,12 +20,12 @@ public class Release extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
 
         StableMaster.commandQueue.put(player, this);
-        StableMaster.langMessage(player, "punch-horse");
+        StableMaster.langMessage(player, "punch-animal");
     }
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.langMessage(player, "error.not-owner");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
             return;
         }
 
@@ -49,6 +49,6 @@ public class Release extends SubCommand {
         horse.setTamed(false);
         stable.removeHorse(horse);
 
-        StableMaster.langMessage(player, "command.release.released");
+        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.release.released"), horse.getType()));
     }
 }

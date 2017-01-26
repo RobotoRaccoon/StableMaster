@@ -30,7 +30,7 @@ public class Rename extends SubCommand {
 
         renameQueue.put(player, name);
         StableMaster.commandQueue.put(player, this);
-        StableMaster.langMessage(player, "punch-horse");
+        StableMaster.langMessage(player, "punch-animal");
     }
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
@@ -38,12 +38,12 @@ public class Rename extends SubCommand {
         renameQueue.remove(player);
 
         if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.langMessage(player, "error.not-owner");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
             return;
         }
 
         horse.setCustomName(name);
         horse.setCustomNameVisible(true);
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.rename.renamed"), name));
+        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.rename.renamed"), horse.getType(), name));
     }
 }

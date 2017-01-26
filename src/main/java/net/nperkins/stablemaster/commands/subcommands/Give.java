@@ -27,7 +27,7 @@ public class Give extends SubCommand {
         if (newOwner != null && newOwner.hasPlayedBefore()) {
             StableMaster.commandQueue.put(player, this);
             giveQueue.put(player, newOwner);
-            StableMaster.langMessage(player, "punch-horse");
+            StableMaster.langMessage(player, "punch-animal");
         } else {
             StableMaster.langMessage(player, "error.player-not-found");
         }
@@ -38,7 +38,7 @@ public class Give extends SubCommand {
         giveQueue.remove(player);
 
         if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.langMessage(player, "error.not-owner");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
             return;
         }
 
@@ -48,7 +48,6 @@ public class Give extends SubCommand {
         newStable.addHorse(horse);
         horse.setOwner(newOwner);
 
-        StableMaster.rawMessage(player, String.format(
-                StableMaster.getLang("command.give.given"), newOwner.getName()));
+        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.give.given"), horse.getType(), newOwner.getName()));
     }
 }

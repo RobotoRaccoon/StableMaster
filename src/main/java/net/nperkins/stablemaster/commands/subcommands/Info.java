@@ -22,7 +22,7 @@ public class Info extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
 
         StableMaster.commandQueue.put(player, this);
-        StableMaster.langMessage(player, "punch-horse");
+        StableMaster.langMessage(player, "punch-animal");
     }
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {

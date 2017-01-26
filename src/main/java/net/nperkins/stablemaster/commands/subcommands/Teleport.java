@@ -42,13 +42,13 @@ public class Teleport extends SubCommand {
 
             StableMaster.commandQueue.put(player, this);
             teleportQueue.put(player, true);
-            StableMaster.langMessage(player, "punch-horse");
+            StableMaster.langMessage(player, "punch-animal");
         }
     }
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.langMessage(player, "error.not-owner");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
             teleportQueue.remove(player);
             return;
         }

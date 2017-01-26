@@ -35,7 +35,7 @@ public class EntityDamageByEntityListener implements Listener {
         if (!horse.isTamed() || horse.getOwner() == null) {
             if (StableMaster.commandQueue.containsKey(player)) {
                 event.setCancelled(true);
-                StableMaster.langMessage(player, "not-tamed");
+                StableMaster.rawMessage(player, String.format(StableMaster.getLang("not-tamed"), event.getEntityType()));
                 StableMaster.commandQueue.remove(player);
             }
             return;
@@ -58,7 +58,7 @@ public class EntityDamageByEntityListener implements Listener {
         else if (!canPlayerHurt(horse, player, true)) {
             // If we get here, the horse was protected and not involved in a command.
             event.setCancelled(true);
-            StableMaster.langMessage(player, "error.protected");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.protected"), horse.getType()));
         }
     }
 
@@ -78,7 +78,7 @@ public class EntityDamageByEntityListener implements Listener {
 
         if (!canPlayerHurt(horse, player, false)) {
             event.setCancelled(true);
-            StableMaster.langMessage(player, "error.protected");
+            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.protected"), horse.getType()));
         }
     }
 
