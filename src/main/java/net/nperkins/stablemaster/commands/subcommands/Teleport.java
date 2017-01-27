@@ -26,17 +26,17 @@ public class Teleport extends SubCommand {
 
         if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof AbstractHorse) {
 
+            StableMaster.commandQueue.remove(player);
             AbstractHorse horse = (AbstractHorse) teleportQueue.get(player);
+            removeFromQueue(player);
 
             // Horses duplicate with cross world teleports...
             if (horse.getLocation().getWorld() != (player).getLocation().getWorld()) {
                 StableMaster.langMessage(player, "command.teleport.cross-world");
-                removeFromQueue(player);
                 return;
             }
 
             new TeleportEval(horse, player).runTask(StableMaster.getPlugin());
-            removeFromQueue(player);
 
         } else {
 
