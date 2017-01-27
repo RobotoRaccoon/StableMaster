@@ -24,11 +24,6 @@ public class Release extends SubCommand {
     }
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
-        if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
-            return;
-        }
-
         final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
         final Inventory inv = horse.getInventory();
 
@@ -49,6 +44,6 @@ public class Release extends SubCommand {
         horse.setTamed(false);
         stable.removeHorse(horse);
 
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.release.released"), horse.getType()));
+        StableMaster.langFormat(player, "command.release.released", horse.getType());
     }
 }

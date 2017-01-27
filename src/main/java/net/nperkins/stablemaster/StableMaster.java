@@ -80,6 +80,10 @@ public class StableMaster extends JavaPlugin {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getLang("prefix") + getLang(key)));
     }
 
+    public static void langFormat(CommandSender sender, String key, Object... args) {
+        rawMessage(sender, String.format(getLang(key), args));
+    }
+
     public static String getLang(String key) {
         if (!configuration.getLang().contains(key))
             getPlugin().getLogger().log(Level.WARNING, String.format("lang.yml path `%s` does not exist!", key));

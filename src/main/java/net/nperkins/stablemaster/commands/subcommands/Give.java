@@ -35,19 +35,18 @@ public class Give extends SubCommand {
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         OfflinePlayer newOwner = giveQueue.get(player);
-        giveQueue.remove(player);
-
-        if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
-            return;
-        }
-
+        removeFromQueue(player);
         Stable newStable = StableMaster.getStable(newOwner);
 
         stable.removeHorse(horse);
         newStable.addHorse(horse);
         horse.setOwner(newOwner);
 
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.give.given"), horse.getType(), newOwner.getName()));
+        StableMaster.langFormat(player, "command.give.given", horse.getType(), newOwner.getName());
+    }
+
+    @Override
+    public void removeFromQueue(Player player) {
+        giveQueue.remove(player);
     }
 }

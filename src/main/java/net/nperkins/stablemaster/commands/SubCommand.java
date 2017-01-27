@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class SubCommand {
 
     private boolean consoleAllowed = false;
+    private boolean ownerRequired = true;
     private int minArgs = 0;
     private String name = "";
     private String permission = "";
@@ -22,6 +23,10 @@ public abstract class SubCommand {
 
     public boolean canBypass(CommandSender player) {
         return player.hasPermission("stablemaster.bypass.command." + getName());
+    }
+
+    public void removeFromQueue(Player player) {
+        // Do nothing by default
     }
 
     public String getDescription() {
@@ -38,6 +43,14 @@ public abstract class SubCommand {
 
     protected void setConsoleAllowed(boolean consoleAllowed) {
         this.consoleAllowed = consoleAllowed;
+    }
+
+    public boolean isOwnerRequired() {
+        return ownerRequired;
+    }
+
+    public void setOwnerRequired(boolean ownerRequired) {
+        this.ownerRequired = ownerRequired;
     }
 
     public int getMinArgs() {

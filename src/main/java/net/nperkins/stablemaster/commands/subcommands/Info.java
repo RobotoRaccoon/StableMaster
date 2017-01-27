@@ -15,6 +15,7 @@ import java.util.List;
 public class Info extends SubCommand {
 
     public Info() {
+        setOwnerRequired(false);
         setName("info");
     }
 
@@ -48,37 +49,37 @@ public class Info extends SubCommand {
 
         // Owner of the horse
         if (config.getInt("owner") >= permissionLevel) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.owner"), horse.getOwner().getName()));
+            StableMaster.langFormat(player, "command.info.owner", horse.getOwner().getName());
         }
 
         // Players allowed to ride the horse
         if (config.getInt("permitted-riders") >= permissionLevel) {
             String permitted = riderNames.isEmpty() ? StableMaster.getLang("command.info.no-riders") : Joiner.on(", ").join(riderNames);
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.permitted-riders"), permitted));
+            StableMaster.langFormat(player, "command.info.permitted-riders", permitted);
         }
 
         // Current and maximum health
         if (config.getInt("health") >= permissionLevel) {
             Double hearts = horse.getHealth() / 2;
             Double maxHearts = horse.getMaxHealth() / 2;
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.health"), hearts, maxHearts));
+            StableMaster.langFormat(player, "command.info.health", hearts, maxHearts);
         }
 
         // Jump strength
         if (config.getInt("jump-strength") >= permissionLevel) {
             Double str = horse.getJumpStrength();
             Double height = -0.1817584952 * str*str*str + 3.689713992 * str*str + 2.128599134 * str - 0.343930367;
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.jump-strength"), str, height));
+            StableMaster.langFormat(player, "command.info.jump-strength", str, height);
         }
 
         // Max Speed
         if (config.getInt("max-speed") >= permissionLevel) {
             Double speed = horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue();
             Double blocksPerSecond = speed * 43.1;
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.max-speed"), speed, blocksPerSecond));
+            StableMaster.langFormat(player, "command.info.max-speed", speed, blocksPerSecond);
         }
 
-        // What type of horse it is
+        // What type of animal it is
         if (config.getInt("variant") >= permissionLevel) {
             String variant;
             if (horse.getType() == EntityType.HORSE) {
@@ -87,7 +88,7 @@ public class Info extends SubCommand {
             } else {
                 variant = horse.getType().toString();
             }
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.info.variant"), variant));
+            StableMaster.langFormat(player, "command.info.variant", variant);
         }
     }
 }

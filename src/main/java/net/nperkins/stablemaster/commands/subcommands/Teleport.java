@@ -31,12 +31,12 @@ public class Teleport extends SubCommand {
             // Horses duplicate with cross world teleports...
             if (horse.getLocation().getWorld() != (player).getLocation().getWorld()) {
                 StableMaster.langMessage(player, "command.teleport.cross-world");
-                teleportQueue.remove(player);
+                removeFromQueue(player);
                 return;
             }
 
             new TeleportEval(horse, player).runTask(StableMaster.getPlugin());
-            teleportQueue.remove(player);
+            removeFromQueue(player);
 
         } else {
 
@@ -47,17 +47,16 @@ public class Teleport extends SubCommand {
     }
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
-        if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
-            teleportQueue.remove(player);
-            return;
-        }
-
         // Storing location
         StableMaster.langMessage(player, "command.teleport.location-saved");
         StableMaster.horseChunk.add(horse.getLocation().getChunk());
         StableMaster.commandQueue.put(player, this);
         teleportQueue.put(player, horse);
+    }
+
+    @Override
+    public void removeFromQueue(Player player) {
+        teleportQueue.remove(player);
     }
 }
 

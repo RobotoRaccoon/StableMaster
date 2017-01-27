@@ -37,19 +37,19 @@ public class DelRider extends SubCommand {
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         StabledHorse stabledHorse = stable.getHorse(horse);
         OfflinePlayer rider = delRiderQueue.get(player);
-        delRiderQueue.remove(player);
+        removeFromQueue(player);
 
-        if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
-        }
-        else if (!stabledHorse.isRider(rider)) {
-            StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.delrider.not-rider"), rider.getName()));
+        if (!stabledHorse.isRider(rider)) {
+            StableMaster.langFormat(player, "command.delrider.not-rider", rider.getName());
         }
         else {
             stabledHorse.delRider(rider);
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.delrider.removed"),
-                    rider.getName(), horse.getType()));
+            StableMaster.langFormat(player, "command.delrider.removed", rider.getName(), horse.getType());
         }
+    }
+
+    @Override
+    public void removeFromQueue(Player player) {
+        delRiderQueue.remove(player);
     }
 }

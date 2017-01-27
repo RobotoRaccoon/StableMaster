@@ -35,15 +35,15 @@ public class Rename extends SubCommand {
 
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         String name = renameQueue.get(player);
-        renameQueue.remove(player);
-
-        if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
-            return;
-        }
+        removeFromQueue(player);
 
         horse.setCustomName(name);
         horse.setCustomNameVisible(true);
-        StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.rename.renamed"), horse.getType(), name));
+        StableMaster.langFormat(player, "command.rename.renamed", horse.getType(), name);
+    }
+
+    @Override
+    public void removeFromQueue(Player player) {
+        renameQueue.remove(player);
     }
 }

@@ -15,6 +15,7 @@ public class Help extends SubCommand {
 
     public Help() {
         setConsoleAllowed(true);
+        setOwnerRequired(false);
         setName("help");
     }
 
@@ -32,8 +33,7 @@ public class Help extends SubCommand {
                 continue;
 
             if (sender.hasPermission(cmd.getPermission()))
-                StableMaster.rawMessage(sender, String.format(StableMaster.getLang("command.help.format"),
-                        cmd.getUsage(), cmd.getDescription()));
+                StableMaster.langFormat(sender, "command.help.format", cmd.getUsage(), cmd.getDescription());
         }
 
         StableMaster.langMessage(sender, "command.help.footer");

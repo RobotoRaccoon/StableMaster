@@ -37,19 +37,19 @@ public class AddRider extends SubCommand {
     public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
         StabledHorse stabledHorse = stable.getHorse(horse);
         OfflinePlayer rider = addRiderQueue.get(player);
-        addRiderQueue.remove(player);
+        removeFromQueue(player);
 
-        if (player != horse.getOwner() && !canBypass(player)) {
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("error.not-owner"), horse.getType()));
-        }
-        else if (stabledHorse.isRider(rider)) {
-            StableMaster.rawMessage(player, String.format(
-                    StableMaster.getLang("command.addrider.is-rider"), rider.getName()));
+        if (stabledHorse.isRider(rider)) {
+            StableMaster.langFormat(player, "command.addrider.is-rider", rider.getName());
         }
         else {
             stabledHorse.addRider(rider);
-            StableMaster.rawMessage(player, String.format(StableMaster.getLang("command.addrider.added"),
-                    rider.getName(), horse.getType()));
+            StableMaster.langFormat(player, "command.addrider.added", rider.getName(), horse.getType());
         }
+    }
+
+    @Override
+    public void removeFromQueue(Player player) {
+        addRiderQueue.remove(player);
     }
 }
