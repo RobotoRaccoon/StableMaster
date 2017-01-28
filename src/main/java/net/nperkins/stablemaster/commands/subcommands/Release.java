@@ -5,10 +5,7 @@ import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.AbstractHorse;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Tameable;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -44,6 +41,14 @@ public class Release extends SubCommand {
 
             stable.removeHorse(horse);
         }
+        else if (animal instanceof Ocelot) {
+            Ocelot o = (Ocelot) animal;
+            o.setCatType(Ocelot.Type.WILD_OCELOT);
+            o.setSitting(false);
+        }
+        else if (animal instanceof Wolf) {
+            ((Wolf) animal).setSitting(false);
+        }
 
         if (config.getBoolean("clear-custom-name")) {
             a.setCustomNameVisible(false);
@@ -52,6 +57,7 @@ public class Release extends SubCommand {
 
         // Finally remove ownership of the animal
         animal.setTamed(false);
+        animal.setOwner(null);
 
         StableMaster.langFormat(player, "command.release.released", a.getType());
     }
