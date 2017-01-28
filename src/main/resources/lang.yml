@@ -6,6 +6,7 @@ error:
   no-permission: '&cYou do not have permission to do this'
   not-owner: '&cThis is not your %s'
   not-rider: '&cYou cannot ride this, sorry'
+  not-supported: '&cThis command does not support this animal'
   protected: '&cSorry, this %s is protected!'
   player-not-found: '&cWe couldn''t find that player.'
 command:

@@ -10,6 +10,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Info extends SubCommand {
@@ -26,14 +27,21 @@ public class Info extends SubCommand {
         StableMaster.langMessage(player, "punch-animal");
     }
 
-    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
-        final StabledHorse stabledHorse = stable.getHorse(horse);
-        final List<String> riderNames = stabledHorse.getRiderNames();
+    public void handleInteract(Stable stable, Player player, Tameable animal) {
+        final Animals a = (Animals) animal;
+
+        List<String> riderNames = new ArrayList<>();
+        boolean isHorse = false;
+        if (animal instanceof AbstractHorse) {
+            isHorse = true;
+            StabledHorse stabledHorse = stable.getHorse((AbstractHorse) animal);
+            riderNames = stabledHorse.getRiderNames();
+        }
 
         // Get permission level of user to compare with those in the config.
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
         Integer permissionLevel;
-        if (player == horse.getOwner())
+        if (player == animal.getOwner())
             permissionLevel = 1;
         else if (riderNames.contains(player.getName()))
             permissionLevel = 2;
@@ -49,32 +57,32 @@ public class Info extends SubCommand {
 
         // Owner of the horse
         if (config.getInt("owner") >= permissionLevel) {
-            StableMaster.langFormat(player, "command.info.owner", horse.getOwner().getName());
+            StableMaster.langFormat(player, "command.info.owner", animal.getOwner().getName());
         }
 
         // Players allowed to ride the horse
-        if (config.getInt("permitted-riders") >= permissionLevel) {
+        if (isHorse && config.getInt("permitted-riders") >= permissionLevel) {
             String permitted = riderNames.isEmpty() ? StableMaster.getLang("command.info.no-riders") : Joiner.on(", ").join(riderNames);
             StableMaster.langFormat(player, "command.info.permitted-riders", permitted);
         }
 
         // Current and maximum health
         if (config.getInt("health") >= permissionLevel) {
-            Double hearts = horse.getHealth() / 2;
-            Double maxHearts = horse.getMaxHealth() / 2;
+            Double hearts = a.getHealth() / 2;
+            Double maxHearts = a.getMaxHealth() / 2;
             StableMaster.langFormat(player, "command.info.health", hearts, maxHearts);
         }
 
         // Jump strength
-        if (config.getInt("jump-strength") >= permissionLevel) {
-            Double str = horse.getJumpStrength();
+        if (isHorse && config.getInt("jump-strength") >= permissionLevel) {
+            Double str = ((AbstractHorse) animal).getJumpStrength();
             Double height = -0.1817584952 * str*str*str + 3.689713992 * str*str + 2.128599134 * str - 0.343930367;
             StableMaster.langFormat(player, "command.info.jump-strength", str, height);
         }
 
         // Max Speed
         if (config.getInt("max-speed") >= permissionLevel) {
-            Double speed = horse.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue();
+            Double speed = a.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue();
             Double blocksPerSecond = speed * 43.1;
             StableMaster.langFormat(player, "command.info.max-speed", speed, blocksPerSecond);
         }
@@ -82,11 +90,11 @@ public class Info extends SubCommand {
         // What type of animal it is
         if (config.getInt("variant") >= permissionLevel) {
             String variant;
-            if (horse.getType() == EntityType.HORSE) {
-                Horse h = (Horse) horse;
+            if (a.getType() == EntityType.HORSE) {
+                Horse h = (Horse) animal;
                 variant = h.getColor() + ", " + h.getStyle();
             } else {
-                variant = horse.getType().toString();
+                variant = a.getType().toString();
             }
             StableMaster.langFormat(player, "command.info.variant", variant);
         }

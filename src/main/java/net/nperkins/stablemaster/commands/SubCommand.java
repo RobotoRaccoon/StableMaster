@@ -4,8 +4,8 @@ import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,13 @@ public abstract class SubCommand {
 
     private boolean consoleAllowed = false;
     private boolean ownerRequired = true;
+    private boolean tameablesAllowed = true;
     private int minArgs = 0;
     private String name = "";
     private String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
-    public abstract void handleInteract(Stable stable, Player player, AbstractHorse horse);
+    public abstract void handleInteract(Stable stable, Player player, Tameable animal);
 
     public boolean canBypass(CommandSender player) {
         return player.hasPermission("stablemaster.bypass.command." + getName());
@@ -49,8 +50,16 @@ public abstract class SubCommand {
         return ownerRequired;
     }
 
-    public void setOwnerRequired(boolean ownerRequired) {
+    protected void setOwnerRequired(boolean ownerRequired) {
         this.ownerRequired = ownerRequired;
+    }
+
+    public boolean isTameablesAllowed() {
+        return tameablesAllowed;
+    }
+
+    protected void setTameablesAllowed(boolean tameablesAllowed) {
+        this.tameablesAllowed = tameablesAllowed;
     }
 
     public int getMinArgs() {

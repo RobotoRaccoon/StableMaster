@@ -9,7 +9,7 @@ public class ChunkListener implements Listener{
 
     @EventHandler
     public void chunkUnloadEvent(ChunkUnloadEvent event) {
-        if (StableMaster.horseChunk.contains(event.getChunk()))
+        if (StableMaster.teleportChunk.contains(event.getChunk()))
             event.setCancelled(true);
     }
 

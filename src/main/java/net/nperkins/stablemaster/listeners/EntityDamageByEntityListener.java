@@ -1,7 +1,6 @@
 package net.nperkins.stablemaster.listeners;
 
 import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CoreCommand;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
@@ -16,24 +15,24 @@ public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        // Return if the damaged entity is not a horse.
-        if (!(event.getEntity() instanceof AbstractHorse))
+        // Return if the damaged entity is not a tameable entity.
+        if (!(event.getEntity() instanceof Tameable))
             return;
 
-        // Handle if a player is punching the horse.
+        // Handle if a player is punching the animal.
         if (event.getDamager() instanceof Player)
-            playerDamageHorse(event);
+            playerDamageAnimal(event);
 
         if (event.getDamager() instanceof Projectile)
-            projectileDamageHorse(event);
+            projectileDamageAnimal(event);
     }
 
-    private void playerDamageHorse(EntityDamageByEntityEvent event) {
+    private void playerDamageAnimal(EntityDamageByEntityEvent event) {
         final Player player = (Player) event.getDamager();
-        final AbstractHorse horse = (AbstractHorse) event.getEntity();
+        final Tameable animal = (Tameable) event.getEntity();
 
-        // Horse has to be tamed to be owned. Owner is null when owned by non-players.
-        if (!horse.isTamed() || horse.getOwner() == null) {
+        // Animal has to be tamed to be owned. Owner is null when owned by non-players.
+        if (!animal.isTamed() || animal.getOwner() == null) {
             if (StableMaster.commandQueue.containsKey(player)) {
                 event.setCancelled(true);
                 StableMaster.langFormat(player, "not-tamed", event.getEntityType());
@@ -42,36 +41,44 @@ public class EntityDamageByEntityListener implements Listener {
             return;
         }
 
-        // Get horse details
-        final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
         // Check in case it's a pre-owned horse not known about
-        if (!stable.hasHorse(horse)) {
-            stable.addHorse(horse);
+        final Stable stable = StableMaster.getStable((OfflinePlayer) animal.getOwner());
+        if (animal instanceof AbstractHorse) {
+            final AbstractHorse horse = (AbstractHorse) animal;
+            if (!stable.hasHorse(horse)) {
+                stable.addHorse(horse);
+            }
         }
 
-        // Either run a command, or handle as if a player is trying to hurt the horse.
+        // Either run a command, or handle as if a player is trying to hurt the animal.
         if (StableMaster.commandQueue.containsKey(player)) {
             // Handle appropriate command
             event.setCancelled(true);
             SubCommand cmd = StableMaster.commandQueue.get(player);
             StableMaster.commandQueue.remove(player);
 
-            if (cmd.isOwnerRequired() && player != horse.getOwner() && !cmd.canBypass(player)) {
-                StableMaster.langFormat(player, "error.not-owner", horse.getType());
+            if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
+                StableMaster.langFormat(player, "error.not-owner", event.getEntityType());
                 cmd.removeFromQueue(player);
                 return;
             }
 
-            cmd.handleInteract(stable, player, horse);
+            // Run for horses, and tameables if the command allows it.
+            if (animal instanceof AbstractHorse || cmd.isTameablesAllowed())
+                cmd.handleInteract(stable, player, animal);
+            else
+                StableMaster.langMessage(player, "error.not-supported");
+            return;
         }
-        else if (!canPlayerHurt(horse, player, true)) {
-            // If we get here, the horse was protected and not involved in a command.
+
+        if (!canPlayerHurt(animal, player, true)) {
+            // If we get here, the animal was protected and not involved in a command.
             event.setCancelled(true);
-            StableMaster.langFormat(player, "error.protected", horse.getType());
+            StableMaster.langFormat(player, "error.protected", event.getEntityType());
         }
     }
 
-    private void projectileDamageHorse(EntityDamageByEntityEvent event) {
+    private void projectileDamageAnimal(EntityDamageByEntityEvent event) {
         final ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
 
         // Ignore cancelled events, and only player shooters
@@ -79,23 +86,23 @@ public class EntityDamageByEntityListener implements Listener {
             return;
 
         final Player player = (Player) source;
-        final AbstractHorse horse = (AbstractHorse) event.getEntity();
+        final Tameable animal = (Tameable) event.getEntity();
 
-        // If the horse has no owner, no need to protect it
-        if (!horse.isTamed() || horse.getOwner() == null)
+        // If the animal has no owner, no need to protect it
+        if (!animal.isTamed() || animal.getOwner() == null)
             return;
 
-        if (!canPlayerHurt(horse, player, false)) {
+        if (!canPlayerHurt(animal, player, false)) {
             event.setCancelled(true);
-            StableMaster.langFormat(player, "error.protected", horse.getType());
+            StableMaster.langFormat(player, "error.protected", event.getEntityType());
         }
     }
 
-    private boolean canPlayerHurt(AbstractHorse horse, Player harmer, Boolean isMelee) {
+    private boolean canPlayerHurt(Tameable animal, Player harmer, Boolean isMelee) {
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
         Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
 
-        String path = (harmer == horse.getOwner() || bypass) ? "owner-" : "player-";
+        String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
 
         return !config.getBoolean(path);

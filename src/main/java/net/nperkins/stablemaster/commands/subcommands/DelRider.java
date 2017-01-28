@@ -8,6 +8,7 @@ import net.nperkins.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,6 +17,7 @@ public class DelRider extends SubCommand {
     private ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();
 
     public DelRider() {
+        setTameablesAllowed(false);
         setMinArgs(1);
         setName("delrider");
     }
@@ -34,7 +36,8 @@ public class DelRider extends SubCommand {
         }
     }
 
-    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
+    public void handleInteract(Stable stable, Player player, Tameable animal) {
+        final AbstractHorse horse = (AbstractHorse) animal;
         StabledHorse stabledHorse = stable.getHorse(horse);
         OfflinePlayer rider = delRiderQueue.get(player);
         removeFromQueue(player);

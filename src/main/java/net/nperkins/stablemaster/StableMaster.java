@@ -23,7 +23,7 @@ import java.util.logging.Level;
 
 public class StableMaster extends JavaPlugin {
 
-    public static List<Chunk> horseChunk = new ArrayList<>();
+    public static List<Chunk> teleportChunk = new ArrayList<>();
     public static ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
 
     private static Plugin plugin;

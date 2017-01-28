@@ -7,7 +7,9 @@ import net.nperkins.stablemaster.data.Stable;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.AbstractHorse;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,13 +35,14 @@ public class Rename extends SubCommand {
         StableMaster.langMessage(player, "punch-animal");
     }
 
-    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
+    public void handleInteract(Stable stable, Player player, Tameable animal) {
+        final Animals a = (Animals) animal;
         String name = renameQueue.get(player);
         removeFromQueue(player);
 
-        horse.setCustomName(name);
-        horse.setCustomNameVisible(true);
-        StableMaster.langFormat(player, "command.rename.renamed", horse.getType(), name);
+        a.setCustomName(name);
+        a.setCustomNameVisible(true);
+        StableMaster.langFormat(player, "command.rename.renamed", a.getType(), name);
     }
 
     @Override

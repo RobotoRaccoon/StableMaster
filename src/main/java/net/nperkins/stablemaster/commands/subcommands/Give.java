@@ -6,7 +6,9 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
+import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,16 +35,19 @@ public class Give extends SubCommand {
         }
     }
 
-    public void handleInteract(Stable stable, Player player, AbstractHorse horse) {
+    public void handleInteract(Stable stable, Player player, Tameable animal) {
         OfflinePlayer newOwner = giveQueue.get(player);
         removeFromQueue(player);
-        Stable newStable = StableMaster.getStable(newOwner);
 
-        stable.removeHorse(horse);
-        newStable.addHorse(horse);
-        horse.setOwner(newOwner);
+        if (animal instanceof AbstractHorse) {
+            AbstractHorse horse = (AbstractHorse) animal;
+            Stable newStable = StableMaster.getStable(newOwner);
+            stable.removeHorse(horse);
+            newStable.addHorse(horse);
+        }
 
-        StableMaster.langFormat(player, "command.give.given", horse.getType(), newOwner.getName());
+        animal.setOwner(newOwner);
+        StableMaster.langFormat(player, "command.give.given", ((Animals) animal).getType(), newOwner.getName());
     }
 
     @Override
