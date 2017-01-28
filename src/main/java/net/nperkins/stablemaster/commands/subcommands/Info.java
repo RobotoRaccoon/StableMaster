@@ -90,11 +90,17 @@ public class Info extends SubCommand {
         // What type of animal it is
         if (config.getInt("variant") >= permissionLevel) {
             String variant;
-            if (a.getType() == EntityType.HORSE) {
-                Horse h = (Horse) animal;
-                variant = h.getColor() + ", " + h.getStyle();
-            } else {
-                variant = a.getType().toString();
+            switch (a.getType()) {
+                case HORSE:
+                    Horse h = (Horse) animal;
+                    variant = h.getColor() + ", " + h.getStyle();
+                    break;
+                case OCELOT:
+                    variant = ((Ocelot) animal).getCatType().toString();
+                    break;
+                default:
+                    variant = a.getType().toString();
+                    break;
             }
             StableMaster.langFormat(player, "command.info.variant", variant);
         }
