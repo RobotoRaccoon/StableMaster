@@ -30,6 +30,9 @@ permissions:
   stablemaster.release:
     description: Allows user to un-tame their horse
     default: op
+  stablemaster.reload:
+    description: Allows user to reload the configuration files
+    defailt: op
   stablemaster.rename:
     description: Allows user to rename a horse
     default: op

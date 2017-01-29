@@ -38,7 +38,7 @@ public class StableMaster extends JavaPlugin {
 
         // Create configuration instance
         configuration = new Configuration();
-        configuration.createAllFiles();
+        loadConfigs();
 
         pluginFolder = getDataFolder();
         dataFolder = new File(pluginFolder + File.separator + "stables");
@@ -70,6 +70,10 @@ public class StableMaster extends JavaPlugin {
             saveStable((Stable) pairs.getValue());
             it.remove();
         }
+    }
+
+    public static void loadConfigs() {
+        configuration.createAllFiles();
     }
 
     public static void rawMessage(CommandSender sender, String msg) {

@@ -22,6 +22,7 @@ public class CoreCommand implements CommandExecutor {
         addCommand(new Help());
         addCommand(new Info());
         addCommand(new Release());
+        addCommand(new Reload());
         addCommand(new Rename());
         addCommand(new Teleport());
     }

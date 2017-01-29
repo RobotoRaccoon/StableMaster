@@ -46,6 +46,10 @@ command:
     description: 'Revoke ownership of your animal'
     usage: 'release'
     released: 'You have revoked ownership of your %s'
+  reload:
+    description: 'Reload the configuration files'
+    usage: 'reload'
+    reloaded: 'Successfully reloaded &f&oconfig.yml&7 and &f&olang.yml'
   rename:
     description: 'Rename your animal. Colour codes allowed'
     usage: 'rename <new-name>'
