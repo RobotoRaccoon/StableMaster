@@ -23,6 +23,9 @@ public class EntityDamageByEntityListener implements Listener {
         if (event.getDamager() instanceof Player)
             playerDamageAnimal(event);
 
+        if (event.getDamager() instanceof Monster)
+            monsterDamageAnimal(event);
+
         if (event.getDamager() instanceof Projectile)
             projectileDamageAnimal(event);
     }
@@ -78,23 +81,39 @@ public class EntityDamageByEntityListener implements Listener {
         }
     }
 
-    private void projectileDamageAnimal(EntityDamageByEntityEvent event) {
-        final ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
-
-        // Ignore cancelled events, and only player shooters
-        if (event.isCancelled() || !(source instanceof Player))
-            return;
-
-        final Player player = (Player) source;
-        final Tameable animal = (Tameable) event.getEntity();
-
+    private void monsterDamageAnimal(EntityDamageByEntityEvent event) {
         // If the animal has no owner, no need to protect it
+        final Tameable animal = (Tameable) event.getEntity();
         if (!animal.isTamed() || animal.getOwner() == null)
             return;
 
-        if (!canPlayerHurt(animal, player, false)) {
+        if (!canMonsterHurt(true))
             event.setCancelled(true);
-            StableMaster.langFormat(player, "error.protected", event.getEntityType());
+    }
+
+    private void projectileDamageAnimal(EntityDamageByEntityEvent event) {
+        // Ignore cancelled events
+        if (event.isCancelled())
+            return;
+
+        // If the animal has no owner, no need to protect it
+        final Tameable animal = (Tameable) event.getEntity();
+        if (!animal.isTamed() || animal.getOwner() == null)
+            return;
+
+        final ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
+        if (source instanceof Player) {
+            // If a player harmed the animal
+            final Player player = (Player) source;
+            if (!canPlayerHurt(animal, player, false)) {
+                event.setCancelled(true);
+                StableMaster.langFormat(player, "error.protected", event.getEntityType());
+            }
+        }
+        else if (source instanceof Monster) {
+            // If a monster harmed the animal
+            if (!canMonsterHurt(false))
+                event.setCancelled(true);
         }
     }
 
@@ -105,6 +124,12 @@ public class EntityDamageByEntityListener implements Listener {
         String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
 
+        return !config.getBoolean(path);
+    }
+
+    private boolean canMonsterHurt(Boolean isMelee) {
+        ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
+        String path = "monster-" + (isMelee ? "melee" : "ranged");
         return !config.getBoolean(path);
     }
 }

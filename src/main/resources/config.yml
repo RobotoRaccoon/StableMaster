@@ -33,3 +33,6 @@ protection:
   ## Protection if another player hurts the horse
   player-melee: true
   player-ranged: true
+  ## Protection if a monster hurts the horse
+  monster-melee: true
+  monster-ranged: true
