@@ -36,3 +36,21 @@ protection:
   ## Protection if a monster hurts the horse
   monster-melee: true
   monster-ranged: true
+  ## Protect against projectiles that aren't player or monster
+  other-ranged: true
+  ## Always protect against these no matter the source
+  block_explosion: true
+  contact: true
+  cramming: true
+  drowning: true
+  fall: true
+  fire: true
+  fire_tick: true
+  fly_into_wall: true
+  hot_floor: true
+  lava: true
+  lightning: true
+  magic: true
+  poison: true
+  suffocation: true
+  wither: true

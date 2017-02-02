@@ -9,9 +9,29 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public class EntityDamageByEntityListener implements Listener {
+public class EntityDamageListeners implements Listener {
+
+    // Event for the "always protect" config settings
+    @EventHandler (ignoreCancelled = true)
+    public void onEntityDamage(EntityDamageEvent event) {
+        // Return if the damaged entity is not a tameable entity.
+        if (!(event.getEntity() instanceof Tameable))
+            return;
+
+        // If the animal has no owner, no need to protect it
+        final Tameable animal = (Tameable) event.getEntity();
+        if (!animal.isTamed() || animal.getOwner() == null)
+            return;
+
+        String cause = event.getCause().name().toLowerCase();
+        ConfigurationSection config = getProtectionConfig();
+
+        if (config.getBoolean(cause))
+            event.setCancelled(true);
+    }
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
@@ -22,6 +42,15 @@ public class EntityDamageByEntityListener implements Listener {
         // Handle if a player is punching the animal.
         if (event.getDamager() instanceof Player)
             playerDamageAnimal(event);
+
+        // Ignore cancelled events, as each source below are not issuing commands.
+        if (event.isCancelled())
+            return;
+
+        // If the animal has no owner, no need to protect it
+        final Tameable animal = (Tameable) event.getEntity();
+        if (!animal.isTamed() || animal.getOwner() == null)
+            return;
 
         if (event.getDamager() instanceof Monster)
             monsterDamageAnimal(event);
@@ -82,25 +111,12 @@ public class EntityDamageByEntityListener implements Listener {
     }
 
     private void monsterDamageAnimal(EntityDamageByEntityEvent event) {
-        // If the animal has no owner, no need to protect it
-        final Tameable animal = (Tameable) event.getEntity();
-        if (!animal.isTamed() || animal.getOwner() == null)
-            return;
-
-        if (!canMonsterHurt(true))
+        if (getProtectionConfig().getBoolean("monster-melee"))
             event.setCancelled(true);
     }
 
     private void projectileDamageAnimal(EntityDamageByEntityEvent event) {
-        // Ignore cancelled events
-        if (event.isCancelled())
-            return;
-
-        // If the animal has no owner, no need to protect it
         final Tameable animal = (Tameable) event.getEntity();
-        if (!animal.isTamed() || animal.getOwner() == null)
-            return;
-
         final ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
         if (source instanceof Player) {
             // If a player harmed the animal
@@ -112,24 +128,24 @@ public class EntityDamageByEntityListener implements Listener {
         }
         else if (source instanceof Monster) {
             // If a monster harmed the animal
-            if (!canMonsterHurt(false))
+            if (getProtectionConfig().getBoolean("monster-ranged"))
+                event.setCancelled(true);
+        }
+        else {
+            // If something else harmed the animal (eg, dispenser)
+            if (getProtectionConfig().getBoolean("other-ranged"))
                 event.setCancelled(true);
         }
     }
 
-    private boolean canPlayerHurt(Tameable animal, Player harmer, Boolean isMelee) {
-        ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
-        Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
-
-        String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
-        path += (isMelee) ? "melee" : "ranged";
-
-        return !config.getBoolean(path);
+    private ConfigurationSection getProtectionConfig() {
+        return StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
     }
 
-    private boolean canMonsterHurt(Boolean isMelee) {
-        ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
-        String path = "monster-" + (isMelee ? "melee" : "ranged");
-        return !config.getBoolean(path);
+    private boolean canPlayerHurt(Tameable animal, Player harmer, Boolean isMelee) {
+        Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
+        String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
+        path += (isMelee) ? "melee" : "ranged";
+        return !getProtectionConfig().getBoolean(path);
     }
 }
