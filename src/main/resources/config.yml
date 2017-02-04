@@ -27,6 +27,8 @@ aliases:
   - 'tp'
   - 'transport'
 protection:
+  ## Should stablemaster.bypass.protection always allow damage, else act as if they're the owner
+  complete-bypass: false
   ## Protection if the owner hurts the horse
   owner-melee: true
   owner-ranged: false

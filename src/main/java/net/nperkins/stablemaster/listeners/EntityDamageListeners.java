@@ -144,6 +144,10 @@ public class EntityDamageListeners implements Listener {
 
     private boolean canPlayerHurt(Tameable animal, Player harmer, Boolean isMelee) {
         Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
+        // If the complete-bypass setting is true, always allow player damage
+        if (bypass && getProtectionConfig().getBoolean("complete-bypass"))
+            return true;
+
         String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
         return !getProtectionConfig().getBoolean(path);
