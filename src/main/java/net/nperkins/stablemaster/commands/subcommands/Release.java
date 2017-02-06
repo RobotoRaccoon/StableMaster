@@ -24,7 +24,7 @@ public class Release extends SubCommand {
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
-        final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
+        final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.release");
 
         // If animal is a horse, drop its saddle and remove it from the stable.
         if (animal instanceof AbstractHorse) {
