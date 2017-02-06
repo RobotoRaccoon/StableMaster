@@ -16,6 +16,9 @@ command:
     bypass-as-level: 0
   release:
     clear-custom-name: false
+  rename:
+    ## Should the nameplate always be visible, or only when looking at the animal
+    name-always-visible: true
 aliases:
   addrider:
   - 'add'

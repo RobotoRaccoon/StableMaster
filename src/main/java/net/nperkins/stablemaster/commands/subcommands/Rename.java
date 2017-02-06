@@ -6,6 +6,7 @@ import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
@@ -37,11 +38,12 @@ public class Rename extends SubCommand {
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
+        final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.rename");
         String name = renameQueue.get(player);
         removeFromQueue(player);
 
         a.setCustomName(name);
-        a.setCustomNameVisible(true);
+        a.setCustomNameVisible(config.getBoolean("name-always-visible"));
         StableMaster.langFormat(player, "command.rename.renamed", a.getType(), name);
     }
 
