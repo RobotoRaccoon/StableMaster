@@ -6,7 +6,7 @@
 
     <groupId>net.nperkins</groupId>
     <artifactId>stablemaster</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
 
     <name>StableMaster</name>
     <description>A Horse Management plugin</description>
