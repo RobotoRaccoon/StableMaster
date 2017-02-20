@@ -55,3 +55,15 @@ permissions:
       stablemaster.bypass.command.release: true
       stablemaster.bypass.command.rename: true
       stablemaster.bypass.command.teleport: true
+  stablemaster.tame:
+    description: Allows user to tame an animal
+    default: true
+    children:
+      stablemaster.tame.donkey: true
+      stablemaster.tame.horse: true
+      stablemaster.tame.llama: true
+      stablemaster.tame.mule: true
+      stablemaster.tame.ocelot: true
+      stablemaster.tame.skeletonhorse: true
+      stablemaster.tame.zombiehorse: true
+      stablemaster.tame.wolf: true

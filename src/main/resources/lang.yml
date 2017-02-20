@@ -1,6 +1,7 @@
 prefix: '&3[&bSM&3] &7'
 error:
   arguments: '&cIncorrect number of arguments supplied'
+  cannot-tame: '&cYou do not have permission to tame this animal'
   no-command: '&cCommand not found'
   no-console: '&cThis command cannot be run from console'
   no-permission: '&cYou do not have permission to do this'
