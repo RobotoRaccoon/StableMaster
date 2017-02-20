@@ -64,6 +64,6 @@ permissions:
       stablemaster.tame.llama: true
       stablemaster.tame.mule: true
       stablemaster.tame.ocelot: true
-      stablemaster.tame.skeletonhorse: true
-      stablemaster.tame.zombiehorse: true
+      stablemaster.tame.skeleton_horse: true
+      stablemaster.tame.zombie_horse: true
       stablemaster.tame.wolf: true
