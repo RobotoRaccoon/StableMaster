@@ -55,7 +55,7 @@ public class Info extends SubCommand {
         // Print the info
         StableMaster.langMessage(player, "command.info.header");
 
-        // Owner of the horse
+        // Owner of the animal
         if (config.getInt("owner") >= permissionLevel) {
             StableMaster.langFormat(player, "command.info.owner", animal.getOwner().getName());
         }

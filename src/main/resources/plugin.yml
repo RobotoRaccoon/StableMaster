@@ -19,31 +19,31 @@ permissions:
     description: Allows user to remove a rider from a horse
     default: true
   stablemaster.give:
-    description: Allows user to give horse to a new owner
+    description: Allows user to give animal to a new owner
     default: true
   stablemaster.help:
     description: Allows user to run the help command
     default: true
   stablemaster.info:
-    description: Get info on a horse
+    description: Get info on an animal
     default: true
   stablemaster.release:
-    description: Allows user to un-tame their horse
+    description: Allows user to un-tame their animal
     default: op
   stablemaster.reload:
     description: Allows user to reload the configuration files
     defailt: op
   stablemaster.rename:
-    description: Allows user to rename a horse
+    description: Allows user to rename an animal
     default: op
   stablemaster.rename.colors:
-    description: Allows colors in horses names
+    description: Allows colors in animals names
     default: op
   stablemaster.teleport:
-    description: Allows user to teleport their horse
+    description: Allows user to teleport their animal
     default: op
   stablemaster.bypass:
-    description: Allows user to interact with all horses
+    description: Allows user to interact with all animals
     default: op
     children:
       stablemaster.bypass.protection: true

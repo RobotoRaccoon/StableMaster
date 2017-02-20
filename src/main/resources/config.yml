@@ -32,13 +32,13 @@ aliases:
 protection:
   ## Should stablemaster.bypass.protection always allow damage, else act as if they're the owner
   complete-bypass: false
-  ## Protection if the owner hurts the horse
+  ## Protection if the owner hurts the animal
   owner-melee: true
   owner-ranged: false
-  ## Protection if another player hurts the horse
+  ## Protection if another player hurts the animal
   player-melee: true
   player-ranged: true
-  ## Protection if a monster hurts the horse
+  ## Protection if a monster hurts the animal
   monster-melee: true
   monster-ranged: true
   ## Protect against projectiles that aren't player or monster
