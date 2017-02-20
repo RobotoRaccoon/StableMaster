@@ -6,10 +6,10 @@
 
     <groupId>net.nperkins</groupId>
     <artifactId>stablemaster</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <name>StableMaster</name>
-    <description>A Horse Management plugin</description>
+    <description>A Tameable Animal Management plugin</description>
 
     <properties>
         <author>RobotoRaccoon</author>
