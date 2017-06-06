@@ -98,6 +98,9 @@ public class Info extends SubCommand {
                 case OCELOT:
                     variant = ((Ocelot) animal).getCatType().toString();
                     break;
+                case PARROT:
+                    variant = ((Parrot) animal).getVariant().toString();
+                    break;
                 default:
                     variant = a.getType().toString();
                     break;

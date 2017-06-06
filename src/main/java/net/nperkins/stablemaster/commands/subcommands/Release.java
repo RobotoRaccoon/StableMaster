@@ -41,13 +41,12 @@ public class Release extends SubCommand {
 
             stable.removeHorse(horse);
         }
-        else if (animal instanceof Ocelot) {
-            Ocelot o = (Ocelot) animal;
-            o.setCatType(Ocelot.Type.WILD_OCELOT);
-            o.setSitting(false);
-        }
-        else if (animal instanceof Wolf) {
-            ((Wolf) animal).setSitting(false);
+        else if (animal instanceof Sittable) {
+            if (animal instanceof Ocelot) {
+                ((Ocelot) animal).setCatType(Ocelot.Type.WILD_OCELOT);
+            }
+            // Set released animals to non-sitting position
+            ((Sittable) animal).setSitting(false);
         }
 
         if (config.getBoolean("clear-custom-name")) {
