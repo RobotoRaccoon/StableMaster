@@ -17,7 +17,7 @@ public class Reload extends SubCommand {
 
     public void handle(CommandInfo commandInfo) {
         CommandSender sender = commandInfo.getSender();
-        StableMaster.loadConfigs();
+        StableMaster.loadConfigData();
         StableMaster.langMessage(sender, "command.reload.reloaded");
     }
 

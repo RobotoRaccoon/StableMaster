@@ -36,14 +36,13 @@ public class StableMaster extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        // Create configuration instance
-        configuration = new Configuration();
-        loadConfigs();
-
         pluginFolder = getDataFolder();
         dataFolder = new File(pluginFolder + File.separator + "stables");
-
         createDataFolders();
+
+        // Create configuration instance
+        configuration = new Configuration();
+        loadConfigData();
 
         // Register listeners
         getServer().getPluginManager().registerEvents(new ChunkListener(), this);
@@ -73,8 +72,9 @@ public class StableMaster extends JavaPlugin {
         }
     }
 
-    public static void loadConfigs() {
+    public static void loadConfigData() {
         configuration.createAllFiles();
+        CoreCommand.addAllCommands();
     }
 
     public static void rawMessage(CommandSender sender, String msg) {

@@ -15,7 +15,8 @@ public class CoreCommand implements CommandExecutor {
 
     public static final HashMap<String, SubCommand> subCommands = new LinkedHashMap<>();
 
-    public CoreCommand() {
+    public static void addAllCommands() {
+        subCommands.clear();
         addCommand(new AddRider());
         addCommand(new DelRider());
         addCommand(new Give());
@@ -27,7 +28,7 @@ public class CoreCommand implements CommandExecutor {
         addCommand(new Teleport());
     }
 
-    private void addCommand(SubCommand cmd) {
+    private static void addCommand(SubCommand cmd) {
         subCommands.put(cmd.getName(), cmd);
         for(String alias : cmd.getAliases())
             subCommands.put(alias, cmd);
