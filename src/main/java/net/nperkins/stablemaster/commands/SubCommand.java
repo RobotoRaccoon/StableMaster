@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
@@ -31,11 +32,11 @@ public abstract class SubCommand {
     }
 
     public String getDescription() {
-        return StableMaster.getLang("command." + getName() + ".description");
+        return new LangString("command." + getName() + ".description").getMessage();
     }
 
     public String getUsage() {
-        return StableMaster.getLang("command." + getName() + ".usage");
+        return new LangString("command." + getName() + ".usage").getMessage();
     }
 
     public boolean isConsoleAllowed() {

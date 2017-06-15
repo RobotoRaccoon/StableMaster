@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.subcommands.*;
 import org.bukkit.command.Command;
@@ -48,26 +49,26 @@ public class CoreCommand implements CommandExecutor {
 
         // Improper command specified.
         if (subCommand == null) {
-            StableMaster.langMessage(sender, "error.no-command");
+            new LangString("error.no-command").send(sender);
             return true;
         }
 
         // Sender is console and command does not allow console access.
         if (!(sender instanceof Player) && !subCommand.isConsoleAllowed()) {
-            StableMaster.langMessage(sender, "error.no-console");
+            new LangString("error.no-console").send(sender);
             return true;
         }
 
         // Player does not have permission to use the command.
         if (!sender.hasPermission(subCommand.getPermission())) {
-            StableMaster.langMessage(sender, "error.no-permission");
+            new LangString("error.no-permission").send(sender);
             return true;
         }
 
         // Not enough arguments have been supplied.
         if (args.length < subCommand.getMinArgs()) {
-            StableMaster.langMessage(sender, "error.arguments");
-            StableMaster.rawMessage(sender, "/" + label + " " + subCommand.getUsage());
+            new LangString("error.arguments").send(sender);
+            new LangString().append("/" + label + " " + subCommand.getUsage()).send(sender);
             return true;
         }
 

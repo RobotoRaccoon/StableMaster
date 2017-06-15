@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
@@ -9,6 +10,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
+
+import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,9 +33,9 @@ public class DelRider extends SubCommand {
         if (rider != null && rider.hasPlayedBefore()) {
             StableMaster.commandQueue.put(player, this);
             delRiderQueue.put(player, rider);
-            StableMaster.langMessage(player, "punch-animal");
+            new LangString("punch-animal").send(player);
         } else {
-            StableMaster.langMessage(player, "error.player-not-found");
+            new LangString("error.player-not-found").send(player);
         }
     }
 
@@ -43,11 +46,11 @@ public class DelRider extends SubCommand {
         removeFromQueue(player);
 
         if (!stabledHorse.isRider(rider)) {
-            StableMaster.langFormat(player, "command.delrider.not-rider", rider.getName());
+            new LangString("command.delrider.not-rider", rider.getName()).send(player);
         }
         else {
             stabledHorse.delRider(rider);
-            StableMaster.langFormat(player, "command.delrider.removed", rider.getName(), horse.getType());
+            new LangString("command.delrider.removed", rider.getName(), getAnimal(horse.getType())).send(player);
         }
     }
 

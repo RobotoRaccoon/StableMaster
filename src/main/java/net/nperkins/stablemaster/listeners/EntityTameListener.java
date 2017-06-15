@@ -1,12 +1,14 @@
 package net.nperkins.stablemaster.listeners;
 
-import net.nperkins.stablemaster.StableMaster;
+import net.nperkins.stablemaster.LangString;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
+
+import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 public class EntityTameListener implements Listener {
 
@@ -25,7 +27,7 @@ public class EntityTameListener implements Listener {
             return;
 
         event.setCancelled(true);
-        StableMaster.langMessage(player, "error.cannot-tame");
+        new LangString("error.cannot-tame", getAnimal(animal.getType())).send(player);
     }
 
 }

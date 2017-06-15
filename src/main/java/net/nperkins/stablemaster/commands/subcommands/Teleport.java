@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
@@ -33,7 +34,7 @@ public class Teleport extends SubCommand {
 
             // Horses duplicate with cross world teleports...
             if (animal.getLocation().getWorld() != (player).getLocation().getWorld()) {
-                StableMaster.langMessage(player, "command.teleport.cross-world");
+                new LangString("command.teleport.cross-world").send(player);
                 return;
             }
 
@@ -43,14 +44,14 @@ public class Teleport extends SubCommand {
 
             StableMaster.commandQueue.put(player, this);
             teleportQueue.put(player, true);
-            StableMaster.langMessage(player, "punch-animal");
+            new LangString("punch-animal").send(player);
         }
     }
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
         // Storing location
-        StableMaster.langMessage(player, "command.teleport.location-saved");
+        new LangString("command.teleport.location-saved").send(player);
         StableMaster.teleportChunk.add(a.getLocation().getChunk());
         StableMaster.commandQueue.put(player, this);
         teleportQueue.put(player, a);
@@ -75,10 +76,10 @@ class TeleportEval extends BukkitRunnable {
     public void run() {
         if (chunkIsLoaded()) {
             StableMaster.teleportChunk.remove(animal.getLocation().getChunk());
-            StableMaster.langMessage(player, "command.teleport.teleporting");
+            new LangString("command.teleport.teleporting").send(player);
             animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
         } else {
-            StableMaster.langMessage(player, "command.teleport.failed");
+            new LangString("command.teleport.failed").send(player);
         }
     }
 

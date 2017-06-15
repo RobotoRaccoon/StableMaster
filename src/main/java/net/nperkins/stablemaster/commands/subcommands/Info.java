@@ -1,6 +1,7 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
 import com.google.common.base.Joiner;
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
@@ -24,7 +25,7 @@ public class Info extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
 
         StableMaster.commandQueue.put(player, this);
-        StableMaster.langMessage(player, "punch-animal");
+        new LangString("punch-animal").send(player);
     }
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {
@@ -53,38 +54,38 @@ public class Info extends SubCommand {
             permissionLevel = config.getInt("bypass-as-level");
 
         // Print the info
-        StableMaster.langMessage(player, "command.info.header");
+        new LangString("command.info.header").send(player);
 
         // Owner of the animal
         if (config.getInt("owner") >= permissionLevel) {
-            StableMaster.langFormat(player, "command.info.owner", animal.getOwner().getName());
+            new LangString("command.info.owner", animal.getOwner().getName()).send(player);
         }
 
         // Players allowed to ride the horse
         if (isHorse && config.getInt("permitted-riders") >= permissionLevel) {
-            String permitted = riderNames.isEmpty() ? StableMaster.getLang("command.info.no-riders") : Joiner.on(", ").join(riderNames);
-            StableMaster.langFormat(player, "command.info.permitted-riders", permitted);
+            String permitted = riderNames.isEmpty() ? new LangString("command.info.no-riders").getMessage() : Joiner.on(", ").join(riderNames);
+            new LangString("command.info.permitted-riders", permitted).send(player);
         }
 
         // Current and maximum health
         if (config.getInt("health") >= permissionLevel) {
             Double hearts = a.getHealth() / 2;
             Double maxHearts = a.getMaxHealth() / 2;
-            StableMaster.langFormat(player, "command.info.health", hearts, maxHearts);
+            new LangString("command.info.health", hearts, maxHearts).send(player);
         }
 
         // Jump strength
         if (isHorse && config.getInt("jump-strength") >= permissionLevel) {
             Double str = ((AbstractHorse) animal).getJumpStrength();
             Double height = -0.1817584952 * str*str*str + 3.689713992 * str*str + 2.128599134 * str - 0.343930367;
-            StableMaster.langFormat(player, "command.info.jump-strength", str, height);
+            new LangString("command.info.jump-strength", str, height).send(player);
         }
 
         // Max Speed
         if (config.getInt("max-speed") >= permissionLevel) {
             Double speed = a.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue();
             Double blocksPerSecond = speed * 43.1;
-            StableMaster.langFormat(player, "command.info.max-speed", speed, blocksPerSecond);
+            new LangString("command.info.max-speed", speed, blocksPerSecond).send(player);
         }
 
         // What type of animal it is
@@ -105,7 +106,7 @@ public class Info extends SubCommand {
                     variant = a.getType().toString();
                     break;
             }
-            StableMaster.langFormat(player, "command.info.variant", variant);
+            new LangString("command.info.variant", variant).send(player);
         }
     }
 }

@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.CoreCommand;
@@ -22,8 +23,8 @@ public class Help extends SubCommand {
     public void handle(CommandInfo commandInfo) {
         CommandSender sender = commandInfo.getSender();
 
-        StableMaster.langMessage(sender, "command.help.header");
-        StableMaster.langMessage(sender, "command.help.about");
+        new LangString("command.help.header").send(sender);
+        new LangString("command.help.about").send(sender);
 
         for (Map.Entry<String, SubCommand> entry : CoreCommand.subCommands.entrySet()) {
             String name = entry.getKey();
@@ -33,10 +34,10 @@ public class Help extends SubCommand {
                 continue;
 
             if (sender.hasPermission(cmd.getPermission()))
-                StableMaster.langFormat(sender, "command.help.format", cmd.getUsage(), cmd.getDescription());
+                new LangString("command.help.format", cmd.getUsage(), cmd.getDescription()).send(sender);
         }
 
-        StableMaster.langMessage(sender, "command.help.footer");
+        new LangString("command.help.footer").send(sender);
     }
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {

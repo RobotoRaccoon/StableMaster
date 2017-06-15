@@ -6,11 +6,10 @@ import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
 import net.nperkins.stablemaster.listeners.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,22 +76,12 @@ public class StableMaster extends JavaPlugin {
         CoreCommand.addAllCommands();
     }
 
-    public static void rawMessage(CommandSender sender, String msg) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getLang("prefix") + msg));
+    public static Configuration getConfiguration() {
+        return configuration;
     }
 
-    public static void langMessage(CommandSender sender, String key) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', getLang("prefix") + getLang(key)));
-    }
-
-    public static void langFormat(CommandSender sender, String key, Object... args) {
-        rawMessage(sender, String.format(getLang(key), args));
-    }
-
-    public static String getLang(String key) {
-        if (!configuration.getLang().contains(key))
-            getPlugin().getLogger().log(Level.WARNING, String.format("lang.yml path `%s` does not exist!", key));
-        return configuration.getLang().getString(key);
+    public static String getAnimal(EntityType type) {
+        return new LangString("animal." + type.toString().toLowerCase()).getMessage();
     }
 
     public static void loadStable(OfflinePlayer player) {

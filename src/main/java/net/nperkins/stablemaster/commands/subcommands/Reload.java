@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
@@ -18,7 +19,7 @@ public class Reload extends SubCommand {
     public void handle(CommandInfo commandInfo) {
         CommandSender sender = commandInfo.getSender();
         StableMaster.loadConfigData();
-        StableMaster.langMessage(sender, "command.reload.reloaded");
+        new LangString("command.reload.reloaded").send(sender);
     }
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {

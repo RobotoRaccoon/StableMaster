@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
@@ -9,6 +10,8 @@ import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
+
+import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,9 +32,9 @@ public class Give extends SubCommand {
         if (newOwner != null && newOwner.hasPlayedBefore()) {
             StableMaster.commandQueue.put(player, this);
             giveQueue.put(player, newOwner);
-            StableMaster.langMessage(player, "punch-animal");
+            new LangString("punch-animal").send(player);
         } else {
-            StableMaster.langMessage(player, "error.player-not-found");
+            new LangString("error.player-not-found").send(player);
         }
     }
 
@@ -47,7 +50,7 @@ public class Give extends SubCommand {
         }
 
         animal.setOwner(newOwner);
-        StableMaster.langFormat(player, "command.give.given", ((Animals) animal).getType(), newOwner.getName());
+        new LangString("command.give.given", getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
     }
 
     @Override

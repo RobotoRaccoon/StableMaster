@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.commands.subcommands;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.CommandInfo;
 import net.nperkins.stablemaster.commands.SubCommand;
@@ -8,6 +9,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 public class Release extends SubCommand {
 
@@ -19,7 +22,7 @@ public class Release extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
 
         StableMaster.commandQueue.put(player, this);
-        StableMaster.langMessage(player, "punch-animal");
+        new LangString("punch-animal").send(player);
     }
 
     public void handleInteract(Stable stable, Player player, Tameable animal) {
@@ -58,6 +61,6 @@ public class Release extends SubCommand {
         animal.setTamed(false);
         animal.setOwner(null);
 
-        StableMaster.langFormat(player, "command.release.released", a.getType());
+        new LangString("command.release.released", getAnimal(a.getType())).send(player);
     }
 }

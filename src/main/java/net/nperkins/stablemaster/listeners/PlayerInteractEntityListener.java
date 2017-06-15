@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.listeners;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.data.Stable;
 import net.nperkins.stablemaster.data.StabledHorse;
@@ -42,7 +43,7 @@ public class PlayerInteractEntityListener implements Listener {
         if (player != horse.getOwner() && !player.hasPermission("stablemaster.bypass.ride")) {
             StabledHorse stabledHorse = stable.getHorse(horse);
             if (!stabledHorse.isRider(player)) {
-                StableMaster.langMessage(player, "error.not-rider");
+                new LangString("error.not-rider").send(player);
                 event.setCancelled(true);
             }
         }

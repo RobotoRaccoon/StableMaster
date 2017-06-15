@@ -1,5 +1,6 @@
 package net.nperkins.stablemaster.listeners;
 
+import net.nperkins.stablemaster.LangString;
 import net.nperkins.stablemaster.StableMaster;
 import net.nperkins.stablemaster.commands.SubCommand;
 import net.nperkins.stablemaster.data.Stable;
@@ -11,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
+
+import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 public class EntityDamageListeners implements Listener {
 
@@ -67,7 +70,7 @@ public class EntityDamageListeners implements Listener {
         if (!animal.isTamed() || animal.getOwner() == null) {
             if (StableMaster.commandQueue.containsKey(player)) {
                 event.setCancelled(true);
-                StableMaster.langFormat(player, "not-tamed", event.getEntityType());
+                new LangString("not-tamed", getAnimal(event.getEntityType())).send(player);
                 StableMaster.commandQueue.remove(player);
             }
             return;
@@ -90,7 +93,7 @@ public class EntityDamageListeners implements Listener {
             StableMaster.commandQueue.remove(player);
 
             if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
-                StableMaster.langFormat(player, "error.not-owner", event.getEntityType());
+                new LangString("error.not-owner", getAnimal(event.getEntityType())).send(player);
                 cmd.removeFromQueue(player);
                 return;
             }
@@ -99,14 +102,14 @@ public class EntityDamageListeners implements Listener {
             if (animal instanceof AbstractHorse || cmd.isTameablesAllowed())
                 cmd.handleInteract(stable, player, animal);
             else
-                StableMaster.langMessage(player, "error.not-supported");
+                new LangString("error.not-supported").send(player);
             return;
         }
 
         if (!canPlayerHurt(animal, player, true)) {
             // If we get here, the animal was protected and not involved in a command.
             event.setCancelled(true);
-            StableMaster.langFormat(player, "error.protected", event.getEntityType());
+            new LangString("error.protected", getAnimal(event.getEntityType())).send(player);
         }
     }
 
@@ -123,7 +126,7 @@ public class EntityDamageListeners implements Listener {
             final Player player = (Player) source;
             if (!canPlayerHurt(animal, player, false)) {
                 event.setCancelled(true);
-                StableMaster.langFormat(player, "error.protected", event.getEntityType());
+                new LangString("error.protected", getAnimal(event.getEntityType())).send(player);
             }
         }
         else if (source instanceof Monster) {
