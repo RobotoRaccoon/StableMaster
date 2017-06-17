@@ -4,13 +4,18 @@ import org.bukkit.command.CommandSender;
 
 public class CommandInfo {
 
+    private String label;
     private final CommandSender sender;
-
     private final String[] args;
 
-    public CommandInfo(CommandSender sender, String[] args) {
+    public CommandInfo(String label, CommandSender sender, String[] args) {
+        this.label = label;
         this.sender = sender;
         this.args = args;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public CommandSender getSender() {

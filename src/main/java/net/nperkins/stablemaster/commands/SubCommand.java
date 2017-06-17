@@ -31,9 +31,8 @@ public abstract class SubCommand {
         // Do nothing by default
     }
 
-    public void execute(String label, final CommandInfo info) {
+    public void execute(final CommandInfo info) {
         CommandSender sender = info.getSender();
-        String[] args = info.getArgs();
 
         // Sender is console and command does not allow console access.
         if (!(sender instanceof Player) && !isConsoleAllowed()) {
@@ -48,9 +47,9 @@ public abstract class SubCommand {
         }
 
         // Not enough arguments have been supplied.
-        if (args.length < getMinArgs()) {
+        if (info.getArgs().length < getMinArgs()) {
             new LangString("error.arguments").send(sender);
-            new LangString().append("/" + label + " " + getUsage()).send(sender);
+            new LangString().append("/" + info.getLabel() + " " + getUsage()).send(sender);
             return;
         }
 

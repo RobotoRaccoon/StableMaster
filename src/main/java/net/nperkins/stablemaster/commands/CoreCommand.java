@@ -54,7 +54,7 @@ public class CoreCommand implements CommandExecutor {
         }
 
         // Attempt execution.
-        subCommand.execute(label, new CommandInfo(sender, args));
+        subCommand.execute(new CommandInfo(label, sender, args));
         return true;
     }
 }
