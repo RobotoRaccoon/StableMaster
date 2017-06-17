@@ -53,34 +53,8 @@ public class CoreCommand implements CommandExecutor {
             return true;
         }
 
-        // Sender is console and command does not allow console access.
-        if (!(sender instanceof Player) && !subCommand.isConsoleAllowed()) {
-            new LangString("error.no-console").send(sender);
-            return true;
-        }
-
-        // Player does not have permission to use the command.
-        if (!sender.hasPermission(subCommand.getPermission())) {
-            new LangString("error.no-permission").send(sender);
-            return true;
-        }
-
-        // Not enough arguments have been supplied.
-        if (args.length < subCommand.getMinArgs()) {
-            new LangString("error.arguments").send(sender);
-            new LangString().append("/" + label + " " + subCommand.getUsage()).send(sender);
-            return true;
-        }
-
-        // Run the command.
-        final String[] finalArgs = args;
-        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
-                    public void run() {
-                        final CommandInfo commandinfo = new CommandInfo(sender, finalArgs);
-                        subCommand.handle(commandinfo);
-                    }
-                }
-        );
+        // Attempt execution.
+        subCommand.execute(label, new CommandInfo(sender, args));
         return true;
     }
 }

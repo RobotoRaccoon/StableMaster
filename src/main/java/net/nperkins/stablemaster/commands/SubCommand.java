@@ -31,6 +31,38 @@ public abstract class SubCommand {
         // Do nothing by default
     }
 
+    public void execute(String label, final CommandInfo info) {
+        CommandSender sender = info.getSender();
+        String[] args = info.getArgs();
+
+        // Sender is console and command does not allow console access.
+        if (!(sender instanceof Player) && !isConsoleAllowed()) {
+            new LangString("error.no-console").send(sender);
+            return;
+        }
+
+        // Player does not have permission to use the command.
+        if (!sender.hasPermission(getPermission())) {
+            new LangString("error.no-permission").send(sender);
+            return;
+        }
+
+        // Not enough arguments have been supplied.
+        if (args.length < getMinArgs()) {
+            new LangString("error.arguments").send(sender);
+            new LangString().append("/" + label + " " + getUsage()).send(sender);
+            return;
+        }
+
+        // Run the command.
+        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
+                    public void run() {
+                        handle(info);
+                    }
+                }
+        );
+    }
+
     public String getDescription() {
         return new LangString("command." + getName() + ".description").getMessage();
     }
