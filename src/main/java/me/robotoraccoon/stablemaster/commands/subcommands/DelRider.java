@@ -1,17 +1,15 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
-import net.nperkins.stablemaster.data.StabledHorse;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,10 +45,9 @@ public class DelRider extends SubCommand {
 
         if (!stabledHorse.isRider(rider)) {
             new LangString("command.delrider.not-rider", rider.getName()).send(player);
-        }
-        else {
+        } else {
             stabledHorse.delRider(rider);
-            new LangString("command.delrider.removed", rider.getName(), getAnimal(horse.getType())).send(player);
+            new LangString("command.delrider.removed", rider.getName(), StableMaster.getAnimal(horse.getType())).send(player);
         }
     }
 

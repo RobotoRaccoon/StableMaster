@@ -1,4 +1,4 @@
-package net.nperkins.stablemaster;
+package me.robotoraccoon.stablemaster;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

@@ -1,12 +1,12 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import com.google.common.base.Joiner;
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
-import net.nperkins.stablemaster.data.StabledHorse;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.data.StabledHorse;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
@@ -77,7 +77,7 @@ public class Info extends SubCommand {
         // Jump strength
         if (isHorse && config.getInt("jump-strength") >= permissionLevel) {
             Double str = ((AbstractHorse) animal).getJumpStrength();
-            Double height = -0.1817584952 * str*str*str + 3.689713992 * str*str + 2.128599134 * str - 0.343930367;
+            Double height = -0.1817584952 * str * str * str + 3.689713992 * str * str + 2.128599134 * str - 0.343930367;
             new LangString("command.info.jump-strength", str, height).send(player);
         }
 

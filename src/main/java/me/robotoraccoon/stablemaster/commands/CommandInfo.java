@@ -1,4 +1,4 @@
-package net.nperkins.stablemaster.commands;
+package me.robotoraccoon.stablemaster.commands;
 
 import org.bukkit.command.CommandSender;
 

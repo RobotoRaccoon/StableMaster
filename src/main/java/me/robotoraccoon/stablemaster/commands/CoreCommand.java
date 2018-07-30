@@ -1,12 +1,10 @@
-package net.nperkins.stablemaster.commands;
+package me.robotoraccoon.stablemaster.commands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.subcommands.*;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +29,7 @@ public class CoreCommand implements CommandExecutor {
 
     private static void addCommand(SubCommand cmd) {
         subCommands.put(cmd.getName(), cmd);
-        for(String alias : cmd.getAliases())
+        for (String alias : cmd.getAliases())
             subCommands.putIfAbsent(alias, cmd);
     }
 

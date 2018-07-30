@@ -1,8 +1,9 @@
-package net.nperkins.stablemaster.data;
+package me.robotoraccoon.stablemaster.data;
 
-import net.nperkins.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableMaster;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

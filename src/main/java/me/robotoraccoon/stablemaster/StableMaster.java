@@ -1,10 +1,10 @@
-package net.nperkins.stablemaster;
+package me.robotoraccoon.stablemaster;
 
-import net.nperkins.stablemaster.commands.CoreCommand;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
-import net.nperkins.stablemaster.data.StabledHorse;
-import net.nperkins.stablemaster.listeners.*;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.data.StabledHorse;
+import me.robotoraccoon.stablemaster.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
@@ -118,7 +118,7 @@ public class StableMaster extends JavaPlugin {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
             for (String s : horses) {
                 if (stable.getHorses().keySet().contains(s)) {
-                    yamlFile.set("horses." + s + ".riders",null);
+                    yamlFile.set("horses." + s + ".riders", null);
                 } else {
                     yamlFile.set("horses." + s, null);
                 }

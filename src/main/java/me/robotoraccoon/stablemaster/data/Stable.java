@@ -1,7 +1,8 @@
-package net.nperkins.stablemaster.data;
+package me.robotoraccoon.stablemaster.data;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
+
 import java.util.HashMap;
 import java.util.UUID;
 

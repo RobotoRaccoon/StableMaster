@@ -1,11 +1,13 @@
-package net.nperkins.stablemaster.listeners;
+package me.robotoraccoon.stablemaster.listeners;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.data.Stable;
-import net.nperkins.stablemaster.data.StabledHorse;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.*;
+import org.bukkit.entity.AbstractHorse;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;

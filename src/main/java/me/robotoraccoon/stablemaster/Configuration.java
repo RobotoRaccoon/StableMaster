@@ -1,4 +1,4 @@
-package net.nperkins.stablemaster;
+package me.robotoraccoon.stablemaster;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,7 +35,7 @@ public class Configuration {
     public boolean loadConfigs() {
         try {
             config = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "config.yml"));
-            lang   = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "lang.yml"));
+            lang = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "lang.yml"));
             StableMaster.getPlugin().reloadConfig();
             return true;
 

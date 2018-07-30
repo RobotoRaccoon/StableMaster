@@ -1,10 +1,10 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Animals;
@@ -68,7 +68,7 @@ class TeleportEval extends BukkitRunnable {
     private Animals animal;
     private Player player;
 
-    public TeleportEval(Animals animal, Player player){
+    public TeleportEval(Animals animal, Player player) {
         this.animal = animal;
         this.player = player;
     }

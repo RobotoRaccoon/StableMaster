@@ -1,8 +1,8 @@
-package net.nperkins.stablemaster.commands;
+package me.robotoraccoon.stablemaster.commands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -21,6 +21,7 @@ public abstract class SubCommand {
     private String permission = "";
 
     public abstract void handle(CommandInfo commandInfo);
+
     public abstract void handleInteract(Stable stable, Player player, Tameable animal);
 
     public boolean canBypass(CommandSender player) {

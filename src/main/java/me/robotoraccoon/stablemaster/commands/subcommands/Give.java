@@ -1,17 +1,15 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,7 +48,7 @@ public class Give extends SubCommand {
         }
 
         animal.setOwner(newOwner);
-        new LangString("command.give.given", getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
+        new LangString("command.give.given", StableMaster.getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
     }
 
     @Override
