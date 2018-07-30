@@ -70,7 +70,7 @@ public class Info extends SubCommand {
         // Current and maximum health
         if (config.getInt("health") >= permissionLevel) {
             Double hearts = a.getHealth() / 2;
-            Double maxHearts = a.getMaxHealth() / 2;
+            Double maxHearts = a.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() / 2;
             new LangString("command.info.health", hearts, maxHearts).send(player);
         }
 
