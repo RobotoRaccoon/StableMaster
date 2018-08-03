@@ -24,7 +24,7 @@ public class Info extends SubCommand {
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
 
-        StableMaster.commandQueue.put(player, this);
+        StableMaster.getCommandQueue().put(player, this);
         new LangString("punch-animal").send(player);
     }
 

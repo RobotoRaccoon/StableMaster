@@ -2,6 +2,7 @@ package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
@@ -28,7 +29,7 @@ public class Give extends SubCommand {
 
         OfflinePlayer newOwner = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
         if (newOwner != null && newOwner.hasPlayedBefore()) {
-            StableMaster.commandQueue.put(player, this);
+            StableMaster.getCommandQueue().put(player, this);
             giveQueue.put(player, newOwner);
             new LangString("punch-animal").send(player);
         } else {
@@ -42,13 +43,13 @@ public class Give extends SubCommand {
 
         if (animal instanceof AbstractHorse) {
             AbstractHorse horse = (AbstractHorse) animal;
-            Stable newStable = StableMaster.getStable(newOwner);
+            Stable newStable = StableUtil.getStable(newOwner);
             stable.removeHorse(horse);
             newStable.addHorse(horse);
         }
 
         animal.setOwner(newOwner);
-        new LangString("command.give.given", StableMaster.getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
+        new LangString("command.give.given", StableUtil.getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
     }
 
     @Override

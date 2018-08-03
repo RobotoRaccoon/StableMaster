@@ -2,6 +2,7 @@ package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
@@ -19,7 +20,7 @@ public class Release extends SubCommand {
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
 
-        StableMaster.commandQueue.put(player, this);
+        StableMaster.getCommandQueue().put(player, this);
         new LangString("punch-animal").send(player);
     }
 
@@ -58,6 +59,6 @@ public class Release extends SubCommand {
         animal.setTamed(false);
         animal.setOwner(null);
 
-        new LangString("command.release.released", StableMaster.getAnimal(a.getType())).send(player);
+        new LangString("command.release.released", StableUtil.getAnimal(a.getType())).send(player);
     }
 }

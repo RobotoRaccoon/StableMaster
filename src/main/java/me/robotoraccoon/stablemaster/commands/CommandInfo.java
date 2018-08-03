@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 
 public class CommandInfo {
 
-    private String label;
+    private final String label;
     private final CommandSender sender;
     private final String[] args;
 

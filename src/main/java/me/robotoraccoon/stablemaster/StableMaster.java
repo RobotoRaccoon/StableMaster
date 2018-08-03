@@ -3,168 +3,71 @@ package me.robotoraccoon.stablemaster;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
-import me.robotoraccoon.stablemaster.data.StabledHorse;
 import me.robotoraccoon.stablemaster.listeners.*;
-import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
 public class StableMaster extends JavaPlugin {
 
-    public static List<Chunk> teleportChunk = new ArrayList<>();
-    public static ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
-
     private static Plugin plugin;
-    private static Configuration configuration;
-    private static File dataFolder;
+    private static File stablesFolder;
     private static File pluginFolder;
-    private static HashMap<OfflinePlayer, Stable> stables = new HashMap<>();
+
+    private static List<Chunk> teleportChunk = new ArrayList<>();
+    private static ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
 
     @Override
     public void onEnable() {
         plugin = this;
-
         pluginFolder = getDataFolder();
-        dataFolder = new File(pluginFolder + File.separator + "stables");
+        stablesFolder = new File(pluginFolder + File.separator + "stables");
         createDataFolders();
 
-        // Create configuration instance
-        configuration = new Configuration();
-        loadConfigData();
+        // Load in config data
+        StableUtil.loadConfigData();
 
         // Register listeners
-        getServer().getPluginManager().registerEvents(new ChunkListener(), this);
-        getServer().getPluginManager().registerEvents(new EntityDamageListeners(), this);
-        getServer().getPluginManager().registerEvents(new EntityTameListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractEntityListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new ChunkListener(), this);
+        pm.registerEvents(new EntityDamageListeners(), this);
+        pm.registerEvents(new EntityTameListener(), this);
+        pm.registerEvents(new PlayerInteractEntityListener(), this);
+        pm.registerEvents(new PlayerJoinListener(), this);
+        pm.registerEvents(new PlayerQuitListener(), this);
 
         // Register commands
         this.getCommand("stablemaster").setExecutor(new CoreCommand());
 
         // Load all stables for players already online
         for (Player p : this.getServer().getOnlinePlayers()) {
-            loadStable(p);
+            StableUtil.loadStable(p);
         }
-
     }
 
     @Override
     public void onDisable() {
-        Iterator it = stables.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            saveStable((Stable) pairs.getValue());
-            it.remove();
+        for (Map.Entry<OfflinePlayer, Stable> entry : StableUtil.getStables().entrySet()) {
+            StableUtil.saveStable(entry.getValue());
         }
     }
 
-    public static void loadConfigData() {
-        configuration.createAllFiles();
-        CoreCommand.addAllCommands();
-    }
-
-    public static Configuration getConfiguration() {
-        return configuration;
-    }
-
-    public static String getAnimal(EntityType type) {
-        return new LangString("animal." + type.toString().toLowerCase()).getMessage();
-    }
-
-    public static void loadStable(OfflinePlayer player) {
-        File stableFile = new File(dataFolder + File.separator + player.getUniqueId().toString() + ".yml");
-        YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(stableFile);
-        Stable stable = new Stable(player);
-
-        if (yamlFile.contains("horses")) {
-            Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
-            HashMap<String, StabledHorse> horseMap = new HashMap<>();
-            for (String s : horses) {
-                StabledHorse horse = new StabledHorse();
-                horse.setUniqueID(s);
-                horse.setRiders(yamlFile.getStringList("horses." + s + ".riders"));
-                horseMap.put(s, horse);
-            }
-            stable.setHorses(horseMap);
-        }
-        stables.put(player, stable);
-    }
-
-    public static void saveStable(Stable stable) {
-        File stableFile = new File(dataFolder + File.separator + stable.getOwner().toString() + ".yml");
-        if (stable.getHorses().isEmpty()) {
-            if (stableFile.exists()) {
-                stableFile.delete();
-            }
-            return;
-        }
-        YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(stableFile);
-        yamlFile.set("owner", stable.getOwner().toString());
-        // Clear out horses current stable dat
-        if (yamlFile.contains("horses")) {
-            Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
-            for (String s : horses) {
-                if (stable.getHorses().keySet().contains(s)) {
-                    yamlFile.set("horses." + s + ".riders", null);
-                } else {
-                    yamlFile.set("horses." + s, null);
-                }
-            }
-        }
-        // Save new stable data
-        for (String horse : stable.getHorses().keySet()) {
-            StabledHorse sh = stable.getHorse(horse);
-            yamlFile.set("horses." + horse + ".riders", sh.getRiders());
-        }
-        try {
-            yamlFile.save(stableFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static void unloadStable(OfflinePlayer player) {
-        Stable s = stables.get(player);
-        saveStable(s);
-        stables.remove(player);
-    }
-
-    public static Stable getStable(OfflinePlayer player) {
-        if (!stables.containsKey(player)) {
-            loadStable(player);
-        }
-        return stables.get(player);
-    }
-
-    private static void createDataFolders() {
+    private void createDataFolders() {
         if (!pluginFolder.exists()) {
-            try {
-                pluginFolder.mkdir();
-            } catch (Exception e) {
-                Bukkit.getServer().getLogger().log(Level.WARNING, e.getMessage());
-            }
+            pluginFolder.mkdir();
         }
 
-        if (!dataFolder.exists()) {
-            try {
-                dataFolder.mkdir();
-            } catch (Exception e) {
-                Bukkit.getServer().getLogger().log(Level.WARNING, e.getMessage());
-            }
+        if (!stablesFolder.exists()) {
+            stablesFolder.mkdir();
         }
     }
 
@@ -172,4 +75,15 @@ public class StableMaster extends JavaPlugin {
         return plugin;
     }
 
+    public static File getStablesFolder() {
+        return stablesFolder;
+    }
+
+    public static List<Chunk> getTeleportChunk() {
+        return teleportChunk;
+    }
+
+    public static ConcurrentHashMap<Player, SubCommand> getCommandQueue() {
+        return commandQueue;
+    }
 }

@@ -28,7 +28,7 @@ public class Teleport extends SubCommand {
 
         if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof Animals) {
 
-            StableMaster.commandQueue.remove(player);
+            StableMaster.getCommandQueue().remove(player);
             Animals animal = (Animals) teleportQueue.get(player);
             removeFromQueue(player);
 
@@ -42,7 +42,7 @@ public class Teleport extends SubCommand {
 
         } else {
 
-            StableMaster.commandQueue.put(player, this);
+            StableMaster.getCommandQueue().put(player, this);
             teleportQueue.put(player, true);
             new LangString("punch-animal").send(player);
         }
@@ -52,8 +52,8 @@ public class Teleport extends SubCommand {
         final Animals a = (Animals) animal;
         // Storing location
         new LangString("command.teleport.location-saved").send(player);
-        StableMaster.teleportChunk.add(a.getLocation().getChunk());
-        StableMaster.commandQueue.put(player, this);
+        StableMaster.getTeleportChunk().add(a.getLocation().getChunk());
+        StableMaster.getCommandQueue().put(player, this);
         teleportQueue.put(player, a);
     }
 
@@ -75,7 +75,7 @@ class TeleportEval extends BukkitRunnable {
 
     public void run() {
         if (chunkIsLoaded()) {
-            StableMaster.teleportChunk.remove(animal.getLocation().getChunk());
+            StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
             new LangString("command.teleport.teleporting").send(player);
             animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
         } else {

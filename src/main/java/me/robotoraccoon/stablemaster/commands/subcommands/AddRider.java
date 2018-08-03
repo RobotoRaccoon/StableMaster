@@ -2,6 +2,7 @@ package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
@@ -29,7 +30,7 @@ public class AddRider extends SubCommand {
 
         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
         if (rider != null && rider.hasPlayedBefore()) {
-            StableMaster.commandQueue.put(player, this);
+            StableMaster.getCommandQueue().put(player, this);
             addRiderQueue.put(player, rider);
             new LangString("punch-animal").send(player);
         } else {
@@ -47,7 +48,7 @@ public class AddRider extends SubCommand {
             new LangString("command.addrider.is-rider", rider.getName()).send(player);
         } else {
             stabledHorse.addRider(rider);
-            new LangString("command.addrider.added", rider.getName(), StableMaster.getAnimal(horse.getType())).send(player);
+            new LangString("command.addrider.added", rider.getName(), StableUtil.getAnimal(horse.getType())).send(player);
         }
     }
 

@@ -1,7 +1,7 @@
 package me.robotoraccoon.stablemaster.listeners;
 
 import me.robotoraccoon.stablemaster.LangString;
-import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
@@ -26,7 +26,7 @@ public class EntityTameListener implements Listener {
             return;
 
         event.setCancelled(true);
-        new LangString("error.cannot-tame", StableMaster.getAnimal(animal.getType())).send(player);
+        new LangString("error.cannot-tame", StableUtil.getAnimal(animal.getType())).send(player);
     }
 
 }

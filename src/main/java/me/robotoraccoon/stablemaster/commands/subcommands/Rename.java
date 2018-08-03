@@ -2,6 +2,7 @@ package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
@@ -32,7 +33,7 @@ public class Rename extends SubCommand {
             name = ChatColor.translateAlternateColorCodes('&', name);
 
         renameQueue.put(player, name);
-        StableMaster.commandQueue.put(player, this);
+        StableMaster.getCommandQueue().put(player, this);
         new LangString("punch-animal").send(player);
     }
 
@@ -44,7 +45,7 @@ public class Rename extends SubCommand {
 
         a.setCustomName(name);
         a.setCustomNameVisible(config.getBoolean("name-always-visible"));
-        new LangString("command.rename.renamed", StableMaster.getAnimal(a.getType()), name).send(player);
+        new LangString("command.rename.renamed", StableUtil.getAnimal(a.getType()), name).send(player);
     }
 
     @Override

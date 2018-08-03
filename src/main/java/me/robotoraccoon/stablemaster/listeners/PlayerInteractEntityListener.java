@@ -1,7 +1,7 @@
 package me.robotoraccoon.stablemaster.listeners;
 
 import me.robotoraccoon.stablemaster.LangString;
-import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
@@ -35,7 +35,7 @@ public class PlayerInteractEntityListener implements Listener {
             horse.setOwner(player);
 
         // Get horse details
-        final Stable stable = StableMaster.getStable((OfflinePlayer) horse.getOwner());
+        final Stable stable = StableUtil.getStable((OfflinePlayer) horse.getOwner());
         // Check in case it's a pre-owned horse not known about
         if (!stable.hasHorse(horse)) {
             stable.addHorse(horse);
