@@ -28,8 +28,8 @@ public class Give extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
         final String ownerName = commandInfo.getArg(0);
 
-        OfflinePlayer newOwner = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
-        if (newOwner != null && newOwner.hasPlayedBefore()) {
+        OfflinePlayer newOwner = StableUtil.getOfflinePlayer(ownerName);
+        if (newOwner != null) {
             CoreCommand.setQueuedCommand(player, this);
             giveQueue.put(player, newOwner);
             new LangString("punch-animal").send(player);

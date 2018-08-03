@@ -86,6 +86,11 @@ public class StableUtil {
         return stables.get(player);
     }
 
+    public static OfflinePlayer getOfflinePlayer(String name) {
+        OfflinePlayer player = StableMaster.getPlugin().getServer().getOfflinePlayer(name);
+        return (player == null || !player.hasPlayedBefore()) ? null : player;
+    }
+
     public static void loadConfigData() {
         if (configuration == null) {
             configuration = new Configuration();

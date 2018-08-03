@@ -29,8 +29,8 @@ public class DelRider extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
         final String riderName = commandInfo.getArg(0);
 
-        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
-        if (rider != null && rider.hasPlayedBefore()) {
+        OfflinePlayer rider = StableUtil.getOfflinePlayer(riderName);
+        if (rider != null) {
             CoreCommand.setQueuedCommand(player, this);
             delRiderQueue.put(player, rider);
             new LangString("punch-animal").send(player);
