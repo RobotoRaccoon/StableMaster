@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
@@ -23,8 +24,7 @@ public class Info extends SubCommand {
 
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
-
-        StableMaster.getCommandQueue().put(player, this);
+        CoreCommand.setQueuedCommand(player, this);
         new LangString("punch-animal").send(player);
     }
 

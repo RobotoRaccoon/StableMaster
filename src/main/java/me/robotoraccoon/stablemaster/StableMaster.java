@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class StableMaster extends JavaPlugin {
 
@@ -24,7 +23,6 @@ public class StableMaster extends JavaPlugin {
     private static File pluginFolder;
 
     private static List<Chunk> teleportChunk = new ArrayList<>();
-    private static ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
 
     @Override
     public void onEnable() {
@@ -83,7 +81,4 @@ public class StableMaster extends JavaPlugin {
         return teleportChunk;
     }
 
-    public static ConcurrentHashMap<Player, SubCommand> getCommandQueue() {
-        return commandQueue;
-    }
 }

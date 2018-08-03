@@ -3,6 +3,7 @@ package me.robotoraccoon.stablemaster.listeners;
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
@@ -67,10 +68,10 @@ public class EntityDamageListeners implements Listener {
 
         // Animal has to be tamed to be owned. Owner is null when owned by non-players.
         if (!animal.isTamed() || animal.getOwner() == null) {
-            if (StableMaster.getCommandQueue().containsKey(player)) {
+            if (CoreCommand.hasQueuedCommand(player)) {
                 event.setCancelled(true);
                 new LangString("not-tamed", StableUtil.getAnimal(event.getEntityType())).send(player);
-                StableMaster.getCommandQueue().remove(player);
+                CoreCommand.removeQueuedCommand(player);
             }
             return;
         }
@@ -85,11 +86,10 @@ public class EntityDamageListeners implements Listener {
         }
 
         // Either run a command, or handle as if a player is trying to hurt the animal.
-        if (StableMaster.getCommandQueue().containsKey(player)) {
+        if (CoreCommand.hasQueuedCommand(player)) {
             // Handle appropriate command
             event.setCancelled(true);
-            SubCommand cmd = StableMaster.getCommandQueue().get(player);
-            StableMaster.getCommandQueue().remove(player);
+            SubCommand cmd = CoreCommand.removeQueuedCommand(player);
 
             if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
                 new LangString("error.not-owner", StableUtil.getAnimal(event.getEntityType())).send(player);

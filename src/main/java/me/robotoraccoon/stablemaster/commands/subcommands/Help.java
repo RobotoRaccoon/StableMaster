@@ -25,7 +25,7 @@ public class Help extends SubCommand {
         new LangString("command.help.header").send(sender);
         new LangString("command.help.about").send(sender);
 
-        for (Map.Entry<String, SubCommand> entry : CoreCommand.subCommands.entrySet()) {
+        for (Map.Entry<String, SubCommand> entry : CoreCommand.getSubCommands()) {
             String name = entry.getKey();
             SubCommand cmd = entry.getValue();
 

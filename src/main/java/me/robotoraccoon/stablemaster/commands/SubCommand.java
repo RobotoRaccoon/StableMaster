@@ -24,15 +24,11 @@ public abstract class SubCommand {
 
     public abstract void handleInteract(Stable stable, Player player, Tameable animal);
 
-    public boolean canBypass(CommandSender player) {
-        return player.hasPermission("stablemaster.bypass.command." + getName());
-    }
-
     public void removeFromQueue(Player player) {
         // Do nothing by default
     }
 
-    public void execute(final CommandInfo info) {
+    public final void execute(CommandInfo info) {
         CommandSender sender = info.getSender();
 
         // Sender is console and command does not allow console access.
@@ -63,64 +59,68 @@ public abstract class SubCommand {
         );
     }
 
-    public String getDescription() {
+    public final boolean canBypass(CommandSender player) {
+        return player.hasPermission("stablemaster.bypass.command." + getName());
+    }
+
+    public final String getDescription() {
         return new LangString("command." + getName() + ".description").getMessage();
     }
 
-    public String getUsage() {
+    public final String getUsage() {
         return new LangString("command." + getName() + ".usage").getMessage();
     }
 
-    public boolean isConsoleAllowed() {
+    public final boolean isConsoleAllowed() {
         return consoleAllowed;
     }
 
-    protected void setConsoleAllowed(boolean consoleAllowed) {
+    protected final void setConsoleAllowed(boolean consoleAllowed) {
         this.consoleAllowed = consoleAllowed;
     }
 
-    public boolean isOwnerRequired() {
+    public final boolean isOwnerRequired() {
         return ownerRequired;
     }
 
-    protected void setOwnerRequired(boolean ownerRequired) {
+    protected final void setOwnerRequired(boolean ownerRequired) {
         this.ownerRequired = ownerRequired;
     }
 
-    public boolean isTameablesAllowed() {
+    public final boolean isTameablesAllowed() {
         return tameablesAllowed;
     }
 
-    protected void setTameablesAllowed(boolean tameablesAllowed) {
+    protected final void setTameablesAllowed(boolean tameablesAllowed) {
         this.tameablesAllowed = tameablesAllowed;
     }
 
-    public int getMinArgs() {
+    public final int getMinArgs() {
         return minArgs;
     }
 
-    protected void setMinArgs(int minArgs) {
+    protected final void setMinArgs(int minArgs) {
         this.minArgs = minArgs;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    protected void setName(String name) {
+    protected final void setName(String name) {
         this.name = name;
         setPermission("stablemaster." + name);
     }
 
-    public String getPermission() {
+    public final String getPermission() {
         return permission;
     }
 
-    protected void setPermission(String permission) {
+    protected final void setPermission(String permission) {
         this.permission = permission;
     }
 
-    public List<String> getAliases() {
+    public final List<String> getAliases() {
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("aliases");
         if (config.isList(getName()))
             return config.getStringList(getName());

@@ -5,14 +5,15 @@ import me.robotoraccoon.stablemaster.commands.subcommands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CoreCommand implements CommandExecutor {
 
-    public static final HashMap<String, SubCommand> subCommands = new LinkedHashMap<>();
+    private static final HashMap<String, SubCommand> subCommands = new LinkedHashMap<>();
+    private static final ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
 
     public static void addAllCommands() {
         subCommands.clear();
@@ -54,5 +55,21 @@ public class CoreCommand implements CommandExecutor {
         // Attempt execution.
         subCommand.execute(new CommandInfo(label, sender, args));
         return true;
+    }
+
+    public static Set<Map.Entry<String, SubCommand>> getSubCommands() {
+        return subCommands.entrySet();
+    }
+
+    public static void setQueuedCommand(Player player, SubCommand cmd) {
+        commandQueue.put(player, cmd);
+    }
+
+    public static SubCommand removeQueuedCommand(Player player) {
+        return commandQueue.remove(player);
+    }
+
+    public static boolean hasQueuedCommand(Player player) {
+        return commandQueue.containsKey(player);
     }
 }

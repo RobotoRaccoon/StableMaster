@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
@@ -30,7 +31,7 @@ public class DelRider extends SubCommand {
 
         OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
         if (rider != null && rider.hasPlayedBefore()) {
-            StableMaster.getCommandQueue().put(player, this);
+            CoreCommand.setQueuedCommand(player, this);
             delRiderQueue.put(player, rider);
             new LangString("punch-animal").send(player);
         } else {

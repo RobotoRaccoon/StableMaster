@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
@@ -29,7 +30,7 @@ public class Give extends SubCommand {
 
         OfflinePlayer newOwner = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
         if (newOwner != null && newOwner.hasPlayedBefore()) {
-            StableMaster.getCommandQueue().put(player, this);
+            CoreCommand.setQueuedCommand(player, this);
             giveQueue.put(player, newOwner);
             new LangString("punch-animal").send(player);
         } else {

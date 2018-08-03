@@ -3,6 +3,7 @@ package me.robotoraccoon.stablemaster.commands.subcommands;
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.Chunk;
@@ -28,7 +29,7 @@ public class Teleport extends SubCommand {
 
         if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof Animals) {
 
-            StableMaster.getCommandQueue().remove(player);
+            CoreCommand.removeQueuedCommand(player);
             Animals animal = (Animals) teleportQueue.get(player);
             removeFromQueue(player);
 
@@ -42,7 +43,7 @@ public class Teleport extends SubCommand {
 
         } else {
 
-            StableMaster.getCommandQueue().put(player, this);
+            CoreCommand.setQueuedCommand(player, this);
             teleportQueue.put(player, true);
             new LangString("punch-animal").send(player);
         }
@@ -53,7 +54,7 @@ public class Teleport extends SubCommand {
         // Storing location
         new LangString("command.teleport.location-saved").send(player);
         StableMaster.getTeleportChunk().add(a.getLocation().getChunk());
-        StableMaster.getCommandQueue().put(player, this);
+        CoreCommand.setQueuedCommand(player, this);
         teleportQueue.put(player, a);
     }
 
