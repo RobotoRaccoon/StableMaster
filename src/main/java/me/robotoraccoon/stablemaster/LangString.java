@@ -21,7 +21,7 @@ public class LangString {
     }
 
     private String getLang(String key) {
-        FileConfiguration config = StableUtil.getConfiguration().getLang();
+        FileConfiguration config = Configuration.getLang();
         if (!config.contains(key)) {
             StableMaster.getPlugin().getLogger().warning(String.format("lang.yml path `%s` does not exist!", key));
             return key;

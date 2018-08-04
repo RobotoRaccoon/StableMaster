@@ -14,7 +14,6 @@ import java.util.Set;
 
 public class StableUtil {
 
-    private static Configuration configuration;
     private static HashMap<OfflinePlayer, Stable> stables = new HashMap<>();
 
     public static String getAnimal(EntityType type) {
@@ -92,15 +91,8 @@ public class StableUtil {
     }
 
     public static void loadConfigData() {
-        if (configuration == null) {
-            configuration = new Configuration();
-        }
-        configuration.createAllFiles();
+        Configuration.loadAllConfigs();
         CoreCommand.addAllCommands();
-    }
-
-    public static Configuration getConfiguration() {
-        return configuration;
     }
 
     public static HashMap<OfflinePlayer, Stable> getStables() {

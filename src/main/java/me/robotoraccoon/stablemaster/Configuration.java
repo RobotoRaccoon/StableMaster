@@ -7,62 +7,34 @@ import java.io.File;
 
 public class Configuration {
 
-    private File configFile;
-    private FileConfiguration config;
+    private static File configFile;
+    private static FileConfiguration config;
+    private static File langFile;
+    private static FileConfiguration lang;
 
-    private File langFile;
-    private FileConfiguration lang;
-
-    public Configuration() {
-
+    static {
+        // Save default configFile if it doesn't exist
         configFile = new File(StableMaster.getPlugin().getDataFolder(), "config.yml");
-        config = YamlConfiguration.loadConfiguration(configFile);
-
-        langFile = new File(StableMaster.getPlugin().getDataFolder(), "lang.yml");
-        lang = YamlConfiguration.loadConfiguration(langFile);
-    }
-
-    public void createAllFiles() {
         if (!configFile.exists())
             StableMaster.getPlugin().saveResource("config.yml", true);
 
+        // Save default langFile if it doesn't exist
+        langFile = new File(StableMaster.getPlugin().getDataFolder(), "lang.yml");
         if (!langFile.exists())
             StableMaster.getPlugin().saveResource("lang.yml", true);
-
-        loadConfigs();
     }
 
-    public boolean loadConfigs() {
-        try {
-            config = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "config.yml"));
-            lang = YamlConfiguration.loadConfiguration(new File(StableMaster.getPlugin().getDataFolder(), "lang.yml"));
-            StableMaster.getPlugin().reloadConfig();
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public static void loadAllConfigs() {
+        config = YamlConfiguration.loadConfiguration(configFile);
+        lang = YamlConfiguration.loadConfiguration(langFile);
+        StableMaster.getPlugin().reloadConfig();
     }
 
-    public boolean saveConfigs() {
-        try {
-            config.save(configFile);
-            lang.save(langFile);
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public FileConfiguration getConfig() {
+    public static FileConfiguration getConfig() {
         return config;
     }
 
-    public FileConfiguration getLang() {
+    public static FileConfiguration getLang() {
         return lang;
     }
-
 }
