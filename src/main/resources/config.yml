@@ -12,7 +12,7 @@ command:
     max-speed: 2
     variant: 3
     ## What is the lowest level people with the bypass permission should see. (Works inversely to the above)
-    ## 0 to see everthing, 1 to see what an owner would see, etc. (If player is already at 1, bypass as 2 would do nothing)
+    ## 0 to see everything, 1 to see what an owner would see, etc. (If player is already at 1, bypass as 2 would do nothing)
     bypass-as-level: 0
   release:
     clear-custom-name: false
