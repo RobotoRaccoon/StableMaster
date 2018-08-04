@@ -1,10 +1,10 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
@@ -18,7 +18,7 @@ public class Reload extends SubCommand {
 
     public void handle(CommandInfo commandInfo) {
         CommandSender sender = commandInfo.getSender();
-        StableMaster.loadConfigData();
+        StableUtil.loadConfigData();
         new LangString("command.reload.reloaded").send(sender);
     }
 

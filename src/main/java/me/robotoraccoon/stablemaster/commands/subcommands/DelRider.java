@@ -1,17 +1,17 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
-import net.nperkins.stablemaster.data.StabledHorse;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.data.StabledHorse;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,9 +29,9 @@ public class DelRider extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
         final String riderName = commandInfo.getArg(0);
 
-        OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(riderName);
-        if (rider != null && rider.hasPlayedBefore()) {
-            StableMaster.commandQueue.put(player, this);
+        OfflinePlayer rider = StableUtil.getOfflinePlayer(riderName);
+        if (rider != null) {
+            CoreCommand.setQueuedCommand(player, this);
             delRiderQueue.put(player, rider);
             new LangString("punch-animal").send(player);
         } else {
@@ -47,10 +47,9 @@ public class DelRider extends SubCommand {
 
         if (!stabledHorse.isRider(rider)) {
             new LangString("command.delrider.not-rider", rider.getName()).send(player);
-        }
-        else {
+        } else {
             stabledHorse.delRider(rider);
-            new LangString("command.delrider.removed", rider.getName(), getAnimal(horse.getType())).send(player);
+            new LangString("command.delrider.removed", rider.getName(), StableUtil.getAnimal(horse.getType())).send(player);
         }
     }
 

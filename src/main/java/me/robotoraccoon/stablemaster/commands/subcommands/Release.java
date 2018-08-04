@@ -1,16 +1,16 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 public class Release extends SubCommand {
 
@@ -20,8 +20,7 @@ public class Release extends SubCommand {
 
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
-
-        StableMaster.commandQueue.put(player, this);
+        CoreCommand.setQueuedCommand(player, this);
         new LangString("punch-animal").send(player);
     }
 
@@ -43,8 +42,7 @@ public class Release extends SubCommand {
             }
 
             stable.removeHorse(horse);
-        }
-        else if (animal instanceof Sittable) {
+        } else if (animal instanceof Sittable) {
             if (animal instanceof Ocelot) {
                 ((Ocelot) animal).setCatType(Ocelot.Type.WILD_OCELOT);
             }
@@ -61,6 +59,6 @@ public class Release extends SubCommand {
         animal.setTamed(false);
         animal.setOwner(null);
 
-        new LangString("command.release.released", getAnimal(a.getType())).send(player);
+        new LangString("command.release.released", StableUtil.getAnimal(a.getType())).send(player);
     }
 }

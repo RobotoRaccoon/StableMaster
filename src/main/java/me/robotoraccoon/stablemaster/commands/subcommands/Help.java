@@ -1,11 +1,10 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.CoreCommand;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
@@ -26,7 +25,7 @@ public class Help extends SubCommand {
         new LangString("command.help.header").send(sender);
         new LangString("command.help.about").send(sender);
 
-        for (Map.Entry<String, SubCommand> entry : CoreCommand.subCommands.entrySet()) {
+        for (Map.Entry<String, SubCommand> entry : CoreCommand.getSubCommands()) {
             String name = entry.getKey();
             SubCommand cmd = entry.getValue();
 

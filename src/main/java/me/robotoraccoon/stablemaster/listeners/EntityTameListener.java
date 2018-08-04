@@ -1,14 +1,13 @@
-package net.nperkins.stablemaster.listeners;
+package me.robotoraccoon.stablemaster.listeners;
 
-import net.nperkins.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableUtil;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 public class EntityTameListener implements Listener {
 
@@ -27,7 +26,7 @@ public class EntityTameListener implements Listener {
             return;
 
         event.setCancelled(true);
-        new LangString("error.cannot-tame", getAnimal(animal.getType())).send(player);
+        new LangString("error.cannot-tame", StableUtil.getAnimal(animal.getType())).send(player);
     }
 
 }

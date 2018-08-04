@@ -1,4 +1,6 @@
 prefix: '&3[&bSM&3] &7'
+punch-animal: 'Punch your animal...'
+not-tamed: 'This %s is not tamed...'
 error:
   arguments: '&cIncorrect number of arguments supplied'
   cannot-tame: '&cYou do not have permission to tame this %s'
@@ -72,5 +74,38 @@ animal:
   skeleton_horse: 'SKELETON HORSE'
   zombie_horse: 'ZOMBIE HORSE'
   wolf: 'WOLF'
-punch-animal: 'Punch your animal...'
-not-tamed: 'This %s is not tamed...'
+variant:
+  horse:
+    color:
+      black: 'Black'
+      brown: 'Brown'
+      chestnut: 'Chestnut'
+      creamy: 'Creamy'
+      dark_brown: 'Dark brown'
+      gray: 'Gray'
+      white: 'White'
+    style:
+      black_dots: 'Small black dots'
+      none: 'No markings'
+      white: 'White socks or stripes'
+      white_dots: 'White dots'
+      whitefield: 'Milky splotches'
+  llama:
+    color:
+      brown: 'Brown'
+      creamy: 'Creamy'
+      gray: 'Gray'
+      white: 'White'
+  ocelot:
+    type:
+      black_cat: 'Tuxedo'
+      red_cat: 'Tabby'
+      siamese_cat: 'Siamese'
+      wild_ocelot: 'Wild'
+  parrot:
+    variant:
+      blue: 'Royal blue'
+      cyan: 'Cyan'
+      gray: 'Gray'
+      green: 'Green'
+      red: 'Red'

@@ -1,17 +1,17 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,9 +28,9 @@ public class Give extends SubCommand {
         final Player player = (Player) commandInfo.getSender();
         final String ownerName = commandInfo.getArg(0);
 
-        OfflinePlayer newOwner = StableMaster.getPlugin().getServer().getOfflinePlayer(ownerName);
-        if (newOwner != null && newOwner.hasPlayedBefore()) {
-            StableMaster.commandQueue.put(player, this);
+        OfflinePlayer newOwner = StableUtil.getOfflinePlayer(ownerName);
+        if (newOwner != null) {
+            CoreCommand.setQueuedCommand(player, this);
             giveQueue.put(player, newOwner);
             new LangString("punch-animal").send(player);
         } else {
@@ -44,13 +44,13 @@ public class Give extends SubCommand {
 
         if (animal instanceof AbstractHorse) {
             AbstractHorse horse = (AbstractHorse) animal;
-            Stable newStable = StableMaster.getStable(newOwner);
+            Stable newStable = StableUtil.getStable(newOwner);
             stable.removeHorse(horse);
             newStable.addHorse(horse);
         }
 
         animal.setOwner(newOwner);
-        new LangString("command.give.given", getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
+        new LangString("command.give.given", StableUtil.getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
     }
 
     @Override

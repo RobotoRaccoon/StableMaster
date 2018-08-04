@@ -1,15 +1,15 @@
-package net.nperkins.stablemaster.listeners;
+package me.robotoraccoon.stablemaster.listeners;
 
-import net.nperkins.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableMaster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
-public class ChunkListener implements Listener{
+public class ChunkListener implements Listener {
 
     @EventHandler
     public void chunkUnloadEvent(ChunkUnloadEvent event) {
-        if (StableMaster.teleportChunk.contains(event.getChunk()))
+        if (StableMaster.getTeleportChunk().contains(event.getChunk()))
             event.setCancelled(true);
     }
 

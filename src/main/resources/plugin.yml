@@ -3,7 +3,7 @@ version: ${project.version}
 description: ${project.description}
 author: ${author}
 authors: [${authors}]
-main: net.nperkins.stablemaster.StableMaster
+main: me.robotoraccoon.stablemaster.StableMaster
 
 commands:
   stablemaster:

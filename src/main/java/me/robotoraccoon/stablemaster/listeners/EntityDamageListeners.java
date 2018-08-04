@@ -1,9 +1,11 @@
-package net.nperkins.stablemaster.listeners;
+package me.robotoraccoon.stablemaster.listeners;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
@@ -13,12 +15,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
-
 public class EntityDamageListeners implements Listener {
 
     // Event for the "always protect" config settings
-    @EventHandler (ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         // Return if the damaged entity is not a tameable entity.
         if (!(event.getEntity() instanceof Tameable))
@@ -68,16 +68,16 @@ public class EntityDamageListeners implements Listener {
 
         // Animal has to be tamed to be owned. Owner is null when owned by non-players.
         if (!animal.isTamed() || animal.getOwner() == null) {
-            if (StableMaster.commandQueue.containsKey(player)) {
+            if (CoreCommand.hasQueuedCommand(player)) {
                 event.setCancelled(true);
-                new LangString("not-tamed", getAnimal(event.getEntityType())).send(player);
-                StableMaster.commandQueue.remove(player);
+                new LangString("not-tamed", StableUtil.getAnimal(event.getEntityType())).send(player);
+                CoreCommand.removeQueuedCommand(player);
             }
             return;
         }
 
         // Check in case it's a pre-owned horse not known about
-        final Stable stable = StableMaster.getStable((OfflinePlayer) animal.getOwner());
+        final Stable stable = StableUtil.getStable((OfflinePlayer) animal.getOwner());
         if (animal instanceof AbstractHorse) {
             final AbstractHorse horse = (AbstractHorse) animal;
             if (!stable.hasHorse(horse)) {
@@ -86,14 +86,13 @@ public class EntityDamageListeners implements Listener {
         }
 
         // Either run a command, or handle as if a player is trying to hurt the animal.
-        if (StableMaster.commandQueue.containsKey(player)) {
+        if (CoreCommand.hasQueuedCommand(player)) {
             // Handle appropriate command
             event.setCancelled(true);
-            SubCommand cmd = StableMaster.commandQueue.get(player);
-            StableMaster.commandQueue.remove(player);
+            SubCommand cmd = CoreCommand.removeQueuedCommand(player);
 
             if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
-                new LangString("error.not-owner", getAnimal(event.getEntityType())).send(player);
+                new LangString("error.not-owner", StableUtil.getAnimal(event.getEntityType())).send(player);
                 cmd.removeFromQueue(player);
                 return;
             }
@@ -109,7 +108,7 @@ public class EntityDamageListeners implements Listener {
         if (!canPlayerHurt(animal, player, true)) {
             // If we get here, the animal was protected and not involved in a command.
             event.setCancelled(true);
-            new LangString("error.protected", getAnimal(event.getEntityType())).send(player);
+            new LangString("error.protected", StableUtil.getAnimal(event.getEntityType())).send(player);
         }
     }
 
@@ -126,15 +125,13 @@ public class EntityDamageListeners implements Listener {
             final Player player = (Player) source;
             if (!canPlayerHurt(animal, player, false)) {
                 event.setCancelled(true);
-                new LangString("error.protected", getAnimal(event.getEntityType())).send(player);
+                new LangString("error.protected", StableUtil.getAnimal(event.getEntityType())).send(player);
             }
-        }
-        else if (source instanceof Monster) {
+        } else if (source instanceof Monster) {
             // If a monster harmed the animal
             if (getProtectionConfig().getBoolean("monster-ranged"))
                 event.setCancelled(true);
-        }
-        else {
+        } else {
             // If something else harmed the animal (eg, dispenser)
             if (getProtectionConfig().getBoolean("other-ranged"))
                 event.setCancelled(true);

@@ -1,10 +1,11 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.entity.Animals;
@@ -28,7 +29,7 @@ public class Teleport extends SubCommand {
 
         if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof Animals) {
 
-            StableMaster.commandQueue.remove(player);
+            CoreCommand.removeQueuedCommand(player);
             Animals animal = (Animals) teleportQueue.get(player);
             removeFromQueue(player);
 
@@ -42,7 +43,7 @@ public class Teleport extends SubCommand {
 
         } else {
 
-            StableMaster.commandQueue.put(player, this);
+            CoreCommand.setQueuedCommand(player, this);
             teleportQueue.put(player, true);
             new LangString("punch-animal").send(player);
         }
@@ -52,8 +53,8 @@ public class Teleport extends SubCommand {
         final Animals a = (Animals) animal;
         // Storing location
         new LangString("command.teleport.location-saved").send(player);
-        StableMaster.teleportChunk.add(a.getLocation().getChunk());
-        StableMaster.commandQueue.put(player, this);
+        StableMaster.getTeleportChunk().add(a.getLocation().getChunk());
+        CoreCommand.setQueuedCommand(player, this);
         teleportQueue.put(player, a);
     }
 
@@ -68,14 +69,14 @@ class TeleportEval extends BukkitRunnable {
     private Animals animal;
     private Player player;
 
-    public TeleportEval(Animals animal, Player player){
+    public TeleportEval(Animals animal, Player player) {
         this.animal = animal;
         this.player = player;
     }
 
     public void run() {
         if (chunkIsLoaded()) {
-            StableMaster.teleportChunk.remove(animal.getLocation().getChunk());
+            StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
             new LangString("command.teleport.teleporting").send(player);
             animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
         } else {

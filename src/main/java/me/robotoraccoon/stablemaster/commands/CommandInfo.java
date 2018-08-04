@@ -1,10 +1,10 @@
-package net.nperkins.stablemaster.commands;
+package me.robotoraccoon.stablemaster.commands;
 
 import org.bukkit.command.CommandSender;
 
 public class CommandInfo {
 
-    private String label;
+    private final String label;
     private final CommandSender sender;
     private final String[] args;
 

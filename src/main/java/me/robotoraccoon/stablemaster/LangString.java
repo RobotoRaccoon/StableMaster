@@ -1,4 +1,4 @@
-package net.nperkins.stablemaster;
+package me.robotoraccoon.stablemaster;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ public class LangString {
     }
 
     public LangString(String key) {
-        setMessage(getLang(key));
+        setMessage(getLang(key.toLowerCase()));
     }
 
     public LangString(String key, Object... args) {
@@ -21,7 +21,7 @@ public class LangString {
     }
 
     private String getLang(String key) {
-        FileConfiguration config = StableMaster.getConfiguration().getLang();
+        FileConfiguration config = StableUtil.getConfiguration().getLang();
         if (!config.contains(key)) {
             StableMaster.getPlugin().getLogger().warning(String.format("lang.yml path `%s` does not exist!", key));
             return key;

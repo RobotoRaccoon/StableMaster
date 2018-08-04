@@ -1,18 +1,18 @@
-package net.nperkins.stablemaster.commands.subcommands;
+package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import net.nperkins.stablemaster.LangString;
-import net.nperkins.stablemaster.StableMaster;
-import net.nperkins.stablemaster.commands.CommandInfo;
-import net.nperkins.stablemaster.commands.SubCommand;
-import net.nperkins.stablemaster.data.Stable;
+import me.robotoraccoon.stablemaster.LangString;
+import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
+import me.robotoraccoon.stablemaster.commands.CommandInfo;
+import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.SubCommand;
+import me.robotoraccoon.stablemaster.data.Stable;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
-
-import static net.nperkins.stablemaster.StableMaster.getAnimal;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,7 +34,7 @@ public class Rename extends SubCommand {
             name = ChatColor.translateAlternateColorCodes('&', name);
 
         renameQueue.put(player, name);
-        StableMaster.commandQueue.put(player, this);
+        CoreCommand.setQueuedCommand(player, this);
         new LangString("punch-animal").send(player);
     }
 
@@ -46,7 +46,7 @@ public class Rename extends SubCommand {
 
         a.setCustomName(name);
         a.setCustomNameVisible(config.getBoolean("name-always-visible"));
-        new LangString("command.rename.renamed", getAnimal(a.getType()), name).send(player);
+        new LangString("command.rename.renamed", StableUtil.getAnimal(a.getType()), name).send(player);
     }
 
     @Override
