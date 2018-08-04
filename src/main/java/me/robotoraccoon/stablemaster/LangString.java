@@ -12,7 +12,7 @@ public class LangString {
     }
 
     public LangString(String key) {
-        setMessage(getLang(key));
+        setMessage(getLang(key.toLowerCase()));
     }
 
     public LangString(String key, Object... args) {

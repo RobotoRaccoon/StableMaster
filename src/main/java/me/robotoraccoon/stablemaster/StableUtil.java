@@ -18,7 +18,7 @@ public class StableUtil {
     private static HashMap<OfflinePlayer, Stable> stables = new HashMap<>();
 
     public static String getAnimal(EntityType type) {
-        return new LangString("animal." + type.toString().toLowerCase()).getMessage();
+        return new LangString("animal." + type.toString()).getMessage();
     }
 
     public static void loadStable(OfflinePlayer player) {

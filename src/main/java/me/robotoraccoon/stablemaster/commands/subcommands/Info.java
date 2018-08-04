@@ -3,6 +3,7 @@ package me.robotoraccoon.stablemaster.commands.subcommands;
 import com.google.common.base.Joiner;
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
+import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
@@ -90,23 +91,32 @@ public class Info extends SubCommand {
 
         // What type of animal it is
         if (config.getInt("variant") >= permissionLevel) {
-            String variant;
-            switch (a.getType()) {
-                case HORSE:
-                    Horse h = (Horse) animal;
-                    variant = h.getColor() + ", " + h.getStyle();
-                    break;
-                case OCELOT:
-                    variant = ((Ocelot) animal).getCatType().toString();
-                    break;
-                case PARROT:
-                    variant = ((Parrot) animal).getVariant().toString();
-                    break;
-                default:
-                    variant = a.getType().toString();
-                    break;
-            }
-            new LangString("command.info.variant", variant).send(player);
+            new LangString("command.info.variant", getVariant(a)).send(player);
+        }
+    }
+
+    private String getVariant(Animals animal) {
+        switch(animal.getType()) {
+            case HORSE:
+                Horse horse = (Horse) animal;
+                String color = new LangString("variant.horse.color." + horse.getColor()).getMessage();
+                String style = new LangString("variant.horse.style." + horse.getStyle()).getMessage();
+                return color + ", " + style;
+
+            case LLAMA:
+                Llama llama = (Llama) animal;
+                return new LangString("variant.llama.color." + llama.getColor()).getMessage();
+
+            case OCELOT:
+                Ocelot ocelot = (Ocelot) animal;
+                return new LangString("variant.ocelot.type." + ocelot.getCatType()).getMessage();
+
+            case PARROT:
+                Parrot parrot = (Parrot) animal;
+                return new LangString("variant.parrot.variant." + parrot.getVariant()).getMessage();
+
+            default:
+                return StableUtil.getAnimal(animal.getType());
         }
     }
 }
