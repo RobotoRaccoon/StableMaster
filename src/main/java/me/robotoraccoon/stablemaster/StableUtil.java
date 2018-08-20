@@ -42,14 +42,11 @@ public class StableUtil {
         // If the player has horses, load them too
         if (yamlFile.contains("horses")) {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
-            HashMap<String, StabledHorse> horseMap = new HashMap<>();
-            for (String s : horses) {
-                StabledHorse horse = new StabledHorse();
-                horse.setUniqueID(s);
-                horse.setRiders(yamlFile.getStringList("horses." + s + ".riders"));
-                horseMap.put(s, horse);
+            for (String uuid : horses) {
+                StabledHorse horse = new StabledHorse(uuid);
+                horse.setRiders(yamlFile.getStringList("horses." + uuid + ".riders"));
+                stable.addHorse(horse);
             }
-            stable.setHorses(horseMap);
         }
         stables.put(player, stable);
     }
@@ -61,7 +58,7 @@ public class StableUtil {
     public static void saveStable(Stable stable) {
         File stableFile = new File(StableMaster.getStablesFolder() + File.separator + stable.getOwner().toString() + ".yml");
         // If the stable has no horses, delete the file and return
-        if (stable.getHorses().isEmpty()) {
+        if (stable.getSize() == 0) {
             if (stableFile.exists()) {
                 stableFile.delete();
             }
@@ -73,18 +70,18 @@ public class StableUtil {
         // Clear out horses current stable yml
         if (yamlFile.contains("horses")) {
             Set<String> horses = yamlFile.getConfigurationSection("horses").getKeys(false);
-            for (String s : horses) {
-                if (stable.getHorses().keySet().contains(s)) {
-                    yamlFile.set("horses." + s + ".riders", null);
+            for (String uuid : horses) {
+                if (stable.getHorses().contains(uuid)) {
+                    yamlFile.set("horses." + uuid + ".riders", null);
                 } else {
-                    yamlFile.set("horses." + s, null);
+                    yamlFile.set("horses." + uuid, null);
                 }
             }
         }
         // Save new stable data
-        for (String horse : stable.getHorses().keySet()) {
-            StabledHorse sh = stable.getHorse(horse);
-            yamlFile.set("horses." + horse + ".riders", sh.getRiders());
+        for (String uuid : stable.getHorses()) {
+            StabledHorse sh = stable.getHorse(uuid);
+            yamlFile.set("horses." + uuid + ".riders", sh.getRiders());
         }
         try {
             yamlFile.save(stableFile);

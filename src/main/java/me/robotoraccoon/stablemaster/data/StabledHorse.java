@@ -16,41 +16,33 @@ import java.util.UUID;
 public class StabledHorse {
 
     /** UUID of the horse */
-    private String uniqueID;
+    private String uuid;
     /** Rider of this horse, by UUID */
     private List<String> riders;
 
     /**
-     * Default constructor, create an empty StabledHorse
+     * Constructor, create from given UUID
      */
-    public StabledHorse() {
-        uniqueID = null;
-        riders = new ArrayList<>();
+    public StabledHorse(String uuid) {
+        this.uuid = uuid;
+        this.riders = new ArrayList<>();
     }
 
     /**
      * Constructor, create from an existing horse
-     * @param h Horse to use
+     * @param horse Horse to use
      */
-    public StabledHorse(AbstractHorse h) {
-        uniqueID = h.getUniqueId().toString();
-        riders = new ArrayList<>();
+    public StabledHorse(AbstractHorse horse) {
+        this.uuid = horse.getUniqueId().toString();
+        this.riders = new ArrayList<>();
     }
 
     /**
      * Get the UUID of the horse
      * @return UUID
      */
-    public String getUniqueID() {
-        return uniqueID;
-    }
-
-    /**
-     * Set the horses UUID
-     * @param uniqueID UUID
-     */
-    public void setUniqueID(String uniqueID) {
-        this.uniqueID = uniqueID;
+    public String getUUID() {
+        return uuid;
     }
 
     /**
@@ -75,11 +67,9 @@ public class StabledHorse {
      */
     public List<String> getRiderNames() {
         ArrayList<String> riderNames = new ArrayList<>();
-        Iterator it = getRiders().iterator();
-        while (it.hasNext()) {
-            OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString((String) it.next()));
+        for (String uuid : getRiders()) {
+            OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid));
             if (rider.getName() == null) {
-                //todo: some sort of lookup
                 riderNames.add(rider.getUniqueId().toString());
             } else {
                 riderNames.add(rider.getName());
@@ -90,29 +80,27 @@ public class StabledHorse {
 
     /**
      * Add a player as a rider
-     * @param p Player to add
+     * @param player Player to add
      */
-    public void addRider(OfflinePlayer p) {
-        if (!riders.contains(p.getUniqueId().toString()))
-            riders.add(p.getUniqueId().toString());
+    public void addRider(OfflinePlayer player) {
+        if (!isRider(player))
+            riders.add(player.getUniqueId().toString());
     }
 
     /**
      * Remove a player as a rider
-     * @param p Player to remove
+     * @param player Player to remove
      */
-    public void delRider(OfflinePlayer p) {
-        if (riders.contains(p.getUniqueId().toString()))
-            riders.remove(p.getUniqueId().toString());
+    public void delRider(OfflinePlayer player) {
+        riders.remove(player.getUniqueId().toString());
     }
 
     /**
      * Check if a player is a rider
-     * @param p Player to check
+     * @param player Player to check
      * @return True if player can ride this horse
      */
-    public boolean isRider(OfflinePlayer p) {
-        return riders.contains(p.getUniqueId().toString());
+    public boolean isRider(OfflinePlayer player) {
+        return riders.contains(player.getUniqueId().toString());
     }
-
 }

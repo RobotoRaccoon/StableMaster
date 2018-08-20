@@ -4,6 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -22,8 +23,8 @@ public class Stable {
      * @param player Who to make the stable for
      */
     public Stable(OfflinePlayer player) {
-        setOwner(player.getUniqueId());
-        horses = new HashMap<>();
+        this.owner = player.getUniqueId();
+        this.horses = new HashMap<>();
     }
 
     /**
@@ -35,27 +36,19 @@ public class Stable {
     }
 
     /**
-     * Set the owner
-     * @param owner New owner's UUID
-     */
-    private void setOwner(UUID owner) {
-        this.owner = owner;
-    }
-
-    /**
-     * Get the stable map
+     * Get UUIDs of all horses in the stable
      * @return Horses in the stable
      */
-    public HashMap<String, StabledHorse> getHorses() {
-        return horses;
+    public Set<String> getHorses() {
+        return horses.keySet();
     }
 
     /**
-     * Set the stables map
-     * @param horses Horses to overwrite existing ones with
+     * Add a horse to the stable
+     * @param horse Horse to add
      */
-    public void setHorses(HashMap<String, StabledHorse> horses) {
-        this.horses = horses;
+    public void addHorse(StabledHorse horse) {
+        horses.put(horse.getUUID(), horse);
     }
 
     /**
@@ -101,4 +94,11 @@ public class Stable {
         return horses.get(horseID);
     }
 
+    /**
+     * Get the size of the stable
+     * @return Number of horses in the stable
+     */
+    public int getSize() {
+        return horses.size();
+    }
 }
