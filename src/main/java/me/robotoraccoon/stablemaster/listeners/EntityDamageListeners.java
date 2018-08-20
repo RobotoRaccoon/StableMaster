@@ -15,8 +15,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
+/**
+ * Listener to track when a player punches their animal
+ * @author RobotoRaccoon
+ */
 public class EntityDamageListeners implements Listener {
 
+    /**
+     * Event where a player punches a horse. Always trigger even if cancelled
+     * @param event Event
+     */
     // Event for the "always protect" config settings
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
@@ -36,6 +44,10 @@ public class EntityDamageListeners implements Listener {
             event.setCancelled(true);
     }
 
+    /**
+     * Event where another entity hurts the horse
+     * @param event Event
+     */
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // Return if the damaged entity is not a tameable entity.
@@ -62,6 +74,10 @@ public class EntityDamageListeners implements Listener {
             projectileDamageAnimal(event);
     }
 
+    /**
+     * Handle a player hurting the animal
+     * @param event Event
+     */
     private void playerDamageAnimal(EntityDamageByEntityEvent event) {
         final Player player = (Player) event.getDamager();
         final Tameable animal = (Tameable) event.getEntity();
@@ -112,11 +128,19 @@ public class EntityDamageListeners implements Listener {
         }
     }
 
+    /**
+     * Handle a monster hurting the animal
+     * @param event Event
+     */
     private void monsterDamageAnimal(EntityDamageByEntityEvent event) {
         if (getProtectionConfig().getBoolean("monster-melee"))
             event.setCancelled(true);
     }
 
+    /**
+     * Handle a projectile hurting the animal
+     * @param event Event
+     */
     private void projectileDamageAnimal(EntityDamageByEntityEvent event) {
         final Tameable animal = (Tameable) event.getEntity();
         final ProjectileSource source = ((Projectile) event.getDamager()).getShooter();
@@ -138,10 +162,21 @@ public class EntityDamageListeners implements Listener {
         }
     }
 
+    /**
+     * Get the protection ConfigurationSection
+     * @return Protection config
+     */
     private ConfigurationSection getProtectionConfig() {
         return StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
     }
 
+    /**
+     * Check if a player an hurt the animal
+     * @param animal Animal being hurt
+     * @param harmer Who is hurting
+     * @param isMelee If the attack is a punch
+     * @return True if the player can hurt the animal
+     */
     private boolean canPlayerHurt(Tameable animal, Player harmer, Boolean isMelee) {
         Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
         // If the complete-bypass setting is true, always allow player damage

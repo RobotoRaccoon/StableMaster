@@ -1,7 +1,6 @@
 package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
-import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
@@ -15,16 +14,27 @@ import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * AddRider sub-command, allow another player to ride a horse
+ * @author RobotoRaccoon
+ */
 public class AddRider extends SubCommand {
 
+    /** Internal queue */
     private ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor
+     */
     public AddRider() {
         setTameablesAllowed(false);
         setMinArgs(1);
         setName("addrider");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
         final String riderName = commandInfo.getArg(0);
@@ -39,6 +49,9 @@ public class AddRider extends SubCommand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final AbstractHorse horse = (AbstractHorse) animal;
         StabledHorse stabledHorse = stable.getHorse(horse);
@@ -53,6 +66,9 @@ public class AddRider extends SubCommand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeFromQueue(Player player) {
         addRiderQueue.remove(player);

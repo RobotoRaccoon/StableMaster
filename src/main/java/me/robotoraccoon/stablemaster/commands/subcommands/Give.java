@@ -1,7 +1,6 @@
 package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
-import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
@@ -15,15 +14,26 @@ import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Give sub-command, transfer ownership of a horse
+ * @author RobotoRaccoon
+ */
 public class Give extends SubCommand {
 
+    /** Internal queue */
     private ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor
+     */
     public Give() {
         setMinArgs(1);
         setName("give");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
         final String ownerName = commandInfo.getArg(0);
@@ -38,6 +48,9 @@ public class Give extends SubCommand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         OfflinePlayer newOwner = giveQueue.get(player);
         removeFromQueue(player);
@@ -53,6 +66,9 @@ public class Give extends SubCommand {
         new LangString("command.give.given", StableUtil.getAnimal(((Animals) animal).getType()), newOwner.getName()).send(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeFromQueue(Player player) {
         giveQueue.remove(player);

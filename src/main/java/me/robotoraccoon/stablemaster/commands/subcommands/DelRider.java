@@ -1,7 +1,6 @@
 package me.robotoraccoon.stablemaster.commands.subcommands;
 
 import me.robotoraccoon.stablemaster.LangString;
-import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
@@ -15,16 +14,27 @@ import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * DelRider sub-command, disallow another player from riding their horse
+ * @author RobotoRaccoon
+ */
 public class DelRider extends SubCommand {
 
+    /** Internal queue */
     private ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor
+     */
     public DelRider() {
         setTameablesAllowed(false);
         setMinArgs(1);
         setName("delrider");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
         final String riderName = commandInfo.getArg(0);
@@ -39,6 +49,9 @@ public class DelRider extends SubCommand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final AbstractHorse horse = (AbstractHorse) animal;
         StabledHorse stabledHorse = stable.getHorse(horse);
@@ -53,6 +66,9 @@ public class DelRider extends SubCommand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeFromQueue(Player player) {
         delRiderQueue.remove(player);

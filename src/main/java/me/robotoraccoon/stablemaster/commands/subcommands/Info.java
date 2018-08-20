@@ -16,19 +16,32 @@ import org.bukkit.entity.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Info sub-command, show all information about an animal
+ * @author RobotoRaccoon
+ */
 public class Info extends SubCommand {
 
+    /**
+     * Default constructor
+     */
     public Info() {
         setOwnerRequired(false);
         setName("info");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
         CoreCommand.setQueuedCommand(player, this);
         new LangString("punch-animal").send(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
 
@@ -95,8 +108,13 @@ public class Info extends SubCommand {
         }
     }
 
+    /**
+     * Get the variant string of an animal
+     * @param animal Animal
+     * @return The string from lang.yml
+     */
     private String getVariant(Animals animal) {
-        switch(animal.getType()) {
+        switch (animal.getType()) {
             case HORSE:
                 Horse horse = (Horse) animal;
                 String color = new LangString("variant.horse.color." + horse.getColor()).getMessage();

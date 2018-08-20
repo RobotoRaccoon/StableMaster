@@ -11,14 +11,24 @@ import org.bukkit.entity.Tameable;
 
 import java.util.Map;
 
+/**
+ * Help sub-command, display all commands to the executor
+ * @author RobotoRaccoon
+ */
 public class Help extends SubCommand {
 
+    /**
+     * Default constructor
+     */
     public Help() {
         setConsoleAllowed(true);
         setOwnerRequired(false);
         setName("help");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         CommandSender sender = commandInfo.getSender();
 
@@ -39,6 +49,9 @@ public class Help extends SubCommand {
         new LangString("command.help.footer").send(sender);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         // Nothing
     }

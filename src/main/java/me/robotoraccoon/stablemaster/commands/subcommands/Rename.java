@@ -16,15 +16,26 @@ import org.bukkit.entity.Tameable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Rename sub-command, change the display name of an animal
+ * @author RobotoRaccoon
+ */
 public class Rename extends SubCommand {
 
+    /** Internal queue */
     private ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor
+     */
     public Rename() {
         setMinArgs(1);
         setName("rename");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
 
         final Player player = (Player) commandInfo.getSender();
@@ -38,6 +49,9 @@ public class Rename extends SubCommand {
         new LangString("punch-animal").send(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
         final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.rename");
@@ -49,6 +63,9 @@ public class Rename extends SubCommand {
         new LangString("command.rename.renamed", StableUtil.getAnimal(a.getType()), name).send(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeFromQueue(Player player) {
         renameQueue.remove(player);

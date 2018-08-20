@@ -9,19 +9,32 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
 
+/**
+ * Reload sub-command, reload the configuration files
+ * @author RobotoRaccoon
+ */
 public class Reload extends SubCommand {
 
+    /**
+     * Default constructor
+     */
     public Reload() {
         setConsoleAllowed(true);
         setName("reload");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         CommandSender sender = commandInfo.getSender();
         StableUtil.loadConfigData();
         new LangString("command.reload.reloaded").send(sender);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         // Nothing
     }

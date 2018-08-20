@@ -9,8 +9,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTameEvent;
 
+/**
+ * Listener to permit a player to tame an animal (or not)
+ * @author RobotoRaccoon
+ */
 public class EntityTameListener implements Listener {
 
+    /**
+     * Event where a player tames an animal
+     * @param event Event
+     */
     @EventHandler(ignoreCancelled = true)
     public void onEntityTame(EntityTameEvent event) {
         // Return if the damaged entity is not a tameable entity.

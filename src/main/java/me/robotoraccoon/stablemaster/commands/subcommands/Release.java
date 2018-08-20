@@ -12,18 +12,31 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Release sub-command, let this animal go back into the wild
+ * @author RobotoRaccoon
+ */
 public class Release extends SubCommand {
 
+    /**
+     * Default constructor
+     */
     public Release() {
         setName("release");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
         CoreCommand.setQueuedCommand(player, this);
         new LangString("punch-animal").send(player);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
         final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.release");

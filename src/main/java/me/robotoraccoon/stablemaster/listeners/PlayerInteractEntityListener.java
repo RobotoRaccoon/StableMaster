@@ -12,8 +12,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
+/**
+ * Listener to handle a player trying to ride a horse
+ * @author RobotoRaccoon
+ */
 public class PlayerInteractEntityListener implements Listener {
 
+    /**
+     * Event where a player right-clicks an animal
+     * @param event Event
+     */
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 

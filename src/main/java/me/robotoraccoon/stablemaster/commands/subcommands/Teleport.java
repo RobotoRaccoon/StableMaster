@@ -16,14 +16,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Teleport sub-command, transport an animal to another location
+ * @author RobotoRaccoon
+ */
 public class Teleport extends SubCommand {
 
+    /** Internal queue */
     private ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor
+     */
     public Teleport() {
         setName("teleport");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
 
@@ -49,6 +60,9 @@ public class Teleport extends SubCommand {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
         // Storing location
@@ -58,22 +72,39 @@ public class Teleport extends SubCommand {
         teleportQueue.put(player, a);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void removeFromQueue(Player player) {
         teleportQueue.remove(player);
     }
 }
 
+/**
+ * TeleportEval package-private runnable, to run asynchronously
+ * @author RobotoRaccoon
+ */
 class TeleportEval extends BukkitRunnable {
 
+    /** Animal used */
     private Animals animal;
+    /** Player running the teleport */
     private Player player;
 
+    /**
+     * Constructor
+     * @param animal Animal
+     * @param player Player
+     */
     public TeleportEval(Animals animal, Player player) {
         this.animal = animal;
         this.player = player;
     }
 
+    /**
+     * Run the eval
+     */
     public void run() {
         if (chunkIsLoaded()) {
             StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
@@ -84,7 +115,10 @@ class TeleportEval extends BukkitRunnable {
         }
     }
 
-    // Bukkit method chunk.isLoaded() appears to be currently broken, always returns true
+
+    /**
+     * Check if a chunk is currently loaded
+     */
     private boolean chunkIsLoaded() {
         Location l = animal.getLocation();
         for (Chunk c : l.getWorld().getLoadedChunks()) {

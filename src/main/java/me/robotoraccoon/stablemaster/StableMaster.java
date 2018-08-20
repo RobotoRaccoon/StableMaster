@@ -1,7 +1,6 @@
 package me.robotoraccoon.stablemaster;
 
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
-import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.listeners.*;
 import org.bukkit.Chunk;
@@ -16,14 +15,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Main StableMaster class to initialise and destroy the plugin
+ * @author RobotoRaccoon
+ */
 public class StableMaster extends JavaPlugin {
 
+    /** This plugin */
     private static Plugin plugin;
-    private static File stablesFolder;
+    /** The root file-path */
     private static File pluginFolder;
-
+    /** The file-path for stables */
+    private static File stablesFolder;
+    /** Chunks stores in memory for teleport commands */
     private static List<Chunk> teleportChunk = new ArrayList<>();
 
+    /**
+     * Called once when the plugin is instantiated
+     */
     @Override
     public void onEnable() {
         plugin = this;
@@ -52,6 +61,9 @@ public class StableMaster extends JavaPlugin {
         }
     }
 
+    /**
+     * Always called when shutting down the plugin
+     */
     @Override
     public void onDisable() {
         for (Map.Entry<OfflinePlayer, Stable> entry : StableUtil.getStables().entrySet()) {
@@ -59,26 +71,39 @@ public class StableMaster extends JavaPlugin {
         }
     }
 
+    /**
+     * Make sure the folders exist
+     */
     private void createDataFolders() {
         if (!pluginFolder.exists()) {
             pluginFolder.mkdir();
         }
-
         if (!stablesFolder.exists()) {
             stablesFolder.mkdir();
         }
     }
 
+    /**
+     * Get this plugin
+     * @return this
+     */
     public static Plugin getPlugin() {
         return plugin;
     }
 
+    /**
+     * Get the stables directory
+     * @return Stables folder
+     */
     public static File getStablesFolder() {
         return stablesFolder;
     }
 
+    /**
+     * Get teleport chunks
+     * @return List of loaded chunks
+     */
     public static List<Chunk> getTeleportChunk() {
         return teleportChunk;
     }
-
 }
