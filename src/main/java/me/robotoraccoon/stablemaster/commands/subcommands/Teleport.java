@@ -79,53 +79,52 @@ public class Teleport extends SubCommand {
     public void removeFromQueue(Player player) {
         teleportQueue.remove(player);
     }
-}
-
-/**
- * TeleportEval package-private runnable, to run asynchronously
- * @author RobotoRaccoon
- */
-class TeleportEval extends BukkitRunnable {
-
-    /** Animal used */
-    private Animals animal;
-    /** Player running the teleport */
-    private Player player;
 
     /**
-     * Constructor
-     * @param animal Animal
-     * @param player Player
+     * TeleportEval private inner-class runnable, to run asynchronously
+     * @author RobotoRaccoon
      */
-    public TeleportEval(Animals animal, Player player) {
-        this.animal = animal;
-        this.player = player;
-    }
+    private class TeleportEval extends BukkitRunnable {
 
-    /**
-     * Run the eval
-     */
-    public void run() {
-        if (chunkIsLoaded()) {
-            StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
-            new LangString("command.teleport.teleporting").send(player);
-            animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
-        } else {
-            new LangString("command.teleport.failed").send(player);
+        /** Animal used */
+        private Animals animal;
+        /** Player running the teleport */
+        private Player player;
+
+        /**
+         * Constructor
+         * @param animal Animal
+         * @param player Player
+         */
+        public TeleportEval(Animals animal, Player player) {
+            this.animal = animal;
+            this.player = player;
         }
-    }
 
-
-    /**
-     * Check if a chunk is currently loaded
-     */
-    private boolean chunkIsLoaded() {
-        Location l = animal.getLocation();
-        for (Chunk c : l.getWorld().getLoadedChunks()) {
-            if (c.equals(l.getChunk())) {
-                return true;
+        /**
+         * Run the eval
+         */
+        public void run() {
+            if (chunkIsLoaded()) {
+                StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
+                new LangString("command.teleport.teleporting").send(player);
+                animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            } else {
+                new LangString("command.teleport.failed").send(player);
             }
         }
-        return false;
+
+        /**
+         * Check if a chunk is currently loaded
+         */
+        private boolean chunkIsLoaded() {
+            Location l = animal.getLocation();
+            for (Chunk c : l.getWorld().getLoadedChunks()) {
+                if (c.equals(l.getChunk())) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
