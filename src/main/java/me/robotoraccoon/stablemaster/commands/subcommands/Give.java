@@ -27,8 +27,8 @@ public class Give extends SubCommand {
      * Default constructor
      */
     public Give() {
+        super("give");
         setMinArgs(1);
-        setName("give");
     }
 
     /**

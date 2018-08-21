@@ -21,9 +21,9 @@ public class Help extends SubCommand {
      * Default constructor
      */
     public Help() {
+        super("help");
         setConsoleAllowed(true);
         setOwnerRequired(false);
-        setName("help");
     }
 
     /**

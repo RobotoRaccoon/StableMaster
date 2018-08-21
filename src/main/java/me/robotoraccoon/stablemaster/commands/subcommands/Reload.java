@@ -19,8 +19,8 @@ public class Reload extends SubCommand {
      * Default constructor
      */
     public Reload() {
+        super("reload");
         setConsoleAllowed(true);
-        setName("reload");
     }
 
     /**

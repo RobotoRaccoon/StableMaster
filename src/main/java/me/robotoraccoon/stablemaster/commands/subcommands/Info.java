@@ -26,8 +26,8 @@ public class Info extends SubCommand {
      * Default constructor
      */
     public Info() {
+        super("info");
         setOwnerRequired(false);
-        setName("info");
     }
 
     /**

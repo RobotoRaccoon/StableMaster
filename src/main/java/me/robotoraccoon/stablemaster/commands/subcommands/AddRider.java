@@ -27,9 +27,9 @@ public class AddRider extends SubCommand {
      * Default constructor
      */
     public AddRider() {
+        super("addrider");
         setTameablesAllowed(false);
         setMinArgs(1);
-        setName("addrider");
     }
 
     /**

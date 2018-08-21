@@ -22,7 +22,7 @@ public class Release extends SubCommand {
      * Default constructor
      */
     public Release() {
-        setName("release");
+        super("release");
     }
 
     /**

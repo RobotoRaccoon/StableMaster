@@ -29,8 +29,8 @@ public class Rename extends SubCommand {
      * Default constructor
      */
     public Rename() {
+        super("rename");
         setMinArgs(1);
-        setName("rename");
     }
 
     /**

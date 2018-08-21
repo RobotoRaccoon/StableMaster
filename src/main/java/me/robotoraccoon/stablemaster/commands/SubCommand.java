@@ -17,6 +17,11 @@ import java.util.List;
  */
 public abstract class SubCommand {
 
+    /** The name of the command */
+    private String name;
+    /** The permission needed for the command */
+    private String permission;
+
     /** Can console run the command */
     private boolean consoleAllowed = false;
     /** Can only the owner run this command */
@@ -25,10 +30,14 @@ public abstract class SubCommand {
     private boolean tameablesAllowed = true;
     /** Minimum arguments needed */
     private int minArgs = 0;
-    /** The name of the command */
-    private String name = "";
-    /** The permission needed for the command */
-    private String permission = "";
+
+    /**
+     * Default constructor, must be called by the sub-class
+     * @param name Name of the command
+     */
+    public SubCommand(String name) {
+        setName(name);
+    }
 
     /**
      * Run the sub-command specific code
@@ -189,7 +198,7 @@ public abstract class SubCommand {
      * Set the name for this command
      * @param name Base name
      */
-    protected final void setName(String name) {
+    private final void setName(String name) {
         this.name = name;
         setPermission("stablemaster." + name);
     }

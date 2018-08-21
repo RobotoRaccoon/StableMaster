@@ -29,7 +29,7 @@ public class Teleport extends SubCommand {
      * Default constructor
      */
     public Teleport() {
-        setName("teleport");
+        super("teleport");
     }
 
     /**

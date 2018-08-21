@@ -27,9 +27,9 @@ public class DelRider extends SubCommand {
      * Default constructor
      */
     public DelRider() {
+        super("delrider");
         setTameablesAllowed(false);
         setMinArgs(1);
-        setName("delrider");
     }
 
     /**
