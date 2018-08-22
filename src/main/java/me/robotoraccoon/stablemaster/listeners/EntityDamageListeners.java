@@ -22,7 +22,7 @@ import org.bukkit.projectiles.ProjectileSource;
 public class EntityDamageListeners implements Listener {
 
     /**
-     * Event where a player punches a horse. Always trigger even if cancelled
+     * Event where the animal gets hurt by an external element, such as fire.
      * @param event Event
      */
     // Event for the "always protect" config settings
@@ -33,19 +33,21 @@ public class EntityDamageListeners implements Listener {
             return;
 
         // If the animal has no owner, no need to protect it
-        final Tameable animal = (Tameable) event.getEntity();
-        if (!animal.isTamed() || animal.getOwner() == null)
+        final Tameable tameable = (Tameable) event.getEntity();
+        if (!tameable.isTamed() || tameable.getOwner() == null)
             return;
 
-        String cause = event.getCause().name().toLowerCase();
-        ConfigurationSection config = getProtectionConfig();
+        final String cause = event.getCause().name().toLowerCase();
+        ConfigurationSection configDefault = getProtectionConfig("default");
+        ConfigurationSection configAnimal = getProtectionConfig("animal." + event.getEntityType().toString());
 
-        if (config.getBoolean(cause))
+        // Get the setting on the animal, or the default if not found
+        if (configAnimal.getBoolean(cause, configDefault.getBoolean(cause)))
             event.setCancelled(true);
     }
 
     /**
-     * Event where another entity hurts the horse
+     * Event where another entity hurts the animal
      * @param event Event
      */
     @EventHandler
@@ -163,14 +165,6 @@ public class EntityDamageListeners implements Listener {
     }
 
     /**
-     * Get the protection ConfigurationSection
-     * @return Protection config
-     */
-    private ConfigurationSection getProtectionConfig() {
-        return StableMaster.getPlugin().getConfig().getConfigurationSection("protection");
-    }
-
-    /**
      * Check if a player an hurt the animal
      * @param animal Animal being hurt
      * @param harmer Who is hurting
@@ -186,5 +180,25 @@ public class EntityDamageListeners implements Listener {
         String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
         return !getProtectionConfig().getBoolean(path);
+    }
+
+    /**
+     * Get the protection ConfigurationSection
+     * @return Protection config
+     */
+    private ConfigurationSection getProtectionConfig() {
+        return getProtectionConfig("");
+    }
+
+    /**
+     * Get the protection ConfigurationSection
+     * @param subSection The config section to retrieve
+     * @return Protection config
+     */
+    private ConfigurationSection getProtectionConfig(String subSection) {
+        String path = "protection";
+        if (!subSection.isEmpty())
+            path += "." + subSection.toLowerCase();
+        return StableMaster.getPlugin().getConfig().getConfigurationSection(path);
     }
 }

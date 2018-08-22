@@ -47,7 +47,7 @@ protection:
   block_explosion: true
   ## Defaults for every animal type
   default:
-    contact: true
+    contact: false
     cramming: true
     drowning: true
     fall: true
@@ -61,3 +61,25 @@ protection:
     poison: true
     suffocation: true
     wither: true
+  ## Set values here to override the default for that animal
+  animal:
+    donkey:
+      contact: true
+    horse:
+      contact: true
+    llama:
+      contact: true
+    mule:
+      contact: true
+    ocelot:
+      lava: false
+    parrot:
+      lava: false
+    skeleton_horse:
+      lava: false
+    zombie_horse:
+      lava: false
+    wolf:
+      lava: false
+      poison: false
+      wither: false
