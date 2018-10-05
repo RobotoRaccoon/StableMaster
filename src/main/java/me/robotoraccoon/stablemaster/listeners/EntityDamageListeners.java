@@ -41,6 +41,11 @@ public class EntityDamageListeners implements Listener {
         ConfigurationSection configDefault = getProtectionConfig("default");
         ConfigurationSection configAnimal = getProtectionConfig("animal." + event.getEntityType().toString());
 
+        // Section not found? Use default.
+        if (configAnimal == null) {
+            configAnimal = configDefault;
+        }
+
         // Get the setting on the animal, or the default if not found
         if (configAnimal.getBoolean(cause, configDefault.getBoolean(cause)))
             event.setCancelled(true);
