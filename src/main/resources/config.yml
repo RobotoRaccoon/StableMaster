@@ -44,13 +44,13 @@ protection:
   ## Protect against projectiles that aren't player or monster
   other-ranged: true
   ## Always protect against these no matter the source
-  block_explosion: true
-  ## Defaults for every animal type
   default:
+    block_explosion: true
     contact: true
     cramming: true
     drowning: true
     fall: true
+    falling_block: true
     fire: true
     fire_tick: true
     fly_into_wall: true
@@ -59,5 +59,7 @@ protection:
     lightning: true
     magic: true
     poison: true
+    starvation: true
     suffocation: true
+    thorns: true
     wither: true

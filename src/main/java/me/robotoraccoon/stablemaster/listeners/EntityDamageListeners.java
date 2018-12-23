@@ -25,7 +25,6 @@ public class EntityDamageListeners implements Listener {
      * Event where the animal gets hurt by an external element, such as fire.
      * @param event Event
      */
-    // Event for the "always protect" config settings
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         // Return if the damaged entity is not a tameable entity.
