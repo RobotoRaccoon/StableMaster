@@ -1,4 +1,7 @@
 command:
+  calm:
+    ## Number of blocks near the player to check for animals to calm
+    radius: 16
   info:
     ## Allow certain information to only appear to certain people
     ## - 0: No one can see

@@ -27,6 +27,7 @@ public class CoreCommand implements CommandExecutor {
     public static void addAllCommands() {
         subCommands.clear();
         addCommand(new AddRider());
+        addCommand(new Calm());
         addCommand(new DelRider());
         addCommand(new Give());
         addCommand(new Help());

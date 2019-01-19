@@ -15,6 +15,9 @@ permissions:
   stablemaster.addrider:
     description: Allows user to add a rider to a horse
     default: true
+  stablemaster.calm:
+    description: Calms all your nearby animals
+    default: true
   stablemaster.delrider:
     description: Allows user to remove a rider from a horse
     default: true
@@ -49,6 +52,7 @@ permissions:
       stablemaster.bypass.protection: true
       stablemaster.bypass.ride: true
       stablemaster.bypass.command.addrider: true
+      stablemaster.bypass.command.calm: true
       stablemaster.bypass.command.delrider: true
       stablemaster.bypass.command.give: true
       stablemaster.bypass.command.info: true

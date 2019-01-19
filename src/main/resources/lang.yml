@@ -18,6 +18,11 @@ command:
     usage: 'addrider <player>'
     added: '&e%s &7can now ride this %s'
     is-rider: '&e%s &7is already a rider'
+  calm:
+    description: 'Calm all your nearby animals'
+    usage: 'calm'
+    calmed: 'Calmed %s animals in a %d block radius'
+    no-animals: 'Could not find any nearby animals to calm'
   delrider:
     description: 'Stop players from riding your animal'
     usage: 'delrider <player>'
