@@ -60,7 +60,6 @@ command:
   teleport:
     description: 'Teleport your animal'
     usage: 'teleport'
-    cross-world: 'You cannot teleport animals across worlds.'
     location-saved: 'Location stored. Run the command again at the destination'
     teleporting: 'Teleporting...'
     failed: 'Teleport failed. Try getting a friend to stand near your animal'

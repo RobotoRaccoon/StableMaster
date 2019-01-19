@@ -43,13 +43,6 @@ public class Teleport extends SubCommand {
             CoreCommand.removeQueuedCommand(player);
             Animals animal = (Animals) teleportQueue.get(player);
             removeFromQueue(player);
-
-            // Horses duplicate with cross world teleports...
-            if (animal.getLocation().getWorld() != (player).getLocation().getWorld()) {
-                new LangString("command.teleport.cross-world").send(player);
-                return;
-            }
-
             new TeleportEval(animal, player).runTask(StableMaster.getPlugin());
 
         } else {
