@@ -48,11 +48,4 @@ public class Help extends SubCommand {
 
         new LangString("command.help.footer").send(sender);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void handleInteract(Stable stable, Player player, Tameable animal) {
-        // Nothing
-    }
 }

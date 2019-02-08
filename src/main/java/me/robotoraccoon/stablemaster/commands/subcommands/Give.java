@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Give sub-command, transfer ownership of a horse
  * @author RobotoRaccoon
  */
-public class Give extends SubCommand {
+public class Give extends InteractCommand {
 
     /** Internal queue */
     private ConcurrentHashMap<Player, OfflinePlayer> giveQueue = new ConcurrentHashMap<>();

@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
@@ -111,7 +112,7 @@ public class EntityDamageListeners implements Listener {
         if (CoreCommand.hasQueuedCommand(player)) {
             // Handle appropriate command
             event.setCancelled(true);
-            SubCommand cmd = CoreCommand.removeQueuedCommand(player);
+            InteractCommand cmd = CoreCommand.removeQueuedCommand(player);
 
             if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
                 new LangString("error.not-owner", StableUtil.getAnimal(event.getEntityType())).send(player);
@@ -120,10 +121,11 @@ public class EntityDamageListeners implements Listener {
             }
 
             // Run for horses, and tameables if the command allows it.
-            if (animal instanceof AbstractHorse || cmd.isTameablesAllowed())
+            if (animal instanceof AbstractHorse || cmd.isTameablesAllowed()) {
                 cmd.handleInteract(stable, player, animal);
-            else
+            } else {
                 new LangString("error.not-supported").send(player);
+            }
             return;
         }
 

@@ -5,6 +5,7 @@ import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
  * Release sub-command, let this animal go back into the wild
  * @author RobotoRaccoon
  */
-public class Release extends SubCommand {
+public class Release extends InteractCommand {
 
     /**
      * Default constructor

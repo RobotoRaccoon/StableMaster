@@ -19,7 +19,7 @@ public class CoreCommand implements CommandExecutor {
     /** HashMap of commands, sorted by order they were added */
     private static final HashMap<String, SubCommand> subCommands = new LinkedHashMap<>();
     /** Commands waiting to be executed */
-    private static final ConcurrentHashMap<Player, SubCommand> commandQueue = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Player, InteractCommand> commandQueue = new ConcurrentHashMap<>();
 
     /**
      * Add in all of the commands
@@ -92,7 +92,7 @@ public class CoreCommand implements CommandExecutor {
      * @param player Player
      * @param cmd SubCommand
      */
-    public static void setQueuedCommand(Player player, SubCommand cmd) {
+    public static void setQueuedCommand(Player player, InteractCommand cmd) {
         commandQueue.put(player, cmd);
     }
 
@@ -101,7 +101,7 @@ public class CoreCommand implements CommandExecutor {
      * @param player Player
      * @return The command that was on the queue, or null if none
      */
-    public static SubCommand removeQueuedCommand(Player player) {
+    public static InteractCommand removeQueuedCommand(Player player) {
         return commandQueue.remove(player);
     }
 

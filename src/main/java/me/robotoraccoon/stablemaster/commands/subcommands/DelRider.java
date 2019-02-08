@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * DelRider sub-command, disallow another player from riding their horse
  * @author RobotoRaccoon
  */
-public class DelRider extends SubCommand {
+public class DelRider extends InteractCommand {
 
     /** Internal queue */
     private ConcurrentHashMap<Player, OfflinePlayer> delRiderQueue = new ConcurrentHashMap<>();

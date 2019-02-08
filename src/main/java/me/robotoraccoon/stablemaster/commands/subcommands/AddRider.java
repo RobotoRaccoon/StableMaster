@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * AddRider sub-command, allow another player to ride a horse
  * @author RobotoRaccoon
  */
-public class AddRider extends SubCommand {
+public class AddRider extends InteractCommand {
 
     /** Internal queue */
     private ConcurrentHashMap<Player, OfflinePlayer> addRiderQueue = new ConcurrentHashMap<>();

@@ -4,6 +4,7 @@ import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.Chunk;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Teleport sub-command, transport an animal to another location
  * @author RobotoRaccoon
  */
-public class Teleport extends SubCommand {
+public class Teleport extends InteractCommand {
 
     /** Internal queue */
     private ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();

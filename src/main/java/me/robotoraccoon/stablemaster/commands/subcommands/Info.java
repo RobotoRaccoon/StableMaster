@@ -6,6 +6,7 @@ import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
@@ -20,7 +21,7 @@ import java.util.List;
  * Info sub-command, show all information about an animal
  * @author RobotoRaccoon
  */
-public class Info extends SubCommand {
+public class Info extends InteractCommand {
 
     /**
      * Default constructor

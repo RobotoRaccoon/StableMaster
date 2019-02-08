@@ -5,6 +5,7 @@ import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
+import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.apache.commons.lang.StringUtils;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Rename sub-command, change the display name of an animal
  * @author RobotoRaccoon
  */
-public class Rename extends SubCommand {
+public class Rename extends InteractCommand {
 
     /** Internal queue */
     private ConcurrentHashMap<Player, String> renameQueue = new ConcurrentHashMap<>();

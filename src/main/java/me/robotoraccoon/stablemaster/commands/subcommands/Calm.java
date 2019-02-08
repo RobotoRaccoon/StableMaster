@@ -58,11 +58,4 @@ public class Calm extends SubCommand {
             new LangString("command.calm.calmed", count, radius).send(player);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void handleInteract(Stable stable, Player player, Tameable animal) {
-        // Nothing
-    }
 }

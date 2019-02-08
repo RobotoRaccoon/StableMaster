@@ -31,11 +31,4 @@ public class Reload extends SubCommand {
         StableUtil.loadConfigData();
         new LangString("command.reload.reloaded").send(sender);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void handleInteract(Stable stable, Player player, Tameable animal) {
-        // Nothing
-    }
 }
