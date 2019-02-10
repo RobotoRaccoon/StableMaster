@@ -34,10 +34,11 @@ command:
     given: '%s given to &e%s'
   help:
     description: 'StableMaster help'
-    usage: 'help'
+    usage: 'help [page]'
     header: '&7-------------- &6StableMaster &7--------------'
     about: '&eOnce you tame an animal, you own it. No claiming required!'
     format: '&6/sm %s &f- &7%s'
+    more-pages: '&ePage &6%d/%d&e. View more with &6/sm %s'
     footer: '&7-----------------------------------------'
   info:
     description: 'Get info on an animal'
