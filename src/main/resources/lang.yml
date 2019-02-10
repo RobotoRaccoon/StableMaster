@@ -63,6 +63,9 @@ command:
     description: 'Rename your animal. Colour codes allowed'
     usage: 'rename <new-name>'
     renamed: '%s renamed to %s'
+  sit:
+    description: 'Sit on your animal'
+    usage: 'sit'
   teleport:
     description: 'Teleport your animal'
     usage: 'teleport'

@@ -42,6 +42,9 @@ permissions:
   stablemaster.rename.colors:
     description: Allows colors in animals names
     default: op
+  stablemaster.sit:
+    description: Allows user to forcibly ride their animal
+    default: op
   stablemaster.teleport:
     description: Allows user to teleport their animal
     default: op
@@ -58,6 +61,7 @@ permissions:
       stablemaster.bypass.command.info: true
       stablemaster.bypass.command.release: true
       stablemaster.bypass.command.rename: true
+      stablemaster.bypass.command.sit: true
       stablemaster.bypass.command.teleport: true
   stablemaster.tame:
     description: Allows user to tame an animal
