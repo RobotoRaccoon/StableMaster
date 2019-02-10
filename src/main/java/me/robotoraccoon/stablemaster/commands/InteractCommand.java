@@ -10,6 +10,8 @@ import org.bukkit.entity.Tameable;
  */
 public abstract class InteractCommand extends SubCommand {
 
+    /** Can only the owner run this command */
+    private boolean ownerRequired = true;
     /** Can this command be used on any animal or just AbstractHorses */
     private boolean tameablesAllowed = true;
 
@@ -35,6 +37,22 @@ public abstract class InteractCommand extends SubCommand {
      */
     public void removeFromQueue(Player player) {
         // Do nothing by default
+    }
+
+    /**
+     * Get if you need to be the owner to use this command
+     * @return ownerRequired If only owners can use this command
+     */
+    public final boolean isOwnerRequired() {
+        return ownerRequired;
+    }
+
+    /**
+     * Set if you need to be the owner to use this command
+     * @param ownerRequired If only owners can use this command
+     */
+    protected final void setOwnerRequired(boolean ownerRequired) {
+        this.ownerRequired = ownerRequired;
     }
 
     /**

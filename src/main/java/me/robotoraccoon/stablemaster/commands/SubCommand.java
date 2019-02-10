@@ -22,8 +22,6 @@ public abstract class SubCommand {
 
     /** Can console run the command */
     private boolean consoleAllowed = false;
-    /** Can only the owner run this command */
-    private boolean ownerRequired = true;
     /** Minimum arguments needed */
     private int minArgs = 0;
 
@@ -115,22 +113,6 @@ public abstract class SubCommand {
      */
     protected final void setConsoleAllowed(boolean consoleAllowed) {
         this.consoleAllowed = consoleAllowed;
-    }
-
-    /**
-     * Get if you need to be the owner to use this command
-     * @return ownerRequired If only owners can use this command
-     */
-    public final boolean isOwnerRequired() {
-        return ownerRequired;
-    }
-
-    /**
-     * Set if you need to be the owner to use this command
-     * @param ownerRequired If only owners can use this command
-     */
-    protected final void setOwnerRequired(boolean ownerRequired) {
-        this.ownerRequired = ownerRequired;
     }
 
     /**

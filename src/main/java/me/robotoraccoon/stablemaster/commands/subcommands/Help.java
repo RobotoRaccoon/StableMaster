@@ -25,7 +25,6 @@ public class Help extends SubCommand {
     public Help() {
         super("help");
         setConsoleAllowed(true);
-        setOwnerRequired(false);
     }
 
     /**
