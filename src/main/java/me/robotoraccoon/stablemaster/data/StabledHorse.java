@@ -5,7 +5,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.AbstractHorse;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 

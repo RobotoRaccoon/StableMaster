@@ -7,7 +7,6 @@ import me.robotoraccoon.stablemaster.StableUtil;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.InteractCommand;
-import me.robotoraccoon.stablemaster.commands.SubCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import me.robotoraccoon.stablemaster.data.StabledHorse;
 import org.bukkit.attribute.Attribute;
