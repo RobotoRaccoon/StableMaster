@@ -22,7 +22,7 @@ public class PlayerInteractEntityListener implements Listener {
      * Event where a player right-clicks an animal
      * @param event Event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 
         final Entity entity = event.getRightClicked();
