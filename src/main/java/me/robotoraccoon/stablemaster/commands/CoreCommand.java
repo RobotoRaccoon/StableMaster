@@ -67,15 +67,17 @@ public class CoreCommand implements CommandExecutor {
             subCommandName = "help";
         }
 
+        // Get the command and flush states
         final SubCommand subCommand = subCommands.get(subCommandName);
+        flushStates(subCommand, sender);
 
-        // Improper command specified.
+        // Improper command specified
         if (subCommand == null) {
             new LangString("error.no-command").send(sender);
             return true;
         }
 
-        // Attempt execution.
+        // Attempt execution
         subCommand.execute(new CommandInfo(label, sender, args));
         return true;
     }
@@ -104,6 +106,22 @@ public class CoreCommand implements CommandExecutor {
      */
     public static InteractCommand removeQueuedCommand(Player player) {
         return commandQueue.remove(player);
+    }
+
+    /**
+     * If the new command is different to the previously stored command, remove it from
+     * the queue and destroy and internal states
+     * @param cmd The command being executed
+     * @param sender CommandSender
+     */
+    private static void flushStates(SubCommand cmd, CommandSender sender) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            InteractCommand queued = commandQueue.remove(player);
+            if (cmd != queued && queued != null) {
+                queued.removeFromQueue(player);
+            }
+        }
     }
 
     /**
