@@ -15,7 +15,7 @@ public class ChunkListener implements Listener {
      * Cancel chunk unloads if there is a pending teleport
      * @param event Event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void chunkUnloadEvent(ChunkUnloadEvent event) {
         if (StableMaster.getTeleportChunk().contains(event.getChunk()))
             event.setCancelled(true);

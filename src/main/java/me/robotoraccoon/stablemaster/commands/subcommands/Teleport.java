@@ -5,6 +5,7 @@ import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.InteractCommand;
+import me.robotoraccoon.stablemaster.data.AnimalSet;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -23,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Teleport extends InteractCommand {
 
     /** Internal queue */
-    private ConcurrentHashMap<Player, Object> teleportQueue = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Player, AnimalSet> teleportQueue = new ConcurrentHashMap<>();
 
     /**
      * Default constructor
@@ -38,17 +39,17 @@ public class Teleport extends InteractCommand {
     public void handle(CommandInfo commandInfo) {
         final Player player = (Player) commandInfo.getSender();
 
-        if (teleportQueue.containsKey(player) && teleportQueue.get(player) instanceof Animals) {
+        AnimalSet set = teleportQueue.get(player);
+        if (set != null && !set.isEmpty()) {
 
             CoreCommand.removeQueuedCommand(player);
-            Animals animal = (Animals) teleportQueue.get(player);
             removeFromQueue(player);
-            new TeleportEval(animal, player).runTask(StableMaster.getPlugin());
+            new TeleportEval(set, player).runTask(StableMaster.getPlugin());
 
         } else {
 
             CoreCommand.setQueuedCommand(player, this);
-            teleportQueue.put(player, true);
+            teleportQueue.put(player, new AnimalSet());
             new LangString("punch-animal").send(player);
         }
     }
@@ -58,11 +59,21 @@ public class Teleport extends InteractCommand {
      */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
+
         // Storing location
-        new LangString("command.teleport.location-saved").send(player);
+        AnimalSet set = teleportQueue.get(player);
+        boolean empty = set.isEmpty();
+        boolean added = set.add(a);
         StableMaster.getTeleportChunk().add(a.getLocation().getChunk());
         CoreCommand.setQueuedCommand(player, this);
-        teleportQueue.put(player, a);
+
+        if (empty) {
+            new LangString("command.teleport.location-saved").send(player);
+        } else if (added) {
+            new LangString("command.teleport.location-saved-multiple").send(player);
+        } else {
+            new LangString("command.teleport.location-already-saved").send(player);
+        }
     }
 
     /**
@@ -79,38 +90,56 @@ public class Teleport extends InteractCommand {
      */
     private class TeleportEval extends BukkitRunnable {
 
-        /** Animal used */
-        private Animals animal;
+        /** Animal set used */
+        private AnimalSet set;
         /** Player running the teleport */
         private Player player;
 
         /**
          * Constructor
-         * @param animal Animal
+         * @param set Animal set
          * @param player Player
          */
-        public TeleportEval(Animals animal, Player player) {
-            this.animal = animal;
+        public TeleportEval(AnimalSet set, Player player) {
+            this.set = set;
             this.player = player;
         }
 
         /**
-         * Run the eval
+         * Run the eval to teleport all animals in the set
          */
         public void run() {
-            if (chunkIsLoaded()) {
-                StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
+            boolean success = true;
+
+            while (!set.isEmpty()) {
+                success &= teleport(set.pop());
+            }
+
+            if (success) {
                 new LangString("command.teleport.teleporting").send(player);
-                animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
             } else {
                 new LangString("command.teleport.failed").send(player);
             }
         }
 
         /**
+         * Teleport the given animal
+         * @param animal Animal to teleport
+         * @return True if the teleportation was successful
+         */
+        private boolean teleport(Animals animal) {
+            if (chunkIsLoaded(animal)) {
+                StableMaster.getTeleportChunk().remove(animal.getLocation().getChunk());
+                animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                return true;
+            }
+            return false;
+        }
+
+        /**
          * Check if a chunk is currently loaded
          */
-        private boolean chunkIsLoaded() {
+        private boolean chunkIsLoaded(Animals animal) {
             Location l = animal.getLocation();
             for (Chunk c : l.getWorld().getLoadedChunks()) {
                 if (c.equals(l.getChunk())) {

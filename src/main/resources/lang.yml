@@ -69,7 +69,9 @@ command:
   teleport:
     description: 'Teleport your animal'
     usage: 'teleport'
-    location-saved: 'Location stored. Run the command again at the destination'
+    location-saved: 'Location stored. Run the command again to teleport, or click more animals'
+    location-saved-multiple: 'Location stored'
+    location-already-saved: 'This animal has already had its location stored'
     teleporting: 'Teleporting...'
     failed: 'Teleport failed. Try getting a friend to stand near your animal'
 animal:
