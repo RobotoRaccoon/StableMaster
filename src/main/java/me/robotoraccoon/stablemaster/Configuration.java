@@ -87,7 +87,10 @@ public class Configuration {
             else if (!existing.contains(shortKey)) {
                 // Key is a leaf node, and the existing config does not contain the value
                 existing.set(shortKey, packaged.get(shortKey));
-                StableMaster.getPlugin().getLogger().warning(String.format("%s path `%s` does not exist, using default value", resource, key));
+                // Check if we're to alert about missing paths. Default to true if even this config option is missing
+                if (config.getBoolean("generic.alert-missing-paths", true)) {
+                    StableMaster.getPlugin().getLogger().warning(String.format("%s path `%s` does not exist, using default value", resource, key));
+                }
             }
         }
     }

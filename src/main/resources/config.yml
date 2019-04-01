@@ -1,3 +1,6 @@
+generic:
+  ## Whether or not to alert for missing paths in the config.yml and lang.yml on load
+  alert-missing-paths: true
 command:
   calm:
     ## Number of blocks near the player to check for animals to calm
