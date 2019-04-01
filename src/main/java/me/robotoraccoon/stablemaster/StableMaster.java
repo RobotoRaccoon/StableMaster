@@ -47,6 +47,7 @@ public class StableMaster extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new ChunkListener(), this);
         pm.registerEvents(new EntityDamageListeners(), this);
+        pm.registerEvents(new EntityDeathListener(), this);
         pm.registerEvents(new EntityTameListener(), this);
         pm.registerEvents(new PlayerInteractEntityListener(), this);
         pm.registerEvents(new PlayerJoinListener(), this);

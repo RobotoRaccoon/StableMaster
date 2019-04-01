@@ -176,8 +176,8 @@ public class EntityDamageListeners implements Listener {
      * @param isMelee If the attack is a punch
      * @return True if the player can hurt the animal
      */
-    private boolean canPlayerHurt(Tameable animal, Player harmer, Boolean isMelee) {
-        Boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
+    private boolean canPlayerHurt(Tameable animal, Player harmer, boolean isMelee) {
+        boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
         // If the complete-bypass setting is true, always allow player damage
         if (bypass && getProtectionConfig().getBoolean("complete-bypass"))
             return true;
