@@ -46,16 +46,18 @@ public class Info extends InteractCommand {
         final Animals a = (Animals) animal;
 
         List<String> riderNames = new ArrayList<>();
+        String uuid = "";
         boolean isHorse = false;
         if (animal instanceof AbstractHorse) {
             isHorse = true;
             StabledHorse stabledHorse = stable.getHorse((AbstractHorse) animal);
             riderNames = stabledHorse.getRiderNames();
+            uuid = stabledHorse.getUUID();
         }
 
         // Get permission level of user to compare with those in the config.
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
-        Integer permissionLevel;
+        int permissionLevel;
         if (player == animal.getOwner())
             permissionLevel = 1;
         else if (riderNames.contains(player.getName()))
@@ -105,6 +107,11 @@ public class Info extends InteractCommand {
         // What type of animal it is
         if (config.getInt("variant") >= permissionLevel) {
             new LangString("command.info.variant", getVariant(a)).send(player);
+        }
+
+        // The rideables' UUID
+        if (isHorse && config.getInt("uuid") >= permissionLevel) {
+            new LangString("command.info.uuid", uuid).send(player);
         }
     }
 

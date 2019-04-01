@@ -51,6 +51,7 @@ command:
     jump-strength: '&6Jump Strength&f: &e%.2f &7(%.2f blocks)'
     max-speed: '&6Max Speed&f: &e%.2f &7(%.2f blocks/s)'
     variant: '&6Variant&f: &e%s'
+    uuid: '&6UUID&f: &e%s'
   release:
     description: 'Revoke ownership of your animal'
     usage: 'release'
