@@ -39,7 +39,7 @@ command:
     about: '&eOnce you tame an animal, you own it. No claiming required!'
     format: '&6/sm %s &f- &7%s'
     more-pages: '&ePage &6%d/%d&e. View more with &6/sm %s'
-    footer: '&7-----------------------------------------'
+    footer: '&7----------------------------------------'
   info:
     description: 'Get info on an animal'
     usage: 'info'
@@ -76,11 +76,11 @@ command:
     teleporting: 'Teleporting...'
     failed: 'Teleport failed. Try getting a friend to stand near your animal'
 animal:
+  cat: 'CAT'
   donkey: 'DONKEY'
   horse: 'HORSE'
   llama: 'LLAMA'
   mule: 'MULE'
-  ocelot: 'OCELOT'
   parrot: 'PARROT'
   skeleton_horse: 'SKELETON HORSE'
   zombie_horse: 'ZOMBIE HORSE'
@@ -107,12 +107,19 @@ variant:
       creamy: 'Creamy'
       gray: 'Gray'
       white: 'White'
-  ocelot:
+  cat:
     type:
-      black_cat: 'Tuxedo'
-      red_cat: 'Tabby'
-      siamese_cat: 'Siamese'
-      wild_ocelot: 'Wild'
+      all_black: 'Black'
+      black: 'Tuxedo'
+      british_shorthair: 'British Shorthair'
+      calico: 'Calico'
+      jellie: 'Jellie'
+      persian: 'Persion'
+      ragdoll: 'Ragdoll'
+      red: 'Red'
+      siamese: 'Siamese'
+      tabby: 'Tabby'
+      white: 'White'
   parrot:
     variant:
       blue: 'Royal blue'

@@ -73,7 +73,7 @@ public class EntityDamageListeners implements Listener {
         if (!animal.isTamed() || animal.getOwner() == null)
             return;
 
-        if (event.getDamager() instanceof Monster)
+        if (event.getDamager() instanceof Mob)
             monsterDamageAnimal(event);
 
         if (event.getDamager() instanceof Projectile)

@@ -6,10 +6,7 @@ import me.robotoraccoon.stablemaster.commands.CommandInfo;
 import me.robotoraccoon.stablemaster.commands.SubCommand;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Tameable;
+import org.bukkit.entity.*;
 
 import java.util.Collection;
 
@@ -48,6 +45,9 @@ public class Calm extends SubCommand {
                 // If the animal is owned by the player and has a target, remove the target
                 Animals animal = (Animals) entity;
                 if (animal.getTarget() != null) {
+                    if (animal instanceof Wolf) {
+                        ((Wolf) animal).setAngry(false);
+                    }
                     animal.setTarget(null);
                     count++;
                 }

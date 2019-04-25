@@ -56,9 +56,6 @@ public class Release extends InteractCommand {
 
             stable.removeHorse(horse);
         } else if (animal instanceof Sittable) {
-            if (animal instanceof Ocelot) {
-                ((Ocelot) animal).setCatType(Ocelot.Type.WILD_OCELOT);
-            }
             // Set released animals to non-sitting position
             ((Sittable) animal).setSitting(false);
         }

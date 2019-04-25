@@ -132,9 +132,9 @@ public class Info extends InteractCommand {
                 Llama llama = (Llama) animal;
                 return new LangString("variant.llama.color." + llama.getColor()).getMessage();
 
-            case OCELOT:
-                Ocelot ocelot = (Ocelot) animal;
-                return new LangString("variant.ocelot.type." + ocelot.getCatType()).getMessage();
+            case CAT:
+                Cat cat = (Cat) animal;
+                return new LangString("variant.cat.type." + cat.getCatType()).getMessage();
 
             case PARROT:
                 Parrot parrot = (Parrot) animal;

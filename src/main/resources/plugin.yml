@@ -4,6 +4,7 @@ description: ${project.description}
 author: ${author}
 authors: [${authors}]
 main: ${groupId}.${artifactId}.${mainClass}
+api-version: 1.14
 
 commands:
   stablemaster:
