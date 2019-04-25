@@ -9,8 +9,7 @@ import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.AbstractHorseInventory;
 
 /**
  * Release sub-command, let this animal go back into the wild
@@ -44,14 +43,12 @@ public class Release extends InteractCommand {
         // If animal is a horse, drop its saddle and remove it from the stable.
         if (animal instanceof AbstractHorse) {
             final AbstractHorse horse = (AbstractHorse) animal;
-            final Inventory inv = horse.getInventory();
+            final AbstractHorseInventory inv = horse.getInventory();
 
             // Saddle must drop, else it cannot be tamed later
-            ItemStack[] contents = inv.getContents();
-            if (contents[0] != null) {
-                horse.getWorld().dropItemNaturally(horse.getLocation(), contents[0]);
-                contents[0] = null;
-                inv.setContents(contents);
+            if (inv.getSaddle() != null) {
+                horse.getWorld().dropItemNaturally(horse.getLocation(), inv.getSaddle());
+                inv.setSaddle(null);
             }
 
             stable.removeHorse(horse);
