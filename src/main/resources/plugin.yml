@@ -77,3 +77,5 @@ permissions:
       stablemaster.tame.skeleton_horse: true
       stablemaster.tame.zombie_horse: true
       stablemaster.tame.wolf: true
+      stablemaster.tame.cat: true
+      stablemaster.tame.fox: true
