@@ -68,11 +68,11 @@ permissions:
     description: Allows user to tame an animal
     default: true
     children:
+      stablemaster.tame.cat: true
       stablemaster.tame.donkey: true
       stablemaster.tame.horse: true
       stablemaster.tame.llama: true
       stablemaster.tame.mule: true
-      stablemaster.tame.ocelot: true
       stablemaster.tame.parrot: true
       stablemaster.tame.skeleton_horse: true
       stablemaster.tame.zombie_horse: true
