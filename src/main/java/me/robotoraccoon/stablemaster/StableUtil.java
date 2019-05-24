@@ -119,7 +119,12 @@ public class StableUtil {
      */
     public static OfflinePlayer getOfflinePlayer(String name) {
         OfflinePlayer player = StableMaster.getPlugin().getServer().getOfflinePlayer(name);
-        return (player == null || !player.hasPlayedBefore()) ? null : player;
+        if (player != null) {
+            if (!player.hasPlayedBefore() && !player.isOnline()) {
+                player = null;
+            }
+        }
+        return player;
     }
 
     /**
