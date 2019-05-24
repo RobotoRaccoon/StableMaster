@@ -66,12 +66,6 @@ public class Teleport extends InteractCommand {
         boolean added = set.add(a);
         CoreCommand.setQueuedCommand(player, this);
 
-        Chunk chunk = a.getLocation().getChunk();
-        if (!chunk.isForceLoaded()) {
-            StableMaster.getTeleportChunk().add(chunk);
-            chunk.setForceLoaded(true);
-        }
-
         if (empty) {
             new LangString("command.teleport.location-saved").send(player);
         } else if (added) {
@@ -133,28 +127,13 @@ public class Teleport extends InteractCommand {
          * @return True if the teleportation was successful
          */
         private boolean teleport(Animals animal) {
-            if (!chunkIsLoaded(animal)) {
-                return false;
-            }
-
-            Chunk chunk = animal.getLocation().getChunk();
-            if (StableMaster.getTeleportChunk().remove(chunk)) {
-                chunk.setForceLoaded(false);
+            Location location = animal.getLocation();
+            Chunk chunk = location.getChunk();
+            if (!location.getWorld().isChunkLoaded(chunk)) {
+                // Force a temporary chunk load if it's not loaded
+                location.getWorld().getChunkAt(location);
             }
             return animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
-        }
-
-        /**
-         * Check if a chunk is currently loaded
-         */
-        private boolean chunkIsLoaded(Animals animal) {
-            Location l = animal.getLocation();
-            for (Chunk c : l.getWorld().getLoadedChunks()) {
-                if (c.equals(l.getChunk())) {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }
