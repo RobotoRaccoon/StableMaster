@@ -83,6 +83,7 @@ animal:
   mule: 'MULE'
   parrot: 'PARROT'
   skeleton_horse: 'SKELETON HORSE'
+  trader_llama: 'TRADER LLAMA'
   zombie_horse: 'ZOMBIE HORSE'
   wolf: 'WOLF'
 variant:

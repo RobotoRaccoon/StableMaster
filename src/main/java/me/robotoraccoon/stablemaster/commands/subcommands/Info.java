@@ -129,8 +129,11 @@ public class Info extends InteractCommand {
                 return color + ", " + style;
 
             case LLAMA:
+            case TRADER_LLAMA:
                 Llama llama = (Llama) animal;
-                return new LangString("variant.llama.color." + llama.getColor()).getMessage();
+                String type = StableUtil.getAnimal(animal.getType());
+                String llamaColor = new LangString("variant.llama.color." + llama.getColor()).getMessage();
+                return type + ", " + llamaColor;
 
             case CAT:
                 Cat cat = (Cat) animal;
