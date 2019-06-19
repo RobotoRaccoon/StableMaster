@@ -21,7 +21,7 @@ public class EntityTameListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onEntityTame(EntityTameEvent event) {
-        // Return if the damaged entity is not a tameable entity.
+        // Return if the entity is not a tameable entity.
         if (!(event.getEntity() instanceof Tameable))
             return;
 

@@ -9,6 +9,7 @@ import me.robotoraccoon.stablemaster.data.AnimalSet;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Tameable;
@@ -49,7 +50,7 @@ public class Teleport extends InteractCommand {
         } else {
 
             CoreCommand.setQueuedCommand(player, this);
-            teleportQueue.put(player, new AnimalSet());
+            teleportQueue.put(player, new AnimalSet(player.getWorld()));
             new LangString("punch-animal").send(player);
         }
     }
@@ -59,9 +60,15 @@ public class Teleport extends InteractCommand {
      */
     public void handleInteract(Stable stable, Player player, Tameable animal) {
         final Animals a = (Animals) animal;
+        AnimalSet set = teleportQueue.get(player);
+
+        // Cannot store entities from different worlds in the same set
+        if (set.getWorld() != player.getWorld()) {
+            new LangString("command.teleport.location-cross-world").send(player);
+            return;
+        }
 
         // Storing location
-        AnimalSet set = teleportQueue.get(player);
         boolean empty = set.isEmpty();
         boolean added = set.add(a);
         CoreCommand.setQueuedCommand(player, this);
@@ -108,8 +115,15 @@ public class Teleport extends InteractCommand {
          * Run the eval to teleport all animals in the set
          */
         public void run() {
-            boolean success = true;
+            final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.teleport");
 
+            // Animals duplicate with cross world teleports...
+            if (set.getWorld() != player.getWorld() && !config.getBoolean("cross-world")) {
+                new LangString("command.teleport.cross-world").send(player);
+                return;
+            }
+
+            boolean success = true;
             while (!set.isEmpty()) {
                 success &= teleport(set.pop());
             }

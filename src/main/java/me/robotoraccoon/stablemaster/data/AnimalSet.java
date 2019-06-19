@@ -1,5 +1,6 @@
 package me.robotoraccoon.stablemaster.data;
 
+import org.bukkit.World;
 import org.bukkit.entity.Animals;
 
 import java.util.ArrayList;
@@ -11,8 +12,16 @@ import java.util.List;
  */
 public class AnimalSet {
 
+    /** World the teleport is originating from*/
+    private World world;
+
     /** The internal list */
-    private List<Animals> list = new ArrayList<>();
+    private List<Animals> list;
+
+    public AnimalSet(World world) {
+        this.world = world;
+        this.list = new ArrayList<>();
+    }
 
     /**
      * Add an animal to the set
@@ -41,5 +50,13 @@ public class AnimalSet {
      */
     public boolean isEmpty() {
         return list.isEmpty();
+    }
+
+    /**
+     * Get the world this set is for
+     * @return World
+     */
+    public World getWorld() {
+        return world;
     }
 }

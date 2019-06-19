@@ -26,6 +26,9 @@ command:
   rename:
     ## Should the nameplate always be visible, or only when looking at the animal
     name-always-visible: true
+  teleport:
+    ## Allow cross world teleports?
+    cross-world: false
 aliases:
   addrider:
   - 'add'

@@ -70,6 +70,8 @@ command:
   teleport:
     description: 'Teleport your animal'
     usage: 'teleport'
+    cross-world: '&cYou cannot teleport animals across worlds'
+    location-cross-world: '&cYou cannot store animals across worlds'
     location-saved: 'Location stored. Run the command again to teleport, or click more animals'
     location-saved-multiple: 'Location stored'
     location-already-saved: 'This animal has already had its location stored'
