@@ -7,7 +7,6 @@ import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.data.AnimalSet;
 import me.robotoraccoon.stablemaster.data.Stable;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Animals;
@@ -117,7 +116,7 @@ public class Teleport extends InteractCommand {
         public void run() {
             final ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.teleport");
 
-            // Animals duplicate with cross world teleports...
+            // Check if cross-world teleporting is allowed
             if (set.getWorld() != player.getWorld() && !config.getBoolean("cross-world")) {
                 new LangString("command.teleport.cross-world").send(player);
                 return;
@@ -142,12 +141,14 @@ public class Teleport extends InteractCommand {
          */
         private boolean teleport(Animals animal) {
             Location location = animal.getLocation();
-            Chunk chunk = location.getChunk();
-            if (!location.getWorld().isChunkLoaded(chunk)) {
-                // Force a temporary chunk load if it's not loaded
-                location.getWorld().getChunkAt(location);
+            int cx = location.getBlockX() >> 4;
+            int cz = location.getBlockZ() >> 4;
+
+            if (location.getWorld().isChunkLoaded(cx, cz)) {
+                return animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            } else {
+                return false;
             }
-            return animal.teleport(player, PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
     }
 }
