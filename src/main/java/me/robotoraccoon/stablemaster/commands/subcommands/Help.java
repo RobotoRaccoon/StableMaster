@@ -89,8 +89,8 @@ public class Help extends SubCommand {
 
         if (maxPage > 1) {
             new LangString("command.help.more-pages", page, maxPage, getUsage()).send(sender);
+        } else {
+            new LangString("command.help.footer").send(sender);
         }
-
-        new LangString("command.help.footer").send(sender);
     }
 }
