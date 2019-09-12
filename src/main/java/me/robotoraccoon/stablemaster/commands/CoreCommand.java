@@ -45,8 +45,9 @@ public class CoreCommand implements CommandExecutor {
      */
     private static void addCommand(SubCommand cmd) {
         subCommands.put(cmd.getName(), cmd);
-        for (String alias : cmd.getAliases())
+        for (String alias : cmd.getAliases()) {
             subCommands.putIfAbsent(alias, cmd);
+        }
     }
 
     /**

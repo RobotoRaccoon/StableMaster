@@ -55,7 +55,7 @@ public class Help extends SubCommand {
         if (commandInfo.getArgs().length > 0) {
             try {
                 // Check if first argument is an integer, and if it falls within the range [0,maxPage]
-                int arg = Integer.valueOf(commandInfo.getArg(0));
+                int arg = Integer.parseInt(commandInfo.getArg(0));
                 if (arg > 0 && arg <= maxPage) {
                     page = arg;
                 }

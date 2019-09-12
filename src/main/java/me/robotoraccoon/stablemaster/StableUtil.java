@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,6 +21,11 @@ public class StableUtil {
 
     /** Map of stables for every online player */
     private static HashMap<OfflinePlayer, Stable> stables = new HashMap<>();
+
+    /**
+     * Static class
+     */
+    private StableUtil() {}
 
     /**
      * Get the name of an animal
@@ -139,7 +145,7 @@ public class StableUtil {
      * Get the stables HashMap
      * @return Every loaded stable
      */
-    public static HashMap<OfflinePlayer, Stable> getStables() {
+    public static Map<OfflinePlayer, Stable> getStables() {
         return stables;
     }
 }

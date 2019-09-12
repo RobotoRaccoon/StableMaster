@@ -66,11 +66,9 @@ public abstract class SubCommand {
         }
 
         // Run the command.
-        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(StableMaster.getPlugin(), new Runnable() {
-                    public void run() {
-                        handle(info);
-                    }
-                }
+        StableMaster.getPlugin().getServer().getScheduler().runTaskAsynchronously(
+                StableMaster.getPlugin(),
+                () -> handle(info)
         );
     }
 
@@ -170,9 +168,10 @@ public abstract class SubCommand {
      */
     public final List<String> getAliases() {
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("aliases");
-        if (config.isList(getName()))
+        if (config.isList(getName())) {
             return config.getStringList(getName());
-        else
+        } else {
             return new ArrayList<>();
+        }
     }
 }

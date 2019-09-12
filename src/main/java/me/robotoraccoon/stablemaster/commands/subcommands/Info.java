@@ -1,6 +1,5 @@
 package me.robotoraccoon.stablemaster.commands.subcommands;
 
-import com.google.common.base.Joiner;
 import me.robotoraccoon.stablemaster.LangString;
 import me.robotoraccoon.stablemaster.StableMaster;
 import me.robotoraccoon.stablemaster.StableUtil;
@@ -56,18 +55,13 @@ public class Info extends InteractCommand {
         }
 
         // Get permission level of user to compare with those in the config.
+        int permissionLevel = getPermissionLevel(player, animal, riderNames);
         ConfigurationSection config = StableMaster.getPlugin().getConfig().getConfigurationSection("command.info");
-        int permissionLevel;
-        if (player == animal.getOwner())
-            permissionLevel = 1;
-        else if (riderNames.contains(player.getName()))
-            permissionLevel = 2;
-        else
-            permissionLevel = 3;
 
         // Get the min level for players with the bypass permission.
-        if (canBypass(player) && config.getInt("bypass-as-level") < permissionLevel)
+        if (canBypass(player) && config.getInt("bypass-as-level") < permissionLevel) {
             permissionLevel = config.getInt("bypass-as-level");
+        }
 
         // Print the info
         new LangString("command.info.header").send(player);
@@ -79,7 +73,9 @@ public class Info extends InteractCommand {
 
         // Players allowed to ride the horse
         if (isHorse && config.getInt("permitted-riders") >= permissionLevel) {
-            String permitted = riderNames.isEmpty() ? new LangString("command.info.no-riders").getMessage() : Joiner.on(", ").join(riderNames);
+            String permitted = riderNames.isEmpty()
+                    ? new LangString("command.info.no-riders").getMessage()
+                    : String.join(", ", riderNames);
             new LangString("command.info.permitted-riders", permitted).send(player);
         }
 
@@ -112,6 +108,23 @@ public class Info extends InteractCommand {
         // The rideables' UUID
         if (isHorse && config.getInt("uuid") >= permissionLevel) {
             new LangString("command.info.uuid", uuid).send(player);
+        }
+    }
+
+    /**
+     * Get the permission level of a player for the given animal
+     * @param player Player in question
+     * @param animal Animal interacted with
+     * @param riders List of riders
+     * @return Permission level of the player
+     */
+    private int getPermissionLevel(Player player, Tameable animal, List<String> riders) {
+        if (player == animal.getOwner()) {
+            return 1;
+        } else if (riders.contains(player.getName())) {
+            return 2;
+        } else {
+            return 3;
         }
     }
 

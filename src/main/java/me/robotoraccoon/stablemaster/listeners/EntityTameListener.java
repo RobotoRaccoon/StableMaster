@@ -22,19 +22,18 @@ public class EntityTameListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onEntityTame(EntityTameEvent event) {
         // Return if the entity is not a tameable entity.
-        if (!(event.getEntity() instanceof Tameable))
+        if (!(event.getEntity() instanceof Tameable)) {
             return;
+        }
 
         Player player = (Player) event.getOwner();
         Animals animal = (Animals) event.getEntity();
         String name = animal.getType().name().toLowerCase();
 
-        // Don't cancel if the player has the appropriate permission
-        if (player.hasPermission("stablemaster.tame." + name))
-            return;
-
-        event.setCancelled(true);
-        new LangString("error.cannot-tame", StableUtil.getAnimal(animal.getType())).send(player);
+        // Cancel if the player does not have the appropriate permission
+        if (!player.hasPermission("stablemaster.tame." + name)) {
+            event.setCancelled(true);
+            new LangString("error.cannot-tame", StableUtil.getAnimal(animal.getType())).send(player);
+        }
     }
-
 }

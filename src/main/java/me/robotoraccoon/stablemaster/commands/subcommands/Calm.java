@@ -37,20 +37,8 @@ public class Calm extends SubCommand {
         Collection<Entity> nearby = player.getWorld().getNearbyEntities(loc, radius, radius, radius);
         int count = 0;
         for (Entity entity : nearby) {
-            if (!(entity instanceof Tameable))
-                continue;
-
-            Tameable tameable = (Tameable) entity;
-            if (tameable.isTamed() && (tameable.getOwner() == player || canBypass(player))) {
-                // If the animal is owned by the player and has a target, remove the target
-                Animals animal = (Animals) entity;
-                if (animal.getTarget() != null) {
-                    if (animal instanceof Wolf) {
-                        ((Wolf) animal).setAngry(false);
-                    }
-                    animal.setTarget(null);
-                    count++;
-                }
+            if (calmEntity(player, entity)) {
+                ++count;
             }
         }
 
@@ -59,5 +47,31 @@ public class Calm extends SubCommand {
         } else {
             new LangString("command.calm.calmed", count, radius).send(player);
         }
+    }
+
+    /**
+     * Calm a given entity
+     * @param player Player calming
+     * @param entity Entity to calm
+     * @return True if calming has occurred
+     */
+    private boolean calmEntity(Player player, Entity entity) {
+        if (!(entity instanceof Tameable)) {
+            return false;
+        }
+
+        Tameable tameable = (Tameable) entity;
+        if (tameable.isTamed() && (tameable.getOwner() == player || canBypass(player))) {
+            // If the animal is owned by the player and has a target, remove the target
+            Animals animal = (Animals) entity;
+            if (animal.getTarget() != null) {
+                if (animal instanceof Wolf) {
+                    ((Wolf) animal).setAngry(false);
+                }
+                animal.setTarget(null);
+                return true;
+            }
+        }
+        return false;
     }
 }

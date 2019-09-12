@@ -66,8 +66,8 @@ public class StabledHorse {
      */
     public List<String> getRiderNames() {
         ArrayList<String> riderNames = new ArrayList<>();
-        for (String uuid : getRiders()) {
-            OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString(uuid));
+        for (String id : getRiders()) {
+            OfflinePlayer rider = StableMaster.getPlugin().getServer().getOfflinePlayer(UUID.fromString(id));
             if (rider.getName() == null) {
                 riderNames.add(rider.getUniqueId().toString());
             } else {
@@ -82,8 +82,9 @@ public class StabledHorse {
      * @param player Player to add
      */
     public void addRider(OfflinePlayer player) {
-        if (!isRider(player))
+        if (!isRider(player)) {
             riders.add(player.getUniqueId().toString());
+        }
     }
 
     /**

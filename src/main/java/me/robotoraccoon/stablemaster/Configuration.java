@@ -14,9 +14,9 @@ import java.io.InputStreamReader;
 public class Configuration {
 
     /** Name of the config file */
-    private static final String CONFIG = "config.yml";
+    private static final String CONFIG_YML = "config.yml";
     /** Name of the lang file */
-    private static final String LANG = "lang.yml";
+    private static final String LANG_YML = "lang.yml";
 
     /** config.yml */
     private static File configFile;
@@ -29,25 +29,32 @@ public class Configuration {
 
     static {
         // Save default configFile if it doesn't exist
-        configFile = new File(StableMaster.getPlugin().getDataFolder(), CONFIG);
-        if (!configFile.exists())
-            StableMaster.getPlugin().saveResource(CONFIG, true);
+        configFile = new File(StableMaster.getPlugin().getDataFolder(), CONFIG_YML);
+        if (!configFile.exists()) {
+            StableMaster.getPlugin().saveResource(CONFIG_YML, true);
+        }
 
         // Save default langFile if it doesn't exist
-        langFile = new File(StableMaster.getPlugin().getDataFolder(), LANG);
-        if (!langFile.exists())
-            StableMaster.getPlugin().saveResource(LANG, true);
+        langFile = new File(StableMaster.getPlugin().getDataFolder(), LANG_YML);
+        if (!langFile.exists()) {
+            StableMaster.getPlugin().saveResource(LANG_YML, true);
+        }
     }
+
+    /**
+     * Static class
+     */
+    private Configuration() {}
 
     /**
      * Reload the configuration files
      */
     public static void loadAllConfigs() {
         config = YamlConfiguration.loadConfiguration(configFile);
-        addMissingEntries(CONFIG, config);
+        addMissingEntries(CONFIG_YML, config);
 
         lang = YamlConfiguration.loadConfiguration(langFile);
-        addMissingEntries(LANG, lang);
+        addMissingEntries(LANG_YML, lang);
 
         StableMaster.getPlugin().reloadConfig();
     }

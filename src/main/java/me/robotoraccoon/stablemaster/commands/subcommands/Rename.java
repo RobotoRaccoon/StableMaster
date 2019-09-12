@@ -41,8 +41,9 @@ public class Rename extends InteractCommand {
         final Player player = (Player) commandInfo.getSender();
         String name = StringUtils.join(commandInfo.getArgs(), " ");
 
-        if (player.hasPermission("stablemaster.rename.colors"))
+        if (player.hasPermission("stablemaster.rename.colors")) {
             name = ChatColor.translateAlternateColorCodes('&', name);
+        }
 
         renameQueue.put(player, name);
         CoreCommand.setQueuedCommand(player, this);

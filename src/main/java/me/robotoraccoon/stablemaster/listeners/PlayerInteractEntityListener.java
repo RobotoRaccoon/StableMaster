@@ -26,21 +26,25 @@ public class PlayerInteractEntityListener implements Listener {
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 
         final Entity entity = event.getRightClicked();
-        if (entity == null)
+        if (entity == null) {
             return; // Entity must exist.
+        }
 
-        if (!(entity instanceof AbstractHorse))
+        if (!(entity instanceof AbstractHorse)) {
             return; // Entity must be a horse.
+        }
 
         final Player player = event.getPlayer();
         final AbstractHorse horse = (AbstractHorse) entity;
 
-        if (!horse.isTamed())
+        if (!horse.isTamed()) {
             return; // Horse must be tamed to deny riders.
+        }
 
         // Fix if the horse is tamed but has no owner.
-        if (horse.getOwner() == null)
+        if (horse.getOwner() == null) {
             horse.setOwner(player);
+        }
 
         // Get horse details
         final Stable stable = StableUtil.getStable((OfflinePlayer) horse.getOwner());

@@ -28,13 +28,15 @@ public class EntityDamageListeners implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onEntityDamage(EntityDamageEvent event) {
         // Return if the damaged entity is not a tameable entity.
-        if (!(event.getEntity() instanceof Tameable))
+        if (!(event.getEntity() instanceof Tameable)) {
             return;
+        }
 
         // If the animal has no owner, no need to protect it
         final Tameable tameable = (Tameable) event.getEntity();
-        if (!tameable.isTamed() || tameable.getOwner() == null)
+        if (!tameable.isTamed() || tameable.getOwner() == null) {
             return;
+        }
 
         final String cause = event.getCause().name().toLowerCase();
         ConfigurationSection configDefault = getProtectionConfig("default");
@@ -46,8 +48,9 @@ public class EntityDamageListeners implements Listener {
         }
 
         // Get the setting on the animal, or the default if not found
-        if (configAnimal.getBoolean(cause, configDefault.getBoolean(cause)))
+        if (configAnimal.getBoolean(cause, configDefault.getBoolean(cause))) {
             event.setCancelled(true);
+        }
     }
 
     /**
@@ -57,27 +60,32 @@ public class EntityDamageListeners implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // Return if the damaged entity is not a tameable entity.
-        if (!(event.getEntity() instanceof Tameable))
+        if (!(event.getEntity() instanceof Tameable)) {
             return;
+        }
 
         // Handle if a player is punching the animal.
-        if (event.getDamager() instanceof Player)
+        if (event.getDamager() instanceof Player) {
             playerDamageAnimal(event);
+        }
 
         // Ignore cancelled events, as each source below are not issuing commands.
-        if (event.isCancelled())
+        if (event.isCancelled()) {
             return;
+        }
 
         // If the animal has no owner, no need to protect it
         final Tameable animal = (Tameable) event.getEntity();
-        if (!animal.isTamed() || animal.getOwner() == null)
+        if (!animal.isTamed() || animal.getOwner() == null) {
             return;
+        }
 
-        if (event.getDamager() instanceof Mob)
+        if (event.getDamager() instanceof Mob) {
             monsterDamageAnimal(event);
-
-        if (event.getDamager() instanceof Projectile)
+        }
+        else if (event.getDamager() instanceof Projectile) {
             projectileDamageAnimal(event);
+        }
     }
 
     /**
@@ -111,27 +119,35 @@ public class EntityDamageListeners implements Listener {
         if (CoreCommand.hasQueuedCommand(player)) {
             // Handle appropriate command
             event.setCancelled(true);
-            InteractCommand cmd = CoreCommand.removeQueuedCommand(player);
-
-            if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
-                new LangString("error.not-owner", StableUtil.getAnimal(event.getEntityType())).send(player);
-                cmd.removeFromQueue(player);
-                return;
-            }
-
-            // Run for horses, and tameables if the command allows it.
-            if (animal instanceof AbstractHorse || cmd.isTameablesAllowed()) {
-                cmd.handleInteract(stable, player, animal);
-            } else {
-                new LangString("error.not-supported").send(player);
-            }
-            return;
+            handleCommand(stable, player, animal);
         }
-
-        if (!canPlayerHurt(animal, player, true)) {
+        else if (!canPlayerHurt(animal, player, true)) {
             // If we get here, the animal was protected and not involved in a command.
             event.setCancelled(true);
             new LangString("error.protected", StableUtil.getAnimal(event.getEntityType())).send(player);
+        }
+    }
+
+    /**
+     * Handle a potential command interaction
+     * @param stable Stable of animal's owner
+     * @param player Player hitting animal
+     * @param animal Animal being hit
+     */
+    private void handleCommand(Stable stable, Player player, Tameable animal) {
+        InteractCommand cmd = CoreCommand.removeQueuedCommand(player);
+
+        if (cmd.isOwnerRequired() && player != animal.getOwner() && !cmd.canBypass(player)) {
+            new LangString("error.not-owner", StableUtil.getAnimal(animal.getType())).send(player);
+            cmd.removeFromQueue(player);
+            return;
+        }
+
+        // Run for horses, and tameables if the command allows it.
+        if (animal instanceof AbstractHorse || cmd.isTameablesAllowed()) {
+            cmd.handleInteract(stable, player, animal);
+        } else {
+            new LangString("error.not-supported").send(player);
         }
     }
 
@@ -140,8 +156,9 @@ public class EntityDamageListeners implements Listener {
      * @param event Event
      */
     private void monsterDamageAnimal(EntityDamageByEntityEvent event) {
-        if (getProtectionConfig().getBoolean("monster-melee"))
+        if (getProtectionConfig().getBoolean("monster-melee")) {
             event.setCancelled(true);
+        }
     }
 
     /**
@@ -160,12 +177,14 @@ public class EntityDamageListeners implements Listener {
             }
         } else if (source instanceof Monster) {
             // If a monster harmed the animal
-            if (getProtectionConfig().getBoolean("monster-ranged"))
+            if (getProtectionConfig().getBoolean("monster-ranged")) {
                 event.setCancelled(true);
+            }
         } else {
             // If something else harmed the animal (eg, dispenser)
-            if (getProtectionConfig().getBoolean("other-ranged"))
+            if (getProtectionConfig().getBoolean("other-ranged")) {
                 event.setCancelled(true);
+            }
         }
     }
 
@@ -179,8 +198,9 @@ public class EntityDamageListeners implements Listener {
     private boolean canPlayerHurt(Tameable animal, Player harmer, boolean isMelee) {
         boolean bypass = harmer.hasPermission("stablemaster.bypass.protection");
         // If the complete-bypass setting is true, always allow player damage
-        if (bypass && getProtectionConfig().getBoolean("complete-bypass"))
+        if (bypass && getProtectionConfig().getBoolean("complete-bypass")) {
             return true;
+        }
 
         String path = (harmer == animal.getOwner() || bypass) ? "owner-" : "player-";
         path += (isMelee) ? "melee" : "ranged";
@@ -202,8 +222,9 @@ public class EntityDamageListeners implements Listener {
      */
     private ConfigurationSection getProtectionConfig(String subSection) {
         String path = "protection";
-        if (!subSection.isEmpty())
+        if (!subSection.isEmpty()) {
             path += "." + subSection.toLowerCase();
+        }
         return StableMaster.getPlugin().getConfig().getConfigurationSection(path);
     }
 }
