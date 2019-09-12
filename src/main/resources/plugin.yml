@@ -76,5 +76,5 @@ permissions:
       stablemaster.tame.parrot: true
       stablemaster.tame.skeleton_horse: true
       stablemaster.tame.trader_llama: true
-      stablemaster.tame.zombie_horse: true
       stablemaster.tame.wolf: true
+      stablemaster.tame.zombie_horse: true
