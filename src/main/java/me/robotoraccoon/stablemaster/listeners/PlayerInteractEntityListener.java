@@ -26,11 +26,7 @@ public class PlayerInteractEntityListener implements Listener {
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
 
         final Entity entity = event.getRightClicked();
-        if (entity == null) {
-            return; // Entity must exist.
-        }
-
-        if (!(entity instanceof AbstractHorse)) {
+         if (!(entity instanceof AbstractHorse)) {
             return; // Entity must be a horse.
         }
 

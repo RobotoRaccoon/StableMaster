@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -62,12 +63,22 @@ public class StableUtil {
      * @param stable Which stable to save
      */
     public static void saveStable(Stable stable) {
+        try {
+            onSaveStable(stable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Save the stable back to file, internal call
+     * @param stable Which stable to save
+     */
+    private static void onSaveStable(Stable stable) throws IOException {
         File stableFile = new File(StableMaster.getStablesFolder() + File.separator + stable.getOwner().toString() + ".yml");
         // If the stable has no horses, delete the file and return
         if (stable.getSize() == 0) {
-            if (stableFile.exists()) {
-                stableFile.delete();
-            }
+            Files.deleteIfExists(stableFile.toPath());
             return;
         }
 
@@ -89,11 +100,7 @@ public class StableUtil {
             StabledHorse sh = stable.getHorse(uuid);
             yamlFile.set("horses." + uuid + ".riders", sh.getRiders());
         }
-        try {
-            yamlFile.save(stableFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        yamlFile.save(stableFile);
     }
 
     /**
@@ -125,10 +132,8 @@ public class StableUtil {
      */
     public static OfflinePlayer getOfflinePlayer(String name) {
         OfflinePlayer player = StableMaster.getPlugin().getServer().getOfflinePlayer(name);
-        if (player != null) {
-            if (!player.hasPlayedBefore() && !player.isOnline()) {
-                player = null;
-            }
+        if (!player.hasPlayedBefore() && !player.isOnline()) {
+            player = null;
         }
         return player;
     }
