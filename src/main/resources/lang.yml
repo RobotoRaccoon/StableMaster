@@ -77,6 +77,10 @@ command:
     location-already-saved: 'This animal has already had its location stored'
     teleporting: 'Teleporting...'
     failed: 'Teleport failed. Try getting a friend to stand near your animal'
+  unname:
+    description: 'Remove your animals name'
+    usage: 'unname'
+    unnamed: '%s unnamed'
 animal:
   cat: 'CAT'
   donkey: 'DONKEY'

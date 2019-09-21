@@ -37,6 +37,7 @@ public class CoreCommand implements CommandExecutor {
         addCommand(new Rename());
         addCommand(new Sit());
         addCommand(new Teleport());
+        addCommand(new Unname());
     }
 
     /**

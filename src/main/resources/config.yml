@@ -39,6 +39,9 @@ aliases:
   teleport:
   - 'tp'
   - 'transport'
+  unname:
+  - 'delname'
+  - 'clearname'
 protection:
   ## Should stablemaster.bypass.protection always allow damage, else act as if they're the owner
   complete-bypass: false

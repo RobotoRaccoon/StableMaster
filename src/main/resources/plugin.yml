@@ -49,6 +49,9 @@ permissions:
   stablemaster.teleport:
     description: Allows user to teleport their animal
     default: op
+  stablemaster.unname:
+    description: Allows user to unname an animal
+    default: op
   stablemaster.bypass:
     description: Allows user to interact with all animals
     default: op
@@ -64,6 +67,7 @@ permissions:
       stablemaster.bypass.command.rename: true
       stablemaster.bypass.command.sit: true
       stablemaster.bypass.command.teleport: true
+      stablemaster.bypass.command.unname: true
   stablemaster.tame:
     description: Allows user to tame an animal
     default: true
