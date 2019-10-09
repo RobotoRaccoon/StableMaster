@@ -109,8 +109,10 @@ public class StableUtil {
      */
     public static void unloadStable(OfflinePlayer player) {
         Stable s = stables.get(player);
-        saveStable(s);
-        stables.remove(player);
+        if (s != null) {
+            saveStable(s);
+            stables.remove(player);
+        }
     }
 
     /**

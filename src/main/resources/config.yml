@@ -36,6 +36,12 @@ aliases:
   - 'del'
   info:
   - '?'
+  - 'i'
+  - 'stat'
+  - 'stats'
+  rename:
+  - 'name'
+  - 'nametag'
   teleport:
   - 'tp'
   - 'transport'

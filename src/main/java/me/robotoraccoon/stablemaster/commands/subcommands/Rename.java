@@ -37,7 +37,6 @@ public class Rename extends InteractCommand {
      * {@inheritDoc}
      */
     public void handle(CommandInfo commandInfo) {
-
         final Player player = (Player) commandInfo.getSender();
         String name = StringUtils.join(commandInfo.getArgs(), " ");
 
