@@ -68,6 +68,10 @@ public class EntityDamageListeners implements Listener {
         if (event.getDamager() instanceof Player) {
             playerDamageAnimal(event);
         }
+        //Little fix to avoid players killing tamed animals with fireworks shot from crossbows
+        if(event.getDamager() instanceof Firework) {
+        	event.setCancelled(true);
+        }
 
         // Ignore cancelled events, as each source below are not issuing commands.
         if (event.isCancelled()) {
