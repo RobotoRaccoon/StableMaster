@@ -49,6 +49,10 @@ aliases:
   - 'delname'
   - 'clearname'
 protection:
+  ## Enabled or disabled worlds
+  deny-list: true # true = denied worlds, false = allowed worlds
+  worlds:
+  - 'example_world'
   ## Should stablemaster.bypass.protection always allow damage, else act as if they're the owner
   complete-bypass: false
   ## Protection if the owner hurts the animal
@@ -63,9 +67,9 @@ protection:
   ## Protect against projectiles that aren't player or monster
   other-ranged: true
   ## Always protect against these no matter the source
-  block_explosion: true
   ## Defaults for every animal type
   default:
+    block_explosion: true
     contact: false
     cramming: true
     drowning: true

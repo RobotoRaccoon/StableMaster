@@ -49,6 +49,9 @@ aliases:
   - 'delname'
   - 'clearname'
 protection:
+  ## Enabled or disabled worlds
+  deny-list: true # true = denied worlds, false = allowed worlds
+  worlds: []
   ## Should stablemaster.bypass.protection always allow damage, else act as if they're the owner
   complete-bypass: false
   ## Protection if the owner hurts the animal

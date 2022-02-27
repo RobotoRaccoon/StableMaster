@@ -7,6 +7,7 @@ import me.robotoraccoon.stablemaster.commands.CoreCommand;
 import me.robotoraccoon.stablemaster.commands.InteractCommand;
 import me.robotoraccoon.stablemaster.data.Stable;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -33,8 +34,13 @@ public class EntityDamageListeners implements Listener {
         }
 
         // If the animal has no owner, no need to protect it
-        final Tameable tameable = (Tameable) event.getEntity();
-        if (!tameable.isTamed() || tameable.getOwner() == null) {
+        final Tameable animal = (Tameable) event.getEntity();
+        if (!animal.isTamed() || animal.getOwner() == null) {
+            return;
+        }
+
+        // World is disabled, no need to protect the animal
+        if (isWorldDisabled(animal.getWorld())) {
             return;
         }
 
@@ -80,6 +86,11 @@ public class EntityDamageListeners implements Listener {
             return;
         }
 
+        // World is disabled, no need to protect the animal
+        if (isWorldDisabled(animal.getWorld())) {
+            return;
+        }
+
         if (event.getDamager() instanceof Mob) {
             monsterDamageAnimal(event);
         }
@@ -89,6 +100,17 @@ public class EntityDamageListeners implements Listener {
         else if(event.getDamager() instanceof Firework) {
             event.setCancelled(true);
         }
+    }
+
+    /**
+     * Check if the world has protection disabled
+     * @param world Animal's world
+     * @return true if disabled
+     */
+    private boolean isWorldDisabled(World world) {
+        boolean deny = getProtectionConfig().getBoolean("deny-list");
+        boolean contains = getProtectionConfig().getStringList("worlds").contains(world.getName());
+        return deny == contains;
     }
 
     /**
@@ -124,7 +146,7 @@ public class EntityDamageListeners implements Listener {
             event.setCancelled(true);
             handleCommand(stable, player, animal);
         }
-        else if (!canPlayerHurt(animal, player, true)) {
+        else if (!canPlayerHurt(animal, player, true) && !isWorldDisabled(animal.getWorld())) {
             // If we get here, the animal was protected and not involved in a command.
             event.setCancelled(true);
             new LangString("error.protected", StableUtil.getAnimal(event.getEntityType())).send(player);
